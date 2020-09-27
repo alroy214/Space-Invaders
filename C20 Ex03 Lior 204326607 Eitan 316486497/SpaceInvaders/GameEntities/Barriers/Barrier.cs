@@ -44,7 +44,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         public override void Update(GameTime i_GameTime)
         {
-            if(!m_Initialize)
+            if (!m_Initialize)
             {
                 m_InitPosition = Position;
                 m_Initialize = true;
@@ -56,7 +56,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void moveBarrier()
         {
-            if(Position.X - m_InitPosition.X >= (float)Texture.Width / 2
+            if (Position.X - m_InitPosition.X >= (float)Texture.Width / 2
                || (Position.X + ((float)Texture.Width / 2) <= m_InitPosition.X))
             {
                 Velocity *= -1;

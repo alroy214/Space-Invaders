@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using Infrastructure.ObjectModel;
 using Microsoft.Xna.Framework;
@@ -62,7 +60,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
         private void updateScore(int i_Score, PlayerShip.ePlayer i_Player)
         {
-            if(r_CurrentPlayer == i_Player)
+            if (r_CurrentPlayer == i_Player)
             {
                 m_PlayerScore = Math.Max(0, m_PlayerScore + i_Score);
             }

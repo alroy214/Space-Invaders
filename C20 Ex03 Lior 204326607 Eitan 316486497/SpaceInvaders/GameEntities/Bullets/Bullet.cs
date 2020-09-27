@@ -2,9 +2,6 @@
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public class Bullet : GameEntity, ICollidable2D
@@ -28,7 +25,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         public override void Update(GameTime i_GameTime)
         {
-            if(Visible && IsOutOfBounds())
+            if (Visible && IsOutOfBounds())
             {
                 Visible = false;
             }
@@ -51,12 +48,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         public override void Collided(ICollidable i_Collidable)
         {
-            if(i_Collidable is EnemyBullet)
+            if (i_Collidable is EnemyBullet)
             {
                 Visible = false;
             }
 
-            if(i_Collidable is IScorableEntity entity && m_ScoreManager != null && !entity.Destroyed)
+            if (i_Collidable is IScorableEntity entity && m_ScoreManager != null && !entity.Destroyed)
             {
                 entity.Destroyed = true;
                 m_ScoreManager.UpdateScoreForHit(entity.Score, r_CurrentPlayer);
@@ -78,15 +75,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         public override void Collided(ICollidable i_Collidable)
         {
-            if(i_Collidable is PlayerBullet)
+            if (i_Collidable is PlayerBullet)
             {
-                if(new Random().Next(k_ProbabilityToShatter) == 0)
+                if (new Random().Next(k_ProbabilityToShatter) == 0)
                 {
                     Visible = false;
                 }
             }
 
-            if(i_Collidable is PlayerShip playerShip && m_ScoreManager != null)
+            if (i_Collidable is PlayerShip playerShip && m_ScoreManager != null)
             {
                 m_ScoreManager.UpdateScoreForLosingLife(playerShip.CurrentPlayer);
                 Visible = false;

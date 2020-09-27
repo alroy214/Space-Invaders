@@ -14,7 +14,7 @@ namespace Infrastructure.Managers
 
         public CollisionsManager(Game i_Game) : base(i_Game, int.MaxValue)
         {
-        } 
+        }
 
         protected override void RegisterAsService()
         {
@@ -35,17 +35,12 @@ namespace Infrastructure.Managers
 
         private void collidable_Disposed(object sender, EventArgs e)
         {
-            ICollidable collidable = sender as ICollidable;
-
-            if (collidable != null
-                &&
-                this.m_Collidables.Contains(collidable))
+            if (sender is ICollidable collidable && this.m_Collidables.Contains(collidable))
             {
                 collidable.PositionChanged -= collidable_Changed;
                 collidable.SizeChanged -= collidable_Changed;
                 collidable.VisibleChanged -= collidable_Changed;
                 collidable.Disposed -= collidable_Disposed;
-
                 m_Collidables.Remove(collidable);
             }
         }
@@ -57,7 +52,7 @@ namespace Infrastructure.Managers
                 checkCollision(sender as ICollidable);
             }
         }
-        
+
         private void checkCollision(ICollidable i_Source)
         {
             if (i_Source.Visible)

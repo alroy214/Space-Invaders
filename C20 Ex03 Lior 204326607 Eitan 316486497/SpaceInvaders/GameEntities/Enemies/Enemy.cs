@@ -1,11 +1,9 @@
 ﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
+using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
@@ -88,9 +86,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         protected override void InitBounds()
         {
-            base.InitBounds();
             float xPosition = r_ColPosition * k_EnemyPixelHeight * k_EnemyBelowMarginMultiplier;
             float yPosition = r_RowPosition * k_EnemyPixelHeight * k_EnemyBelowMarginMultiplier + k_MatrixTopMargin;
+
+            base.InitBounds();
             m_Position = new Vector2(xPosition, yPosition);
             WidthBeforeScale = (float)Texture.Width / k_NumberOfCells;
             HeightBeforeScale = (float)Texture.Height / k_NumberOfTypes;
@@ -101,8 +100,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             m_CurrentJumpTime *= k_EnemyJumpTimeMultiplier;
             m_CellAnimator.CellTime = TimeSpan.FromSeconds(m_CurrentJumpTime);
-
-            switch(m_CurrentDirection)
+            switch (m_CurrentDirection)
             {
                 case EnemyMatrix.eDirection.RIGHT:
                     {
@@ -121,8 +119,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                         break;
                     }
             }
-
-            Position = new Vector2(Position.X, Position.Y);
         }
 
         public void AddActionToTurnEnemies(Action i_ActionToPreform)
@@ -137,7 +133,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         protected override void LoadContent()
         {
-            switch(r_EnemyType)
+            switch (r_EnemyType)
             {
                 case eEnemyType.PINK:
                     {
@@ -173,11 +169,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             shootBullet();
             checkBorderCollision();
             m_NextJumpTime -= (float)i_GameTime.ElapsedGameTime.TotalSeconds;
-            if(m_NextJumpTime <= 0)
+            if (m_NextJumpTime <= 0)
             {
-                m_NextJumpTime = m_CurrentJumpTime;
                 float newPositionX;
-                switch(m_CurrentDirection)
+
+                m_NextJumpTime = m_CurrentJumpTime;
+                switch (m_CurrentDirection)
                 {
                     case EnemyMatrix.eDirection.RIGHT:
                         {
@@ -203,7 +200,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void shootBullet()
         {
-            if(r_Random.Next(k_RandomShootValue) == 0)
+            if (r_Random.Next(k_RandomShootValue) == 0)
             {
                 r_BulletMagazine.ShootBullet(Position);
             }
@@ -211,14 +208,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void checkBorderCollision()
         {
-            if(m_IsMostRight && m_CurrentDirection == EnemyMatrix.eDirection.RIGHT
+            if (m_IsMostRight && m_CurrentDirection == EnemyMatrix.eDirection.RIGHT
                               && Position.X + m_WidthJump > Game.GraphicsDevice.Viewport.Width - Width || m_IsMostLeft
                 && m_CurrentDirection == EnemyMatrix.eDirection.LEFT && Position.X - m_WidthJump < 0)
             {
                 TurnEnemies?.Invoke();
             }
 
-            if(m_IsMostBottom && Position.Y >= Game.GraphicsDevice.Viewport.Height - Height - k_ShipPixelHeight - k_ShipBelowPixelHeight)
+            if (m_IsMostBottom && Position.Y >= Game.GraphicsDevice.Viewport.Height - Height - k_ShipPixelHeight)
             {
                 EnemyWentBelowBorder?.Invoke(this, EventArgs.Empty);
             }
@@ -226,7 +223,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         public override void Collided(ICollidable i_Collidable)
         {
-            if(i_Collidable is PlayerBullet && !m_EnemyDestroyAnimator.Enabled)
+            if (i_Collidable is PlayerBullet && !m_EnemyDestroyAnimator.Enabled)
             {
                 m_EnemyDestroyAnimator.Restart();
             }
@@ -236,9 +233,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             RotateAnimator rotateAnimator = new RotateAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime), k_NumberOfAnimationRoundsPerSecond);
             ShrinkAnimator shrinkAnimator = new ShrinkAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
+
             m_EnemyDestroyAnimator = new CompositeAnimator(k_AnimationDestroyName, TimeSpan.FromSeconds(k_AnimationDestroyTime),
                 this, rotateAnimator, shrinkAnimator);
-            m_CellAnimator = new CellAnimator(TimeSpan.FromSeconds(m_CurrentJumpTime), 
+            m_CellAnimator = new CellAnimator(TimeSpan.FromSeconds(m_CurrentJumpTime),
                 r_RowPosition % 2, k_NumberOfCells, TimeSpan.Zero);
             Animations.Add(m_CellAnimator);
             Animations.Add(m_EnemyDestroyAnimator);
@@ -261,7 +259,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 return m_EnemyPoints;
             }
         }
-
 
         public bool Destroyed
         {

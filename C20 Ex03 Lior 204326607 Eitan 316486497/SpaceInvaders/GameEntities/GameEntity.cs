@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using Infrastructure.ObjectModel;
-using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using SharpDX.MediaFoundation;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
-using Vector4 = Microsoft.Xna.Framework.Vector4;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {

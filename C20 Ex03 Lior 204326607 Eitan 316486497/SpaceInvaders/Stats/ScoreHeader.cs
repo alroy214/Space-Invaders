@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using C20_Ex03_Lior_204326607_Eitan_316486497;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -30,12 +27,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats
         {
             string message = string.Format("{0} {3} {1} {3} {2} {3} {4}",
                 r_ScoreBoards[0], r_ScoreBoards[1], getWinningPlayer(), Environment.NewLine, k_ThankYouMessage);
+
             await MessageBox.Show(k_MessageBoxTitle, message, new[] { k_MessageBoxButton });
         }
 
         private string getWinningPlayer()
         {
             string winner;
+
             if (r_ScoreBoards[0].PlayerScore > r_ScoreBoards[1].PlayerScore)
             {
                 winner = k_WinMessagePlayer1;

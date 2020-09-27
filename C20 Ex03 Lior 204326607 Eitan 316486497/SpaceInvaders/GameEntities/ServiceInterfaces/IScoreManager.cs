@@ -1,7 +1,6 @@
 ﻿//*** Guy Ronen © 2008-2011 ***//
 using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
-using Microsoft.Xna.Framework;
 
 namespace Infrastructure.ServiceInterfaces
 {

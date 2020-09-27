@@ -91,6 +91,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             FadeAnimator fadeAnimator = new FadeAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
             CompositeAnimator motherShipDestroyAnimator = new CompositeAnimator(k_AnimationDestroyName, TimeSpan.FromSeconds(k_AnimationDestroyTime), 
                 this, shrinkAnimator, blinkAnimator, fadeAnimator);
+
             motherShipDestroyAnimator.Finished += destructionAnimation_Finished;
             Animations.Add(motherShipDestroyAnimator);
         }

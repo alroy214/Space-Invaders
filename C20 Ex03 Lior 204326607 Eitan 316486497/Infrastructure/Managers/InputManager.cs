@@ -59,10 +59,8 @@ namespace Infrastructure.Managers
         {
             m_PrevKeyboardState = Keyboard.GetState();
             m_KeyboardState = m_PrevKeyboardState;
-
             m_PrevMouseState = Mouse.GetState();
             m_MouseState = m_PrevMouseState;
-
             m_PrevGamePadState = GamePad.GetState(PlayerIndex.One);
             m_GamePadState = m_PrevGamePadState;
         }
@@ -80,10 +78,8 @@ namespace Infrastructure.Managers
         {
             m_PrevKeyboardState = m_KeyboardState;
             m_KeyboardState = Keyboard.GetState();
-
             m_PrevMouseState = m_MouseState;
             m_MouseState = Mouse.GetState();
-
             m_PrevGamePadState = m_GamePadState;
             m_GamePadState = GamePad.GetState(PlayerIndex.One);
         }
@@ -108,7 +104,7 @@ namespace Infrastructure.Managers
         {
             return (
                 m_PrevKeyboardState.IsKeyDown(i_Key)
-                && 
+                &&
                 m_KeyboardState.IsKeyUp(i_Key));
         }
 
@@ -234,7 +230,7 @@ namespace Infrastructure.Managers
 
             bool atLeastOneIsTrue = false;
             bool allTrue = false;
-            bool currCheck = false;
+            bool currentCheck;
 
             ButtonState currState = i_ButtonState;
             ButtonState prevState = checkRelease ? ButtonState.Pressed : ButtonState.Released;
@@ -242,266 +238,266 @@ namespace Infrastructure.Managers
             #region GamePad Controls
             if ((i_Buttons & eInputButtons.A) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.A)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.A));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.B) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.B)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.B));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.X) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.X)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.X));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.Y) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.Y)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.Y));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.DPadDown) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.DPadDown)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.DPadDown));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.DPadUp) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.DPadUp)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.DPadUp));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.DPadLeft) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.DPadLeft)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.DPadLeft));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.DPadRight) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.DPadRight)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.DPadRight));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.Back) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.Back)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.Back));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.Start) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.Start)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.Start));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.LeftShoulder) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.LeftShoulder)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.LeftShoulder));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.RightShoulder) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.RightShoulder)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.RightShoulder));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.LeftStick) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.LeftStick)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.LeftStick));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.RightStick) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.RightStick)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.RightStick));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.LeftThumbstickDown) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.LeftThumbstickDown)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.LeftThumbstickDown));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.LeftThumbstickUp) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.LeftThumbstickUp)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.LeftThumbstickUp));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.LeftThumbstickLeft) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.LeftThumbstickLeft)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.LeftThumbstickLeft));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.LeftThumbstickRight) != 0)
             {
-                currCheck = checkRelease == m_GamePadState.IsButtonUp(Buttons.LeftThumbstickRight)
+                currentCheck = checkRelease == m_GamePadState.IsButtonUp(Buttons.LeftThumbstickRight)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.LeftThumbstickRight));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.RightThumbstickDown) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.RightThumbstickDown)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.RightThumbstickDown));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.RightThumbstickUp) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.RightThumbstickUp)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.RightThumbstickUp));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.RightThumbstickLeft) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.RightThumbstickLeft)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.RightThumbstickLeft));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.RightThumbstickRight) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.RightThumbstickRight)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.RightThumbstickRight));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.LeftTrigger) != 0)
             {
-                currCheck =
+                currentCheck =
                     checkRelease == m_GamePadState.IsButtonUp(Buttons.LeftTrigger)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.LeftTrigger));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             if ((i_Buttons & eInputButtons.RightTrigger) != 0)
             {
-                currCheck =
+                currentCheck =
                      checkRelease == m_GamePadState.IsButtonUp(Buttons.RightTrigger)
                     && (!i_CheckChanged || checkRelease != m_PrevGamePadState.IsButtonUp(Buttons.RightTrigger));
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             #endregion GamePad Controls
 
             #region Mouse Buttons
             if ((i_Buttons & eInputButtons.Left) != 0)
             {
-                currCheck =
+                currentCheck =
                     m_MouseState.LeftButton == currState
                     && ((m_PrevMouseState.LeftButton == prevState) || !i_CheckChanged);
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             else if ((i_Buttons & eInputButtons.Middle) != 0)
             {
-                currCheck =
+                currentCheck =
                     m_MouseState.MiddleButton == currState
                     && ((m_PrevMouseState.MiddleButton == prevState) || !i_CheckChanged);
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             else if ((i_Buttons & eInputButtons.Right) != 0)
             {
-                currCheck =
+                currentCheck =
                     m_MouseState.RightButton == currState
                     && ((m_PrevMouseState.RightButton == prevState) || !i_CheckChanged);
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             else if ((i_Buttons & eInputButtons.XButton1) != 0)
             {
-                currCheck =
+                currentCheck =
                     m_MouseState.XButton1 == currState
                     && ((m_PrevMouseState.XButton1 == prevState) || !i_CheckChanged);
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             else if ((i_Buttons & eInputButtons.XButton2) != 0)
             {
-                currCheck =
+                currentCheck =
                     m_MouseState.XButton2 == currState
                     && ((m_PrevMouseState.XButton2 == prevState) || !i_CheckChanged);
 
-                atLeastOneIsTrue |= currCheck;
-                allTrue &= currCheck;
+                atLeastOneIsTrue |= currentCheck;
+                allTrue &= currentCheck;
             }
             #endregion Mouse Buttons
 
@@ -684,7 +680,7 @@ ScrollWheelDelta:   {17}
  ScrollWheelDelta,
  PressedKeys
  );
-			return status;
+            return status;
         }
     }
 }

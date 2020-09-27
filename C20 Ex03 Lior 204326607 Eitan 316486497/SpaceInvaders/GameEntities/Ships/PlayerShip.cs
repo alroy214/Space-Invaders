@@ -1,13 +1,9 @@
 ﻿using System;
 using C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders;
-using Infrastructure.Managers;
-using Infrastructure.ObjectModel;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
@@ -50,7 +46,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             r_BulletMagazine = new PlayerBulletMagazine(i_Game, k_NumberOfBullets, i_Player);
             r_LifeCluster = new LifeCluster(AssetName, i_Game, (int) i_Player, k_DefaultNumberOfLives);
             r_CurrentPlayer = i_Player;
-
             switch (r_CurrentPlayer)
             {
                 case ePlayer.Player1:
@@ -74,7 +69,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             }
         }
 
-
         public enum ePlayer
         {
             Player1,
@@ -91,16 +85,19 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         public override void Update(GameTime i_GameTime)
         {
             keyboardMovement();
-            if(r_CurrentPlayer == ePlayer.Player1)
+            if (r_CurrentPlayer == ePlayer.Player1)
             {
                 mouseMovement();
             }
+
             shootBullet();
             base.Update(i_GameTime);
         }
 
         private void keyboardMovement()
         {
+            float positionX;
+
             if (m_InputManager.KeyHeld(r_CurrentLeftKey))
             {
                 m_Velocity.X = k_Velocity * -1;
@@ -113,8 +110,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             {
                 m_Velocity.X = 0;
             }
-            float positionX = MathHelper.Clamp(Position.X, 0, GraphicsDevice.Viewport.Width - Width);
 
+            positionX = MathHelper.Clamp(Position.X, 0, GraphicsDevice.Viewport.Width - Width);
             Position = new Vector2(positionX, Position.Y);
         }
 
@@ -125,9 +122,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         private void shootBullet()
         {
-            if(r_LifeCluster.LivesRemaining != 0)
+            if (r_LifeCluster.LivesRemaining != 0)
             {
-                if(!m_KeyboardPressLock && m_InputManager.KeyPressed(r_CurrentShootKey) ||
+                if (!m_KeyboardPressLock && m_InputManager.KeyPressed(r_CurrentShootKey) ||
                    r_CurrentPlayer == ePlayer.Player1 && !m_MouseClickLock && m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
                 {
                     createBullet();
@@ -186,6 +183,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             CompositeAnimator nonFetalHitAnimator = new CompositeAnimator(this, k_NonFetalHitAnimatorName);
             BlinkAnimator blinkAnimator = new BlinkAnimator(k_NonFetalHitBlinkerAnimatorName, 
                 TimeSpan.FromSeconds(k_NonFatalBlinkerTime), TimeSpan.FromSeconds(k_NonFatalHitAnimationTime));
+
             nonFetalHitAnimator.Add(blinkAnimator);
             Animations = nonFetalHitAnimator;
         }
@@ -194,6 +192,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             RotateAnimator rotateAnimator = new RotateAnimator(TimeSpan.FromSeconds(k_FatalHitAnimationTime), k_NumberOfRotationRoundsPerSecond);
             FadeAnimator fadeAnimator = new FadeAnimator(TimeSpan.FromSeconds(k_FatalHitAnimationTime));
+
             m_FetalHitAnimator = new CompositeAnimator(k_FetalHitAnimatorName, TimeSpan.FromSeconds(k_FatalHitAnimationTime), 
                 this, fadeAnimator, rotateAnimator);
             m_FetalHitAnimator.Finished += fatalHitAnimation_Finished;

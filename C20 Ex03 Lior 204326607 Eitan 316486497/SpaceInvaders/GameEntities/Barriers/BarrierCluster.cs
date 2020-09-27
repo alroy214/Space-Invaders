@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
@@ -18,7 +15,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void initBarriers(Game i_Game)
         {
-            for(int i = 0; i < r_Barriers.Length; i++)
+            for (int i = 0; i < r_Barriers.Length; i++)
             {
                 r_Barriers[i] = new Barrier(i_Game, i, r_Barriers.Length);
             }

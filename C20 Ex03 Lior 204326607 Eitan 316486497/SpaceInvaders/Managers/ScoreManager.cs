@@ -1,10 +1,8 @@
 ﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using Infrastructure.ObjectModel;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497
 {

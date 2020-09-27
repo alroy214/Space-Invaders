@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure;
@@ -7,9 +6,6 @@ using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using ButtonState = Microsoft.Xna.Framework.Input.ButtonState;
-using Keys = Microsoft.Xna.Framework.Input.Keys;
-using MessageBox = Microsoft.Xna.Framework.Input.MessageBox;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497
 {
@@ -53,7 +49,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
         public async void HandleGameOver(object sender, EventArgs e)
         {
-            if(m_CurrentLivingPlayers == 1 || !(sender is PlayerShip))
+            if (m_CurrentLivingPlayers == 1 || !(sender is PlayerShip))
             {
                 foreach (IGameComponent gameComp in Components)
                 {
