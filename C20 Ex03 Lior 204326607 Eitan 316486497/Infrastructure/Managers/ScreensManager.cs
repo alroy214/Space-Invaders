@@ -8,15 +8,18 @@ using Microsoft.Xna.Framework;
 
 namespace Infrastructure.Managers
 {
-    public class ScreensMananger : CompositeDrawableComponent<GameScreen>, IScreensMananger
+    public class ScreensManager : CompositeDrawableComponent<GameScreen>, IScreensManager
     {
-        public ScreensMananger(Game i_Game)
-            : base(i_Game)
+        public ScreensManager(Game i_Game) : base(i_Game)
         {
             i_Game.Components.Add(this);
         }
 
         private readonly Stack<GameScreen> r_ScreensStack = new Stack<GameScreen>();
+        public GameScreen ScreenLoader
+        {
+            get { return r_ScreensStack.Count > 0 ? r_ScreensStack.Peek() : null; }
+        }
 
         public GameScreen ActiveScreen
         {
@@ -73,7 +76,7 @@ namespace Infrastructure.Managers
                 case eScreenState.Deactivating:
                     break;
                 case eScreenState.Closing:
-                    Pop(sender as GameScreen);
+                    pop();
                     break;
                 case eScreenState.Inactive:
                     break;
@@ -87,7 +90,7 @@ namespace Infrastructure.Managers
             OnScreenStateChanged(sender, e);
         }
 
-        private void Pop(GameScreen i_GameScreen)
+        private void pop()
         {
             r_ScreensStack.Pop();
 
@@ -128,7 +131,7 @@ namespace Infrastructure.Managers
 
         public override void Initialize()
         {
-            Game.Services.AddService(typeof(IScreensMananger), this);
+            Game.Services.AddService(typeof(IScreensManager), this);
 
             base.Initialize();
         }

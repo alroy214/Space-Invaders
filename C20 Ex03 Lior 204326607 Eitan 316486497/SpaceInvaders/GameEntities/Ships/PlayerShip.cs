@@ -2,6 +2,7 @@
 using C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
+using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -10,6 +11,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 {
     public class PlayerShip : GameEntity, ICollidable2D
     {
+        public event EventHandler<EventArgs> Disposed;
         private event EventHandler ShipDestroyed;
         private const string k_AssetName1 = @"Sprites\Ship01_32x32";
         private const Keys k_RightKeyPlayer1 = Keys.P;
@@ -41,10 +43,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private readonly Keys r_CurrentLeftKey;
         private readonly Keys r_CurrentShootKey;
 
-        public PlayerShip(Game i_Game, ePlayer i_Player) : base(i_Player == ePlayer.Player1 ? k_AssetName1 : k_AssetName2, i_Game)
+        public PlayerShip(GameScreen i_GameScreen, ePlayer i_Player) : base(i_Player == ePlayer.Player1 ? k_AssetName1 : k_AssetName2, i_GameScreen)
         {
-            r_BulletMagazine = new PlayerBulletMagazine(i_Game, k_NumberOfBullets, i_Player);
-            r_LifeCluster = new LifeCluster(AssetName, i_Game, (int) i_Player, k_DefaultNumberOfLives);
+            r_BulletMagazine = new PlayerBulletMagazine(i_GameScreen, k_NumberOfBullets, i_Player);
+            r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int) i_Player, k_DefaultNumberOfLives);
             r_CurrentPlayer = i_Player;
             switch (r_CurrentPlayer)
             {
@@ -117,7 +119,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         private void mouseMovement()
         {
-            Position = new Vector2(Math.Clamp(Position.X + m_InputManager.MousePositionDelta.X, 0, GraphicsDevice.Viewport.Width - Texture.Width), Position.Y);
+            Position = new Vector2(Math.Clamp(Position.X + m_InputManager.MousePositionDelta.X, 0,
+                GraphicsDevice.Viewport.Width - Texture.Width), Position.Y);
         }
 
         private void shootBullet()
@@ -142,7 +145,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         private void bringToOriginPosition()
         {
-            Position = m_OriginPosition;
+            m_Position = new Vector2(GraphicsDevice.Viewport.Width - Texture.Width,
+                GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
+        }
+
+        protected override void InitBounds()
+        {
+            base.InitBounds();
+            bringToOriginPosition();
         }
 
         public override void Collided(ICollidable i_Collidable)
@@ -161,14 +171,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
                     bringToOriginPosition();
                 }
             }
-        }
-
-        protected override void InitBounds()
-        {
-            base.InitBounds();
-            m_Position = new Vector2(GraphicsDevice.Viewport.Width - Texture.Width,
-                GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
-            InitOrigins();
         }
 
         protected override void InitAnimations()

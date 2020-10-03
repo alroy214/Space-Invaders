@@ -61,7 +61,10 @@ namespace Infrastructure.ObjectModel.Screens
 
         public eScreenState State
         {
-            get { return m_State; }
+            get
+            {
+                return m_State;
+            }
             set
             {
                 if (m_State != value)
@@ -96,15 +99,12 @@ namespace Infrastructure.ObjectModel.Screens
                     break;
             }
 
-            if (StateChanged != null)
-            {
-                StateChanged(this, args);
-            }
+            StateChanged?.Invoke(this, args);
         }
 
         //PROPS:
-        protected IScreensMananger m_ScreensManager;
-        public IScreensMananger ScreensManager
+        protected IScreensManager m_ScreensManager;
+        public IScreensManager ScreensManager
         {
             get { return m_ScreensManager; }
             set { m_ScreensManager = value; }
@@ -263,7 +263,6 @@ namespace Infrastructure.ObjectModel.Screens
                     FadeBackBufferToBlack((byte)(m_BlackTintAlpha * byte.MaxValue));
                 }
             }
-
             base.Draw(gameTime);
 
             if (fading)

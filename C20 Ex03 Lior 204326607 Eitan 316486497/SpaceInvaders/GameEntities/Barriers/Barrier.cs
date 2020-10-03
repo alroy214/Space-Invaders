@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Infrastructure.ObjectModel.Screens;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
@@ -12,12 +13,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private readonly int r_NumberInCluster;
         private readonly int r_TotalNumberInCluster;
         private const int k_BottomMarginBounds = 62;
+        private const int k_ButtonMarginMultiplier = 2;
         private const float k_RightMarginMultiplier = 2.6f;
         private const int k_BarrierVelocity = 35;
         private Vector2 m_InitPosition;
 
-        public Barrier(Game i_Game, int i_NumberInCluster, int i_TotalNumberInCluster)
-            : base(k_AssetName, i_Game)
+        public Barrier(GameScreen i_GameScreen, int i_NumberInCluster, int i_TotalNumberInCluster)
+            : base(k_AssetName, i_GameScreen)
         {
             r_NumberInCluster = i_NumberInCluster;
             r_TotalNumberInCluster = i_TotalNumberInCluster;
@@ -33,7 +35,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 m_Position = new Vector2(
                     (float)GraphicsDevice.Viewport.Width / r_TotalNumberInCluster
                     + r_NumberInCluster * Width * k_RightMarginMultiplier,
-                    GraphicsDevice.Viewport.Height - k_BottomMarginBounds - Height);
+                    GraphicsDevice.Viewport.Height - k_BottomMarginBounds - (k_ButtonMarginMultiplier * Height));
             }
 
             Color[] colorData = new Color[(int)(Height * Width)];
@@ -69,6 +71,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             base.InitOrigins();
         }
 
+
+        public event EventHandler<EventArgs> Disposed;
 
         public override void Collided(ICollidable i_Collidable)
         {

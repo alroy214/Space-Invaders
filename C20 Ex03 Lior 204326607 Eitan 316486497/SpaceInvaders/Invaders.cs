@@ -2,7 +2,10 @@
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats;
+using Infrastructure.Managers;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,6 +14,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 {
     public class Invaders : BaseGame
     {
+        private int k_WindowSizeX = 800;
+        private int k_WindowSizeY = 600;
         private SpriteBatch m_SpriteBatch;
         private Background m_Background;
         private PlayerShip m_PlayerShip1;
@@ -22,22 +27,23 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         private BarrierCluster m_BarrierCluster;
         private int m_CurrentLivingPlayers;
         public const int k_NumberOfWalls = 4;
-
+        private GameScreen welcomeScreen;
         public Invaders() : base()
         {
+            r_Graphics.IsFullScreen = false;
+            r_Graphics.PreferredBackBufferWidth = k_WindowSizeX;
+            r_Graphics.PreferredBackBufferHeight = k_WindowSizeY;
+            r_Graphics.ApplyChanges();
+            Window.Title = "Invaders 👽";
+
             m_CurrentLivingPlayers = Enum.GetNames(typeof(PlayerShip.ePlayer)).Length;
+            
+             welcomeScreen = new WelcomeScreen(this);
+             r_Screens.SetCurrentScreen(welcomeScreen);
         }
 
         protected override void Initialize()
         {
-            m_ScoreManager = new ScoreManager(this);
-            m_Background = new Background(this);
-            m_MotherShip = new MotherShip(this);
-            m_EnemyMatrix = new EnemyMatrix(this);
-            m_ScoreHeader = new ScoreHeader(this);
-            m_PlayerShip1 = new PlayerShip(this, PlayerShip.ePlayer.Player1);
-            m_PlayerShip2 = new PlayerShip(this, PlayerShip.ePlayer.Player2);
-            m_BarrierCluster = new BarrierCluster(this);
             base.Initialize();
         }
 
@@ -56,9 +62,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
                     ((GameComponent)gameComp).Enabled = false;
                 }
 
-                if (!MessageBox.IsVisible)
+                if (!MessageBox.IsVisible)  
                 {
-                    await m_ScoreHeader.GameOverMessage();
+            //        await m_ScoreHeader.GameOverMessage();
                     Exit();
                 }
             }

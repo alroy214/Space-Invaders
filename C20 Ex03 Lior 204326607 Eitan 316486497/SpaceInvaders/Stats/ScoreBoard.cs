@@ -1,6 +1,7 @@
 ﻿using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using Infrastructure.ObjectModel;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -20,7 +21,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         private SpriteFont m_Font;
         private int m_PlayerScore;
 
-        public ScoreBoard(Game i_Game, PlayerShip.ePlayer i_Player) : base(k_AssetName, i_Game)
+        public ScoreBoard(GameScreen i_GameScreen, PlayerShip.ePlayer i_Player) : base(k_AssetName, i_GameScreen)
         {
             r_CurrentPlayer = i_Player;
             m_PlayerScore = 0;
@@ -71,12 +72,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             base.LoadContent();
             m_Font = Game.Content.Load<SpriteFont>(@"Fonts\Consolas");
         }
-
+        
         public override void Draw(GameTime i_GameTime)
         {
-            m_SpriteBatch.Begin();
             m_SpriteBatch.DrawString(m_Font, ToString(), Position, TintColor);
-            m_SpriteBatch.End();
         }
 
         public override string ToString()

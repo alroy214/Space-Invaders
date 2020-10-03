@@ -1,4 +1,5 @@
 ﻿using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
@@ -41,34 +42,34 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
     }
     public class PlayerBulletMagazine : BulletMagazine
     {
-        public PlayerBulletMagazine(Game i_Game, int i_MaxCapacity, PlayerShip.ePlayer i_Player)
+        public PlayerBulletMagazine(GameScreen i_GameScreen, int i_MaxCapacity, PlayerShip.ePlayer i_Player)
             : base(i_MaxCapacity)
         {
-            initBullets(i_Game, i_Player);
+            initBullets(i_GameScreen, i_Player);
         }
 
-        private void initBullets(Game i_Game, PlayerShip.ePlayer i_Player)
+        private void initBullets(GameScreen i_GameScreen, PlayerShip.ePlayer i_Player)
         {
             for (int i = 0; i < r_Bullets.Length; i++)
             {
-                r_Bullets[i] = new PlayerBullet(i_Game, i_Player);
+                r_Bullets[i] = new PlayerBullet(i_GameScreen, i_Player);
             }
         }
     }
 
     public class EnemyBulletMagazine : BulletMagazine
     {
-        public EnemyBulletMagazine(Game i_Game, int i_MaxCapacity)
+        public EnemyBulletMagazine(GameScreen i_GameScreen, int i_MaxCapacity)
             : base(i_MaxCapacity)
         {
-            initBullets(i_Game);
+            initBullets(i_GameScreen);
         }
 
-        private void initBullets(Game i_Game)
+        private void initBullets(GameScreen i_GameScreen)
         {
             for (int i = 0; i < r_Bullets.Length; i++)
             {
-                r_Bullets[i] = new EnemyBullet(i_Game);
+                r_Bullets[i] = new EnemyBullet(i_GameScreen);
             }
         }
     }

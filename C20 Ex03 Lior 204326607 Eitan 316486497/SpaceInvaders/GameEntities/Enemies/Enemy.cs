@@ -2,6 +2,7 @@
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
+using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 
@@ -49,8 +50,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private int m_EnemyPoints;
         private bool m_Destroyed;
 
-        public Enemy(Game i_Game, eEnemyType i_EnemyType, int i_RowPosition, int i_ColPosition)
-            : base(k_EnemyCollectionAssetName, i_Game)
+        public Enemy(GameScreen i_GameScreen, eEnemyType i_EnemyType, int i_RowPosition, int i_ColPosition)
+            : base(k_EnemyCollectionAssetName, i_GameScreen)
         {
             r_Random = new Random();
             r_EnemyType = i_EnemyType;
@@ -58,7 +59,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             r_ColPosition = i_ColPosition;
             m_CurrentJumpTime = k_InitJumpTime;
             m_CurrentDirection = k_InitDirection;
-            r_BulletMagazine = new EnemyBulletMagazine(i_Game, k_MaxNumberOfBullets);
+            r_BulletMagazine = new EnemyBulletMagazine(i_GameScreen, k_MaxNumberOfBullets);
             m_IsMostRight = false;
             m_IsMostLeft = false;
             m_Destroyed = false;
@@ -220,6 +221,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 EnemyWentBelowBorder?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        public event EventHandler<EventArgs> Disposed;
 
         public override void Collided(ICollidable i_Collidable)
         {
