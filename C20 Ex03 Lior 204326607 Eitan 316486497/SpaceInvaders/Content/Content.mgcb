@@ -13,6 +13,73 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/BarrierHit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/BarrierHit.wav;Sounds/BarrierHit.wav
+
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/BGMusic.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/BGMusic.wav;Sounds/BGMusic.wav
+
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/EnemyGunShot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/EnemyGunShot.wav;Sounds/EnemyGunShot.wav
+
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/EnemyKill.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/EnemyKill.wav;Sounds/EnemyKill.wav
+
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/GameOver.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/GameOver.wav;Sounds/GameOver.wav
+
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/LevelWin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/LevelWin.wav;Sounds/LevelWin.wav
+
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/LifeDie.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/LifeDie.wav;Sounds/LifeDie.wav
+
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/MenuMove.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/MenuMove.wav;Sounds/MenuMove.wav
+
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/MotherShipKill.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/MotherShipKill.wav;Sounds/MotherShipKill.wav
+
+#begin ../../../../../../../../temp/XNA_Assets/Ex03/Sounds/SSGunShot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../../../../temp/XNA_Assets/Ex03/Sounds/SSGunShot.wav;Sounds/SSGunShot.wav
+
+#begin Fonts/Consolas.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Consolas.spritefont
+
 #begin Headers/Game Over.png
 /importer:TextureImporter
 /processor:TextureProcessor
