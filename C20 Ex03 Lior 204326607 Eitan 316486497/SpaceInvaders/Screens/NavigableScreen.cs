@@ -74,6 +74,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             }
         }
 
+        protected void DisposeItems()
+        {
+            foreach(GameItem item in r_GameItems)
+            {
+                item.Dispose();
+            }
+        }
+
         public void AddGameItem(GameItem i_Item)
         {
             r_GameItems.Add(i_Item);

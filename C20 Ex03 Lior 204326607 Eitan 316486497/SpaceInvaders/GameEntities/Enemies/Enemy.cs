@@ -169,7 +169,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             base.Update(i_GameTime);
             shootBullet();
             checkBorderCollision();
-            m_NextJumpTime -= (float)i_GameTime.ElapsedGameTime.TotalSeconds;
+      //      m_NextJumpTime -= (float)i_GameTime.ElapsedGameTime.TotalSeconds;
             if (m_NextJumpTime <= 0)
             {
                 float newPositionX;

@@ -228,14 +228,14 @@ namespace Infrastructure.ObjectModel
             }
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime i_GameTime)
         {
             for (int i = 0; i < m_UpdateableComponents.Count; i++)
             {
                 IUpdateable updatable = m_UpdateableComponents[i];
                 if (updatable.Enabled)
                 {
-                    updatable.Update(gameTime);
+                    updatable.Update(i_GameTime);
                 }
             }
         }

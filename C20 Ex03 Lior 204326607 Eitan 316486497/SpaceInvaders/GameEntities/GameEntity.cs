@@ -18,7 +18,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             base.LoadContent();
             Pixels = new Color[Texture.Width * Texture.Height];
-            Texture.GetData(Pixels);
         }
 
         public override void Draw(GameTime i_GameTime)

@@ -1,5 +1,4 @@
 ﻿using System;
-using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
@@ -12,7 +11,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         public event EventHandler<EventArgs> Disposed;
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
         private const int k_MotherShipPointsValue = 600;
-        private const int k_MaxSecondsToAppearance = 15;
+        private const int k_MaxSecondsToAppearance = 5;
         private const int k_MotherShipVelocity = 95;
         private const float k_AnimationBlinkTime = 0.2f;
         private const float k_AnimationDestroyTime = 3.0f;
@@ -68,6 +67,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             return r_Random.Next(k_MaxSecondsToAppearance);
         }
 
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+        }
+
         public override void Collided(ICollidable i_Collidable)
         {
             if (i_Collidable is PlayerBullet)
@@ -84,11 +88,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             ShrinkAnimator shrinkAnimator = new ShrinkAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
             BlinkAnimator blinkAnimator = new BlinkAnimator(TimeSpan.FromSeconds(k_AnimationBlinkTime), TimeSpan.FromSeconds(k_AnimationDestroyTime));
             FadeAnimator fadeAnimator = new FadeAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
-            CompositeAnimator motherShipDestroyAnimator = new CompositeAnimator(k_AnimationDestroyName, TimeSpan.FromSeconds(k_AnimationDestroyTime), 
-                this, shrinkAnimator, blinkAnimator, fadeAnimator);
-
-            motherShipDestroyAnimator.Finished += destructionAnimation_Finished;
-            Animations.Add(motherShipDestroyAnimator);
+          //  Animations.Add(shrinkAnimator);
+           // Animations.Add(blinkAnimator);
+            Animations.Add(fadeAnimator);
+            fadeAnimator.Finished += destructionAnimation_Finished;
+            
+            Animations.Restart();
         }
 
         private void destructionAnimation_Finished(object sender, EventArgs e)

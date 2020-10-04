@@ -77,6 +77,7 @@ namespace Infrastructure.ObjectModel.Screens
         }
 
         public event EventHandler<StateChangedEventArgs> StateChanged;
+
         private void OnStateChanged(StateChangedEventArgs args)
         {
             switch (args.CurrentState)
@@ -343,7 +344,7 @@ namespace Infrastructure.ObjectModel.Screens
 
         private bool m_IsClosing = false;
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime i_GameTime)
         {
             bool doUpdate = true;
             switch (this.State)
@@ -351,7 +352,7 @@ namespace Infrastructure.ObjectModel.Screens
                 case eScreenState.Activating:
                 case eScreenState.Deactivating:
                 case eScreenState.Closing:
-                    UpdateTransition(gameTime);
+                    UpdateTransition(i_GameTime);
                     break;
                 case eScreenState.Active:
                     break;
@@ -365,11 +366,11 @@ namespace Infrastructure.ObjectModel.Screens
 
             if (doUpdate)
             {
-                base.Update(gameTime);
+                base.Update(i_GameTime);
 
                 if (PreviousScreen != null && !this.IsModal)
                 {
-                    PreviousScreen.Update(gameTime);
+                    PreviousScreen.Update(i_GameTime);
                 }
             }
         }
