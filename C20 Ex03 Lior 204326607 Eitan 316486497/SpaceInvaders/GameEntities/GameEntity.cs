@@ -1,5 +1,6 @@
 ﻿using System;
 using Infrastructure.ObjectModel;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
@@ -8,8 +9,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
     {
         private Color[] m_Pixels;
 
-        protected GameEntity(string i_AssetName, Game i_Game)
-            : base(i_AssetName, i_Game)
+        protected GameEntity(string i_AssetName, GameScreen i_GameScreen)
+            : base(i_AssetName, i_GameScreen)
         {
         }
 

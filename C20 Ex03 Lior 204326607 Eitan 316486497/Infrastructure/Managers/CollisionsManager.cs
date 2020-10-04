@@ -12,9 +12,9 @@ namespace Infrastructure.Managers
     {
         protected readonly List<ICollidable> m_Collidables = new List<ICollidable>();
 
-        public CollisionsManager(Game i_Game) : base(i_Game, int.MaxValue)
-        {
-        }
+        public CollisionsManager(Game i_Game) :
+            base(i_Game, int.MaxValue)
+        { }
 
         protected override void RegisterAsService()
         {
@@ -26,57 +26,54 @@ namespace Infrastructure.Managers
             if (!this.m_Collidables.Contains(i_Collidable))
             {
                 this.m_Collidables.Add(i_Collidable);
-                i_Collidable.PositionChanged += collidable_Changed;
-                i_Collidable.SizeChanged += collidable_Changed;
-                i_Collidable.VisibleChanged += collidable_Changed;
+                i_Collidable.PositionChanged += collidable_PositionChanged;
                 i_Collidable.Disposed += collidable_Disposed;
             }
         }
 
-        private void collidable_Disposed(object sender, EventArgs e)
+        private void collidable_PositionChanged(object i_Collidable)
         {
-            if (sender is ICollidable collidable && this.m_Collidables.Contains(collidable))
-            {
-                collidable.PositionChanged -= collidable_Changed;
-                collidable.SizeChanged -= collidable_Changed;
-                collidable.VisibleChanged -= collidable_Changed;
-                collidable.Disposed -= collidable_Disposed;
-                m_Collidables.Remove(collidable);
-            }
-        }
-
-        private void collidable_Changed(object sender, EventArgs e)
-        {
-            if (sender is ICollidable)
+            if (i_Collidable is ICollidable)
             {// to be on the safe side :)
-                checkCollision(sender as ICollidable);
+                checkCollision(i_Collidable as ICollidable);
             }
         }
 
         private void checkCollision(ICollidable i_Source)
         {
-            if (i_Source.Visible)
-            {
-                List<ICollidable> collidedComponents = new List<ICollidable>();
+            List<ICollidable> collidedComponents = new List<ICollidable>();
 
-                // finding who collided with i_Source:
-                foreach (ICollidable target in m_Collidables)
+            // finding who collided with i_Source:
+            foreach (ICollidable target in m_Collidables)
+            {
+                if (i_Source.Visible && i_Source != target && target.Visible)
                 {
-                    if (i_Source != target && target.Visible)
+                    if (target.CheckCollision(i_Source))
                     {
-                        if (target.CheckCollision(i_Source))
-                        {
-                            collidedComponents.Add(target);
-                        }
+                        collidedComponents.Add(target);
                     }
                 }
+            }
 
-                // Informing i_Source and all the collided targets about the collision:
-                foreach (ICollidable target in collidedComponents)
-                {
-                    target.Collided(i_Source);
-                    i_Source.Collided(target);
-                }
+            // Informing i_Source and all the collided targets about the collision:
+            foreach (ICollidable target in collidedComponents)
+            {
+                target.Collided(i_Source);
+                i_Source.Collided(target);
+            }
+        }
+
+        private void collidable_Disposed(object sender, EventArgs e)
+        {
+            ICollidable collidable = sender as ICollidable;
+
+            if (collidable != null
+                &&
+                this.m_Collidables.Contains(collidable))
+            {
+                collidable.PositionChanged -= collidable_PositionChanged;
+                collidable.Disposed -= collidable_Disposed;
+                m_Collidables.Remove(collidable);
             }
         }
     }

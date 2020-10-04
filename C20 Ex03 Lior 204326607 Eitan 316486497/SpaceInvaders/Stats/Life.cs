@@ -3,6 +3,7 @@ using System.Linq;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using Infrastructure.ObjectModel;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -19,20 +20,20 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         private readonly int r_NumberInCluster;
         private readonly int r_NumberOfPlayer;
 
-        public Life(string i_AssetName, Game i_Game, int i_NumberInCluster, int i_NumberOfPlayer) : base(i_AssetName, i_Game)
+        public Life(string i_AssetName, GameScreen i_GameScreen, int i_NumberInCluster, int i_NumberOfPlayer) : base(i_AssetName, i_GameScreen)
         {
             r_NumberInCluster = i_NumberInCluster;
             r_NumberOfPlayer = i_NumberOfPlayer;
         }
-
+        
         public override void Draw(GameTime i_GameTime)
         {
+            SpriteBatch = new SpriteBatch(Game.GraphicsDevice);
             m_SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-            SpriteBatch = m_SpriteBatch;
             base.Draw(i_GameTime);
             m_SpriteBatch.End();
         }
-
+        
         protected override void InitBounds()
         {
             base.InitBounds();

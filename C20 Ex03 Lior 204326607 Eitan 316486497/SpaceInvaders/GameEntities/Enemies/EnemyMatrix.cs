@@ -1,4 +1,5 @@
 ﻿using System;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
@@ -14,15 +15,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private int m_CurrentNumberOfMostLeftEnemies;
         private int m_CurrentNumberOfMostBottomEnemies;
 
-        public EnemyMatrix(Game i_Game)
+        public EnemyMatrix(GameScreen i_GameScreen)
         {
             m_CurrentNumberOfEnemies = k_DefaultNumberOfRows * k_DefaultNumberOfCols;
             r_EnemiesMatrix = new Enemy[k_DefaultNumberOfRows, k_DefaultNumberOfCols];
-            initEnemyMatrix(i_Game);
+            initEnemyMatrix(i_GameScreen);
             markEnemiesClosestToTheBorder(eDirection.RIGHT);
             markEnemiesClosestToTheBorder(eDirection.LEFT);
             markEnemiesClosestToTheBorder(eDirection.BOTTOM);
-            AllEnemiesDestroyed += ((Invaders)i_Game).HandleGameOver;
+            AllEnemiesDestroyed += ((Invaders)i_GameScreen.Game).HandleGameOver; // TODO: Fix later
         }
 
         public enum eDirection
@@ -32,7 +33,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             BOTTOM
         }
 
-        private void initEnemyMatrix(Game i_Game)
+        private void initEnemyMatrix(GameScreen i_GameScreen)
         {
             for (int row = 0; row < r_EnemiesMatrix.GetLength(0); row++)
             {
@@ -53,7 +54,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
                 for (int col = 0; col < r_EnemiesMatrix.GetLength(1); col++)
                 {
-                    r_EnemiesMatrix[row, col] = new Enemy(i_Game, enemyType, row, col);
+                    r_EnemiesMatrix[row, col] = new Enemy(i_GameScreen, enemyType, row, col);
                     r_EnemiesMatrix[row, col].AddActionToTurnEnemies(changeDirection);
                     r_EnemiesMatrix[row, col].AddActionToEnemyDied(enemyDied);
                 }

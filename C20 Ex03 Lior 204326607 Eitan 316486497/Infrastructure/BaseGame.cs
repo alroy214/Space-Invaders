@@ -9,7 +9,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure
 {
     public class BaseGame : Game
     {
-        private readonly GraphicsDeviceManager r_Graphics;
+        protected readonly ScreensManager r_Screens;
+        protected readonly GraphicsDeviceManager r_Graphics;
         protected InputManager m_InputManager;
         protected CollisionsManager m_CollisionManager;
 
@@ -17,6 +18,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure
             : base()
         {
             r_Graphics = new GraphicsDeviceManager(this);
+            r_Screens = new ScreensManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }

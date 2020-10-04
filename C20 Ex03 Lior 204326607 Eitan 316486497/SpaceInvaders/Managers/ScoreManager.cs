@@ -1,6 +1,7 @@
 ﻿using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using Infrastructure.ObjectModel;
+using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 
@@ -11,8 +12,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         public Action<int, PlayerShip.ePlayer> ScoreChanged { get; set; }
         private const int k_PlayerLoseLifeScore = -600;
 
-        public ScoreManager(Game i_Game)
-            : base(i_Game)
+        public ScoreManager(GameScreen i_GameScreen)
+            : base(i_GameScreen.Game)
         {
         }
 

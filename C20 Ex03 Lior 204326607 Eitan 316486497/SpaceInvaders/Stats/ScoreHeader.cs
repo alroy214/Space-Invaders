@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -16,11 +17,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats
         private const string k_TieMessage = "It's a tie!";
         private readonly ScoreBoard[] r_ScoreBoards;
 
-        public ScoreHeader(Game i_Game)
+        public ScoreHeader(GameScreen i_GameScreen)
         {
             r_ScoreBoards = new ScoreBoard[2];
-            r_ScoreBoards[0] = new ScoreBoard(i_Game, PlayerShip.ePlayer.Player1);
-            r_ScoreBoards[1] = new ScoreBoard(i_Game, PlayerShip.ePlayer.Player2);
+            r_ScoreBoards[0] = new ScoreBoard(i_GameScreen, PlayerShip.ePlayer.Player1);
+            r_ScoreBoards[1] = new ScoreBoard(i_GameScreen, PlayerShip.ePlayer.Player2);
         }
 
         public async Task GameOverMessage()

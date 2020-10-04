@@ -1,6 +1,7 @@
 ﻿using System;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
+using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 
@@ -8,6 +9,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 {
     public class MotherShip : GameEntity, ICollidable2D, GameEntity.IScorableEntity
     {
+        public event EventHandler<EventArgs> Disposed;
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
         private const int k_MotherShipPointsValue = 600;
         private const int k_MaxSecondsToAppearance = 15;
@@ -19,7 +21,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private float m_NextAppearanceInSeconds;
         private bool m_IsInDestroyedState;
 
-        public MotherShip(Game i_Game) : base(k_AssetName, i_Game)
+        public MotherShip(GameScreen i_GameScreen) : base(k_AssetName, i_GameScreen)
         {
             m_TintColor = Color.Red;
             r_Random = new Random();
@@ -56,7 +58,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             Animations.Enabled = false;
             m_IsInDestroyedState = false;
             Visible = false;
-            m_Position = m_OriginPosition;
+            m_Position = new Vector2(0, Texture.Height);
             m_Velocity.X = 0;
             m_NextAppearanceInSeconds = generateRandomTimeToNextAppearance();
         }
@@ -64,13 +66,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private float generateRandomTimeToNextAppearance()
         {
             return r_Random.Next(k_MaxSecondsToAppearance);
-        }
-
-        protected override void InitBounds()
-        {
-            base.InitBounds();
-            m_Position = new Vector2(0, Texture.Height);
-            InitOrigins();
         }
 
         public override void Collided(ICollidable i_Collidable)

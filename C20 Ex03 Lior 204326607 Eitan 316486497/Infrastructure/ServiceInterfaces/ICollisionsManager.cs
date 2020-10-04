@@ -4,12 +4,13 @@ using Microsoft.Xna.Framework;
 
 namespace Infrastructure.ServiceInterfaces
 {
+    // TODO 05: Define the delegate for the Position Changed event:
+    public delegate void PositionChangedEventHandler(object i_Collidable);
+
     // TODO 06: Define the base interface for collidable objects (2D/3D):
     public interface ICollidable
     {
-        event EventHandler<EventArgs> PositionChanged;
-        event EventHandler<EventArgs> SizeChanged;
-        event EventHandler<EventArgs> VisibleChanged;
+        event PositionChangedEventHandler PositionChanged;
         event EventHandler<EventArgs> Disposed;
         bool Visible { get; }
         bool CheckCollision(ICollidable i_Source);
@@ -30,8 +31,6 @@ namespace Infrastructure.ServiceInterfaces
     {
         BoundingBox Bounds { get; }
         Vector3 Velocity { get; }
-        Color[] Pixels { get; }
-        Vector2 Position { get; set; }
     }
     // -- end of TODO 08
 
