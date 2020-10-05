@@ -10,12 +10,19 @@ namespace Infrastructure.Managers
 {
     public class ScreensManager : CompositeDrawableComponent<GameScreen>, IScreensManager
     {
+
+        private readonly Stack<GameScreen> r_ScreensStack = new Stack<GameScreen>();
+        private bool m_AllowWindowResizing;
+        private bool m_FullScreenMode;
+        private bool m_MouseVisibility;
+
         public ScreensManager(Game i_Game) : base(i_Game)
         {
             i_Game.Components.Add(this);
+            m_AllowWindowResizing = false;
         }
 
-        private readonly Stack<GameScreen> r_ScreensStack = new Stack<GameScreen>();
+
         public GameScreen ScreenLoader
         {
             get { return r_ScreensStack.Count > 0 ? r_ScreensStack.Peek() : null; }
@@ -24,6 +31,42 @@ namespace Infrastructure.Managers
         public GameScreen ActiveScreen
         {
             get { return r_ScreensStack.Count > 0 ? r_ScreensStack.Peek() : null; }
+        }
+
+        public bool AllowWindowResizing
+        {
+            get
+            {
+                return m_AllowWindowResizing;
+            }
+            set
+            {
+                m_AllowWindowResizing = value;
+            }
+        }
+
+        public bool FullScreenMode
+        {
+            get
+            {
+                return m_FullScreenMode;
+            }
+            set
+            {
+                m_FullScreenMode = value;
+            }
+        }
+
+        public bool MouseVisibility
+        {
+            get
+            {
+                return m_MouseVisibility;
+            }
+            set
+            {
+                m_MouseVisibility = value;
+            }
         }
 
         public void SetCurrentScreen(GameScreen i_GameScreen)

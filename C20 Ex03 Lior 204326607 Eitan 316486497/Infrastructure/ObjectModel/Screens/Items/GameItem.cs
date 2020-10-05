@@ -51,11 +51,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             CenterRectangle();
         }
 
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-        }
-
         public override void Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
