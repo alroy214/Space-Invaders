@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
-    class ScreenHeader : Sprite
+    public class ScreenHeader : Sprite
     {
         private float m_OffsetX;
         private float m_OffsetY;

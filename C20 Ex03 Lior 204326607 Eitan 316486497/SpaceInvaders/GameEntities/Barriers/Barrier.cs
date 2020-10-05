@@ -8,6 +8,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public class Barrier : GameEntity, ICollidable2D
     {
+        public event EventHandler<EventArgs> Disposed;
         private const string k_AssetName = @"Sprites\Barrier_44x32";
         private const float k_BulletRedactionPercentage = 0.35f;
         private readonly int r_NumberInCluster;
@@ -38,7 +39,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                     GraphicsDevice.Viewport.Height - k_BottomMarginBounds - (k_ButtonMarginMultiplier * Height));
             }
 
-            Color[] colorData = new Color[(int)(Height * Width)];
+            Color[] colorData = new Color[Texture.Height * Texture.Width];
             Texture.GetData(colorData);
             Texture = new Texture2D(Game.GraphicsDevice, (int)Width, (int)Height);
             Texture.SetData(colorData);
@@ -58,8 +59,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void moveBarrier()
         {
-            if (Position.X - m_InitPosition.X >= (float)Texture.Width / 2
-               || (Position.X + ((float)Texture.Width / 2) <= m_InitPosition.X))
+            if (Position.X - m_InitPosition.X >= Width / 2
+               || (Position.X + (Width / 2) <= m_InitPosition.X))
             {
                 Velocity *= -1;
             }
@@ -67,12 +68,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         protected override void InitOrigins()
         {
-            m_PositionOrigin = new Vector2((float)Texture.Width / 2, Texture.Height);
+            m_PositionOrigin = new Vector2(Width / 2, Texture.Height);
             base.InitOrigins();
         }
-
-
-        public event EventHandler<EventArgs> Disposed;
 
         public override void Collided(ICollidable i_Collidable)
         {
@@ -80,7 +78,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             {
                 if (IsPixelsCollided(bullet))
                 {
-                    ColliededWithBullet(bullet);
+                    colliededWithBullet(bullet);
                     bullet.Visible = false;
                 }
             }
@@ -88,15 +86,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             {
                 if (IsPixelsCollided(enemy))
                 {
-                    ColliededWithEnemy(enemy);
+                    colliededWithEnemy(enemy);
                 }
             }
         }
 
-        private void ColliededWithEnemy(Enemy i_Enemy)
+        private void colliededWithEnemy(Enemy i_Enemy)
         {
             Rectangle intersectRectangle = Rectangle.Intersect(Bounds, i_Enemy.Bounds);
-            Color[] colorData = new Color[(int)(Width * Height)];
+            Color[] colorData = new Color[Texture.Width * Texture.Height];
             Color[] colliededColorData = new Color[i_Enemy.Texture.Width * i_Enemy.Texture.Height];
             float leftHitX = intersectRectangle.Left;
             float rightHitX = intersectRectangle.Right;
@@ -109,21 +107,22 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             {
                 for (int x = (int)leftHitX; x < rightHitX; x++)
                 {
-                    if (x - Bounds.Left + ((y - Bounds.Top) * Width) < Width * Height)
-                    {
-                        if (colorData[(int)(x - Bounds.Left + ((y - Bounds.Top) * Width))].A != 0 &&
-                            colliededColorData[(int)(x - i_Enemy.Bounds.Left + ((y - i_Enemy.Bounds.Top) * i_Enemy.Width))].A != 0)
+                    int colorIndex = Math.Clamp(x - Bounds.Left + ((y - Bounds.Top) * Texture.Width), 0, Texture.Width * Texture.Height - 1);
+                    int colorEnemyIndex = Math.Clamp(x - i_Enemy.Bounds.Left + ((y - i_Enemy.Bounds.Top) * i_Enemy.Texture.Width), 0,
+                        i_Enemy.Texture.Width * i_Enemy.Texture.Height - 1);
+
+                    if (colorData[colorIndex].A != 0 &&
+                         colliededColorData[colorEnemyIndex].A != 0)
                         {
-                            colorData[(int)(x - Bounds.Left + ((y - Bounds.Top) * Width))] = Color.Transparent;
+                            colorData[colorIndex] = Color.Transparent;
                         }
-                    }
                 }
             }
 
             Texture.SetData(colorData);
         }
 
-        private void ColliededWithBullet(Bullet i_Bullet)
+        private void colliededWithBullet(Bullet i_Bullet)
         {
             Rectangle intersectRectangle = Rectangle.Intersect(Bounds, i_Bullet.Bounds);
             Color[] colorData = new Color[Texture.Width * Texture.Height];
@@ -142,17 +141,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 bottomHitY = Math.Max(topHitY + i_Bullet.Height * k_BulletRedactionPercentage, bottomHitY);
             }
 
-            for (int y = (int)topHitY; y < bottomHitY; y++)
+            for (int y = (int) topHitY; y < bottomHitY; y++)
             {
-                for (int x = (int)leftHitX; x < rightHitX; x++)
+                for (int x = (int) leftHitX; x < rightHitX; x++)
                 {
-                    if (x + (y * Width) < Width * Height)
-                    {
-                        if((int)(x + (y * Width)) < colorData.Length)
-                        {
-                            colorData[(int)(x + (y * Width))] = Color.Transparent;
-                        }
-                    }
+                    int colorIndex = Math.Clamp(x + (y * Texture.Width), 0, Texture.Width * Texture.Height - 1);
+                    colorData[colorIndex] = Color.Transparent;
                 }
             }
 

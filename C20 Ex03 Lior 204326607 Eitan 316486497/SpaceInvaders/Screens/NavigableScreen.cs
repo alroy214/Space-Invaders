@@ -8,11 +8,11 @@ using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
-    class NavigableScreen : GameScreen
+    public class NavigableScreen : GameScreen
     {
-        private readonly Background r_Background;
+        private readonly Game r_Game;
         private readonly List<GameItem> r_GameItems;
-        private Game m_Game;
+        private readonly Background r_Background;
         private Vector2 m_firstPosition;
         private float m_OffsetX;
         private float m_OffsetY;
@@ -24,7 +24,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         public NavigableScreen(Game i_Game) : base(i_Game)
         {
-            m_Game = i_Game;
+            r_Game = i_Game;
             r_GameItems = new List<GameItem>();
             r_Background = new Background(this);
         }
@@ -47,7 +47,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private void initializeFirstPosition()
         {
-            m_firstPosition = new Vector2((m_Game.Window.ClientBounds.Width / 3f) - m_OffsetX, (m_Game.Window.ClientBounds.Height / 2.5f) + m_OffsetY);
+            m_firstPosition = new Vector2((r_Game.Window.ClientBounds.Width / 3f) - m_OffsetX, (r_Game.Window.ClientBounds.Height / 2.5f) + m_OffsetY);
         }
 
         public bool KeyBoardEnabled

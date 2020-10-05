@@ -1,5 +1,6 @@
 ﻿using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
@@ -10,6 +11,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public class Enemy : GameEntity, ICollidable2D, GameEntity.IScorableEntity
     {
+        public event EventHandler<EventArgs> Disposed;
         private event EventHandler EnemyWentBelowBorder;
         private event Action<bool, bool, bool> EnemyDied;
         private event Action TurnEnemies;
@@ -75,7 +77,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public override void Initialize()
         {
             base.Initialize();
-            EnemyWentBelowBorder += ((Invaders)Game).HandleGameOver;
+            EnemyWentBelowBorder += ((PlayScreen)GameScreen).HandleGameOver;
             m_WidthJump = Width / 2;
         }
 
@@ -169,7 +171,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             base.Update(i_GameTime);
             shootBullet();
             checkBorderCollision();
-      //      m_NextJumpTime -= (float)i_GameTime.ElapsedGameTime.TotalSeconds;
+            m_NextJumpTime -= (float)i_GameTime.ElapsedGameTime.TotalSeconds;
             if (m_NextJumpTime <= 0)
             {
                 float newPositionX;
@@ -221,8 +223,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 EnemyWentBelowBorder?.Invoke(this, EventArgs.Empty);
             }
         }
-
-        public event EventHandler<EventArgs> Disposed;
 
         public override void Collided(ICollidable i_Collidable)
         {

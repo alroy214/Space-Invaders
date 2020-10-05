@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
-    class WelcomeScreen : NavigableScreen
+    public class WelcomeScreen : NavigableScreen
     {
         private const string k_StartMessage = "Press Enter Key to start the game";
         private const string k_ExitMessage = "Press Esc Key to exit the game";

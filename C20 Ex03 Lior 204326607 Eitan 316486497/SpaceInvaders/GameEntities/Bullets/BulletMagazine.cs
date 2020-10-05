@@ -21,7 +21,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             {
                 if (!bullet.Visible)
                 {
-                    i_ShootPosition.X -= (float)bullet.Texture.Width / 2;
+                    i_ShootPosition.X -= bullet.Width / 2;
                     bullet.Position = i_ShootPosition;
                     bullet.Visible = true;
                     bulletShot = true;

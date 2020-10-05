@@ -7,6 +7,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public class Bullet : GameEntity, ICollidable2D
     {
+        public event EventHandler<EventArgs> Disposed;
         private const string k_AssetName = @"Sprites\Bullet";
         private const float k_InitialBulletVelocity = 140;
         protected ScoreManager m_ScoreManager;
@@ -32,8 +33,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
             base.Update(i_GameTime);
         }
-
-        public event EventHandler<EventArgs> Disposed;
     }
 
     public class PlayerBullet : Bullet

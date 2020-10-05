@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
-    class LevelTransitionScreen : NavigableScreen
+    public class LevelTransitionScreen : NavigableScreen
     {
         private const float k_TransitionSeconds = 2.5f;
         private const string k_LevelMessageText = "Level: ";

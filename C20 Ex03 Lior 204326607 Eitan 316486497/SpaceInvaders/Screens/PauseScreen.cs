@@ -9,7 +9,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
     public class PauseScreen : GameScreen
     {
-        private ScreenHeader m_PauseMsg;
+        private ScreenHeader m_PauseMsg; //TODO FIX
 
         public PauseScreen(Game i_Game) : base(i_Game)
         {

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats
 {
-    class ScoreHeader
+    public class ScoreHeader
     {
         private const string k_ThankYouMessage = "Thanks for playing! :)";
         private const string k_MessageBoxTitle = "Game Over!";

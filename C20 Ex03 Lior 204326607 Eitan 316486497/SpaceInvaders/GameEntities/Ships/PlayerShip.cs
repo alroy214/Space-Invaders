@@ -1,5 +1,6 @@
 ﻿using System;
 using C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
@@ -35,13 +36,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private readonly BulletMagazine r_BulletMagazine;
         private readonly ePlayer r_CurrentPlayer;
         private readonly LifeCluster r_LifeCluster;
+        private readonly Keys r_CurrentRightKey;
+        private readonly Keys r_CurrentLeftKey;
+        private readonly Keys r_CurrentShootKey;
         private CompositeAnimator m_FetalHitAnimator;
         private IInputManager m_InputManager;
         private bool m_KeyboardPressLock;
         private bool m_MouseClickLock;
-        private readonly Keys r_CurrentRightKey;
-        private readonly Keys r_CurrentLeftKey;
-        private readonly Keys r_CurrentShootKey;
 
         public PlayerShip(GameScreen i_GameScreen, ePlayer i_Player) : base(i_Player == ePlayer.Player1 ? k_AssetName1 : k_AssetName2, i_GameScreen)
         {
@@ -73,15 +74,19 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         public enum ePlayer
         {
-            Player1,
-            Player2
+            Player1 = 0,
+            Player2 = 1
         }
 
         public override void Initialize()
         {
             base.Initialize();
             m_InputManager = Game.Services.GetService(typeof(IInputManager)) as IInputManager;
-            ShipDestroyed += ((Invaders)Game).HandleGameOver;
+        }
+
+        public void OnShipDestroyed(EventHandler i_EventHandler)
+        {
+            ShipDestroyed += i_EventHandler;
         }
 
         public override void Update(GameTime i_GameTime)
@@ -143,7 +148,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             r_BulletMagazine.ShootBullet(new Vector2(m_Position.X + Width / 2, m_Position.Y - Height / 2));
         }
 
-        private void bringToOriginPosition()
+        private void bringToMostRightPosition()
         {
             m_Position = new Vector2(GraphicsDevice.Viewport.Width - Texture.Width,
                 GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
@@ -152,7 +157,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         protected override void InitBounds()
         {
             base.InitBounds();
-            bringToOriginPosition();
+            m_Position = new Vector2((int) CurrentPlayer * Width, GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
         }
 
         public override void Collided(ICollidable i_Collidable)
@@ -168,7 +173,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
                 else
                 {
                     Animations.Restart();
-                    bringToOriginPosition();
+                    bringToMostRightPosition();
                 }
             }
         }
