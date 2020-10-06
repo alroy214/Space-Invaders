@@ -40,7 +40,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private void startButton_OnClicked(object sender, EventArgs e)
         {
             m_ScreensManager.SetCurrentScreen(new LevelTransitionScreen(Game));
-            m_ScreenHeader.Visible = false;
+          //  m_ScreenHeader.Visible = false;
             ExitScreen();
         }
 
