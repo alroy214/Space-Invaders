@@ -1,6 +1,7 @@
 ﻿using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Screens;
+using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
@@ -18,8 +19,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         public EnemyMatrix(GameScreen i_GameScreen)
         {
-            m_CurrentNumberOfEnemies = k_DefaultNumberOfRows * k_DefaultNumberOfCols;
-            r_EnemiesMatrix = new Enemy[k_DefaultNumberOfRows, k_DefaultNumberOfCols];
+            int addedNumberOfCols = 0;
+
+            if(i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
+            {
+                addedNumberOfCols = playerManager.GetEffectiveDifficultyLevel() - 1;
+            }
+
+            m_CurrentNumberOfEnemies = k_DefaultNumberOfRows * (k_DefaultNumberOfCols + addedNumberOfCols);
+            r_EnemiesMatrix = new Enemy[k_DefaultNumberOfRows, (k_DefaultNumberOfCols + addedNumberOfCols)];
             initEnemyMatrix(i_GameScreen);
             markEnemiesClosestToTheBorder(eDirection.RIGHT);
             markEnemiesClosestToTheBorder(eDirection.LEFT);

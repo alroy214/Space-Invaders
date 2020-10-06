@@ -9,5 +9,7 @@ namespace Infrastructure.ServiceInterfaces
         int NumberOfPlayers { get; set; }
 
         int PlayDifficultyLevel { get; set; }
+
+        int GetEffectiveDifficultyLevel();
     }
 }

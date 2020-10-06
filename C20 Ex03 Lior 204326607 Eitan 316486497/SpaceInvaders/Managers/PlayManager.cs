@@ -11,6 +11,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
     {
         public const int k_DefaultNumberOfPlayers = 2;
         public const int k_DefaultDifficultyLevel = 1;
+        public const int k_LevelModulo = 4;
         public int m_CurrentNumberOfPlayers;
         public int m_PlayDifficultyLevel;
 
@@ -24,6 +25,16 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         protected override void RegisterAsService()
         {
             Game.Services.AddService(typeof(IPlayManager), this);
+        }
+
+        public int GetEffectiveDifficultyLevel()
+        {
+            int modulo = m_PlayDifficultyLevel % k_LevelModulo;
+            if (modulo == 0)
+            {
+                modulo = k_LevelModulo;
+            }
+            return modulo;
         }
 
         public int NumberOfPlayers
@@ -46,7 +57,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             }
             set
             {
-                m_PlayDifficultyLevel = value;
+                m_PlayDifficultyLevel = value <= 0 ? 1 : value;
             }
         }
     }

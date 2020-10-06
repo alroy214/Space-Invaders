@@ -26,6 +26,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
         public Invaders() : base()
         {
+            PlayManager r_playManager = new PlayManager(this);
+         //   r_playManager.PlayDifficultyLevel = 8;
             r_Graphics.IsFullScreen = false;
             r_Graphics.PreferredBackBufferWidth = k_WindowSizeX;
             r_Graphics.PreferredBackBufferHeight = k_WindowSizeY;
@@ -37,7 +39,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             r_Screens.SetCurrentScreen(welcomeScreen);
 
             r_SoundManager = new SoundManager(this);
-            PlayManager r_playManager = new PlayManager(this);
         }
 
         protected override void LoadContent()

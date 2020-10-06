@@ -33,6 +33,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const int k_ShipPixelHeight = 32;
         private const int k_ShipAbovePixelHeight = 32;
         private const int k_ShipBelowPixelHeight = 30;
+        private const int k_LevelBonusPoints = 100;
         private const int k_JumpDownMargin = 48;
         private const float k_InitJumpTime = 0.5f;
         private const int k_MatrixTopMargin = k_ShipPixelHeight + k_ShipAbovePixelHeight + k_ShipBelowPixelHeight;
@@ -167,6 +168,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                         m_EnemyPoints = 0;
                         break;
                     }
+            }
+
+            if(Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
+            {
+                int currentDifficultyLevel = playerManager.GetEffectiveDifficultyLevel() - 1;
+                m_EnemyPoints += currentDifficultyLevel * k_LevelBonusPoints;
             }
 
             base.LoadContent();
