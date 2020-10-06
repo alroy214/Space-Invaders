@@ -11,6 +11,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
     {
         public const int k_DefaultNumberOfPlayers = 2;
         public const int k_DefaultDifficultyLevel = 1;
+        public const int k_LevelModulo = 4;
         public int m_CurrentNumberOfPlayers;
         public int m_PlayDifficultyLevel;
 
@@ -28,7 +29,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
         public int GetEffectiveDifficultyLevel()
         {
-            return m_CurrentNumberOfPlayers % 5;
+            int modulo = m_PlayDifficultyLevel % k_LevelModulo;
+            if (modulo == 0)
+            {
+                modulo = k_LevelModulo;
+            }
+            return modulo;
         }
 
         public int NumberOfPlayers

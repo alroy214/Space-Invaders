@@ -29,7 +29,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             int currentDifficultyLevel = PlayManager.k_DefaultDifficultyLevel;
             if (i_Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
             {
-                currentDifficultyLevel = playerManager.PlayDifficultyLevel;
+                currentDifficultyLevel = playerManager.GetEffectiveDifficultyLevel();
             }
             TextItem levelButton = new TextItem(this, k_LevelMessageText + currentDifficultyLevel, 
                 new Vector2(widthMargin, heightMargin - k_TopMarginBetweenMessages), CurrentNumberOfItemsOnScreen(),

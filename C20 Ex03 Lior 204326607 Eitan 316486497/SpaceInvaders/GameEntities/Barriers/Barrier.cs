@@ -18,6 +18,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const float k_RightMarginMultiplier = 2.6f;
         private const float k_BarrierVelocity = 35f;
         private const float k_BarrierVelocityLevelMultiplier = 1.06f;
+        private const int k_BarrierVelocityImmobileLevel = 1;
+        private const int k_BarrierVelocityThresholdLevel = 2;
         private Vector2 m_InitPosition;
 
         public Barrier(GameScreen i_GameScreen, int i_NumberInCluster, int i_TotalNumberInCluster)
@@ -25,20 +27,20 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             r_NumberInCluster = i_NumberInCluster;
             r_TotalNumberInCluster = i_TotalNumberInCluster;
-            float velocity = k_BarrierVelocity;
+            float leveledVelocity = k_BarrierVelocity;
             if (i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
             {
-                int currentDifficultyLevel = playerManager.PlayDifficultyLevel;
-                if (currentDifficultyLevel % 1 == 0)
+                int currentDifficultyLevel = playerManager.GetEffectiveDifficultyLevel();
+                if (currentDifficultyLevel == k_BarrierVelocityImmobileLevel)
                 {
-                    velocity = 0;
+                    leveledVelocity = 0;
                 }
-                else if(currentDifficultyLevel % 2 != 0)
+                else if(currentDifficultyLevel != k_BarrierVelocityThresholdLevel)
                 {
-                  //  velocity += k_BarrierVelocity * Math.Pow(k_BarrierVelocityLevelMultiplier, currentDifficultyLevel);
+                    leveledVelocity = k_BarrierVelocity * (float) Math.Pow(k_BarrierVelocityLevelMultiplier, currentDifficultyLevel - k_BarrierVelocityThresholdLevel);
                 }
             }
-            Velocity = new Vector2(velocity, 0);
+            Velocity = new Vector2(leveledVelocity, 0);
         }
 
         protected override void InitBounds()
