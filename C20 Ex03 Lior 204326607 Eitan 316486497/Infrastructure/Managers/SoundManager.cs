@@ -13,14 +13,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
     {
         private const bool k_IsMusicOnFromStart = true;
         private readonly Dictionary<string, SoundEffectInstance> r_SoundsEffects;
-        private readonly Dictionary<string, Song> r_Songs;
-        private bool m_IsGameSoundOn;
+        private bool m_IsSoundToggledOn;
 
         public SoundManager(Game i_Game) : base(i_Game)
         {
-            m_IsGameSoundOn = k_IsMusicOnFromStart;
+            m_IsSoundToggledOn = k_IsMusicOnFromStart;
             r_SoundsEffects = new Dictionary<string, SoundEffectInstance>();
-            r_Songs = new Dictionary<string, Song>();
+            loadSoundEffects();
+            setBackgroundMusicState(m_IsSoundToggledOn);
         }
 
 
@@ -29,33 +29,49 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
             this.Game.Services.AddService(typeof(ISoundManager), this);
         }
 
-        public bool IsGameSoundOn
+        private void loadSoundEffects()
         {
-            get { return this.m_IsGameSoundOn; }
-            set { this.m_IsGameSoundOn = value; }
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/SSGunShot"), "SSGunShot");
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/EnemyGunShot"), "EnemyGunShot");
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/EnemyKill"), "EnemyKill");
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/MotherShipKill"), "MotherShipKill");
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/BarrierHit"), "BarrierHit");
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/GameOver"), "GameOver");
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/LevelWin"), "LevelWin");
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/LifeDie"), "LifeDie");
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/MenuMove"), "MenuMove");
+            AddSoundEffect(Game.Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/BGMusic"), "BGMusic");
         }
 
-        public bool AreSoundsOn { get; set; }
+        public bool ToggledSoundOn
+        {
+            get { return this.m_IsSoundToggledOn; }
+            set { this.m_IsSoundToggledOn = value; }
+        }
 
         public Dictionary<string, SoundEffectInstance> SoundEffects
         {
             get { return this.r_SoundsEffects; }
         }
 
-        public Dictionary<string, Song> Songs
+        private void setBackgroundMusicState(bool i_On)
         {
-            get { return this.r_Songs; }
+            SoundEffectInstance bgMusic = GetSoundEffect("BGMusic");
+            if (i_On)
+            {
+                bgMusic.IsLooped = true;
+                bgMusic.Play();
+            }
+            else
+            {
+                bgMusic.Stop();
+            }
         }
 
         public void PlaySoundEffect(string i_SoundEffect)
         {
-            if (this.m_IsGameSoundOn)
+            if (this.m_IsSoundToggledOn)
             {
-                if (i_SoundEffect.Equals("BGMusic"))
-                {
-                    GetSoundEffect("BGMusic").IsLooped = true;
-                }
-
                 this.r_SoundsEffects[i_SoundEffect].Play();
             }
         }      
@@ -65,24 +81,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
             this.r_SoundsEffects.Add(i_SoundName, i_SoundEffect.CreateInstance());
         }
 
-        public void AddSong(Song i_Song, string i_SongName)
-        {
-            this.r_Songs.Add(i_SongName, i_Song);
-        }
-
         public void RemoveSoundEffect(string i_SoundName)
         {
             this.r_SoundsEffects.Remove(i_SoundName);
-        }
-
-        public void RemoveSong(string i_SongName)
-        {
-            this.r_Songs.Remove(i_SongName);
-        }
-
-        public Song GetSong(string i_Name)
-        {
-            return this.r_Songs[i_Name];
         }
 
         public SoundEffectInstance GetSoundEffect(string i_Name)

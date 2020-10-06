@@ -6,23 +6,15 @@ namespace Infrastructure.ServiceInterfaces
 {
     public interface ISoundManager
     {
-        bool AreSoundsOn { get; set; }
-
-        Song GetSong(string i_Name);
+        bool ToggledSoundOn { get; set; }
         
         SoundEffectInstance GetSoundEffect(string i_Name);
 
         Dictionary<string, SoundEffectInstance> SoundEffects { get; }
 
-        Dictionary<string, Song> Songs { get; }
-
         void AddSoundEffect(SoundEffect i_SoundEffect, string i_SoundName);
 
-        void AddSong(Song i_Song, string i_SongName);
-
         void RemoveSoundEffect(string i_SoundName);
-
-        void RemoveSong(string i_SongName);
 
         void PlaySoundEffect(string i_SoundEffect);
 
