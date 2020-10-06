@@ -26,6 +26,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             Game.Services.AddService(typeof(IPlayManager), this);
         }
 
+        public int GetEffectiveDifficultyLevel()
+        {
+            return m_CurrentNumberOfPlayers % 5;
+        }
+
         public int NumberOfPlayers
         {
             get
@@ -46,7 +51,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             }
             set
             {
-                m_PlayDifficultyLevel = value;
+                m_PlayDifficultyLevel = value <= 0 ? 1 : value;
             }
         }
     }
