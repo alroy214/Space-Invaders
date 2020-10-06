@@ -212,18 +212,6 @@
 /processorParam:TextureFormat=Color
 /build:Screens/gradient.png
 
-#begin Sounds/BarrierHit.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/BarrierHit.wav
-
-#begin Sounds/BGMusic.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/BGMusic.wav
-
 #begin Sprites/Barrier_44x32.png
 /importer:TextureImporter
 /processor:TextureProcessor

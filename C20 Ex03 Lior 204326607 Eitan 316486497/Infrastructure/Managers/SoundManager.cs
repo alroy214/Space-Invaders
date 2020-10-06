@@ -51,13 +51,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
         {
             if (this.m_IsGameSoundOn)
             {
-                //this.r_SoundsEffects[i_SoundEffect].Play();
+                if (i_SoundEffect.Equals("BGMusic"))
+                {
+                    GetSoundEffect("BGMusic").IsLooped = true;
+                }
+
+                this.r_SoundsEffects[i_SoundEffect].Play();
             }
-        }
-
+        }      
         
-        
-
         public void AddSoundEffect(SoundEffect i_SoundEffect, string i_SoundName)
         {
             this.r_SoundsEffects.Add(i_SoundName, i_SoundEffect.CreateInstance());
