@@ -16,7 +16,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const int k_BottomMarginBounds = 62;
         private const int k_ButtonMarginMultiplier = 2;
         private const float k_RightMarginMultiplier = 2.6f;
-        private const int k_BarrierVelocity = 35;
+        private const float k_BarrierVelocity = 35f;
+        private const float k_BarrierVelocityLevelMultiplier = 1.06f;
         private Vector2 m_InitPosition;
 
         public Barrier(GameScreen i_GameScreen, int i_NumberInCluster, int i_TotalNumberInCluster)
@@ -24,11 +25,20 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             r_NumberInCluster = i_NumberInCluster;
             r_TotalNumberInCluster = i_TotalNumberInCluster;
+            float velocity = k_BarrierVelocity;
             if (i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
             {
-            //    if()
+                int currentDifficultyLevel = playerManager.PlayDifficultyLevel;
+                if (currentDifficultyLevel % 1 == 0)
+                {
+                    velocity = 0;
+                }
+                else if(currentDifficultyLevel % 2 != 0)
+                {
+                  //  velocity += k_BarrierVelocity * Math.Pow(k_BarrierVelocityLevelMultiplier, currentDifficultyLevel);
+                }
             }
-            Velocity = new Vector2(k_BarrierVelocity, 0);
+            Velocity = new Vector2(velocity, 0);
         }
 
         protected override void InitBounds()

@@ -119,10 +119,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             r_BulletMagazine.ShootBullet(new Vector2(m_Position.X + Width / 2, m_Position.Y - Height / 2));
         }
 
-        private void bringToMostRightPosition()
+        private void bringToMostLeftPosition()
         {
-            m_Position = new Vector2(GraphicsDevice.Viewport.Width - Texture.Width,
-                GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
+            m_Position = new Vector2(0, GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
         }
 
         protected override void InitBounds()
@@ -144,7 +143,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
                 else
                 {
                     Animations.Restart();
-                    bringToMostRightPosition();
+                    bringToMostLeftPosition();
                 }
             }
         }

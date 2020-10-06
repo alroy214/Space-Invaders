@@ -21,6 +21,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             m_ScreenHeader = new ScreenHeader(this, @"Headers\Welcome2", 0.5f); //Change number
 
             float viewportWidthMargin = GraphicsDevice.Viewport.Width / 2f;
+         //   string test =""+( 35f * Math.Pow(1.06, 3));
+         //    string test =""+(3%2);
 
             TextItem startButton = new TextItem(this, k_StartMessage, new Vector2(viewportWidthMargin, 300),
                                        CurrentNumberOfItemsOnScreen(), Color.LightSeaGreen) { KeyRedirection = Keys.Enter };

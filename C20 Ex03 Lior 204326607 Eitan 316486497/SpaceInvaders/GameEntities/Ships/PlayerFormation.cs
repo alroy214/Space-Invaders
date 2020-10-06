@@ -13,11 +13,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
     class PlayerFormation
     {
         private const string k_AssetName1 = @"Sprites\Ship01_32x32";
-        private const Keys k_RightKeyPlayer1 = Keys.P;
+        private const Keys k_RightKeyPlayer1 = Keys.O;
         private const Keys k_LeftKeyPlayer1 = Keys.I;
         private const Keys k_ShootKeyPlayer1 = Keys.D9;
         private const string k_AssetName2 = @"Sprites\Ship02_32x32";
-        private const Keys k_RightKeyPlayer2 = Keys.R;
+        private const Keys k_RightKeyPlayer2 = Keys.E;
         private const Keys k_LeftKeyPlayer2 = Keys.W;
         private const Keys k_ShootKeyPlayer2 = Keys.D3;
         private event EventHandler AllShipDestroyed;
