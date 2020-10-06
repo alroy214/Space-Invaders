@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure;
@@ -31,10 +32,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         private BarrierCluster m_BarrierCluster;
         private int m_CurrentLivingPlayers;
         public const int k_NumberOfWalls = 4;
-        private GameScreen welcomeScreen;
-
-
+        private GameScreen m_WelcomeScreen;
         private readonly SoundManager r_SoundManager;
+        //private Song m_BackgroundMusic;
+        private List<SoundEffect> m_SoundEffectsList;
 
         public Invaders() : base()
         {
@@ -46,9 +47,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
             m_CurrentLivingPlayers = Enum.GetNames(typeof(PlayerShip.ePlayer)).Length;
             
-             welcomeScreen = new WelcomeScreen(this);
-             r_Screens.SetCurrentScreen(welcomeScreen);
+             m_WelcomeScreen = new WelcomeScreen(this);
+             r_Screens.SetCurrentScreen(m_WelcomeScreen);
             r_SoundManager = new SoundManager(this);
+
+            m_SoundEffectsList = new List<SoundEffect>();
         }
 
         protected override void Initialize()
@@ -60,6 +63,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         {
             
             m_SpriteBatch = new SpriteBatch(GraphicsDevice);
+            /*
             r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/SSGunShot"), "SSGunShot");
             r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"c:/temp/XNA_Assets/Ex03/Sounds/MotherShipKill"), "MotherShipKill");
             r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"c:/temp/XNA_Assets/Ex03/Sounds/MenuMove"), "MenuMove");
@@ -68,10 +72,23 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"c:/temp/XNA_Assets/Ex03/Sounds/GameOver"), "GameOver");
             r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"c:/temp/XNA_Assets/Ex03/Sounds/EnemyKill"), "EnemyKill");
             r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"c:/temp/XNA_Assets/Ex03/Sounds/EnemyGunShot"), "EnemyGunShot");
-            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"c:/temp/XNA_Assets/Ex03/Sounds/BarrierHit"), "BarrierHit");/*
-            r_SoundManager.AddSong(Content.Load<Song>(@"c:/temp/XNA_Assets/Ex03/Sounds/BGMusic"), "BGMusic");
-            MediaPlayer.Play(r_SoundManager.GetSong("BGMusic"));*/
-            MediaPlayer.IsRepeating = true;
+            
+            
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/BarrierHit"), "BarrierHit");
+            m_BackgroundMusic = Content.Load<SoundEffect>(@"Sounds\BGMusic");
+            m_BackgroundMusic = Content.Load<Song>("BGMusic");
+            MediaPlayer.Play(m_BackgroundMusic);
+            
+            m_SoundEffectsList.Add(Content.Load<SoundEffect>(@"C:\temp\XNA_Assets\Ex03\Sounds\BarrierHit"));
+            m_SoundEffectsList[0].Play();
+            var instance = m_SoundEffectsList[0].CreateInstance();
+            instance.IsLooped = true;
+            instance.Play();
+            */
+
+            //r_SoundManager.AddSong(Content.Load<Song>(@"c:/temp/XNA_Assets/Ex03/Sounds/BGMusic"), "BGMusic");
+            //MediaPlayer.Play(r_SoundManager.GetSong("BGMusic"));
+            //MediaPlayer.IsRepeating = true;
 
 
             base.LoadContent();
