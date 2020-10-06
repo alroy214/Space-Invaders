@@ -8,6 +8,10 @@ namespace Infrastructure.ServiceInterfaces
     {
         bool AreSoundsOn { get; set; }
 
+        Song GetSong(string i_Name);
+        
+        SoundEffectInstance GetSoundEffect(string i_Name);
+
         Dictionary<string, SoundEffectInstance> SoundEffects { get; }
 
         Dictionary<string, Song> Songs { get; }
@@ -22,8 +26,5 @@ namespace Infrastructure.ServiceInterfaces
 
         void PlaySoundEffect(string i_SoundEffect);
 
-        Song GetSong(string i_Name);
-
-        SoundEffectInstance GetSoundEffect(string i_Name);
     }
 }

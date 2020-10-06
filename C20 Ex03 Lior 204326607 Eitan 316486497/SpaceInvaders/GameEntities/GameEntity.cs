@@ -7,22 +7,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public abstract class GameEntity : Sprite
     {
-        private Color[] m_Pixels;
-
         protected GameEntity(string i_AssetName, GameScreen i_GameScreen)
             : base(i_AssetName, i_GameScreen)
         {
         }
 
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-            Pixels = new Color[Texture.Width * Texture.Height];
-        }
-
         public override void Draw(GameTime i_GameTime)
         {
-            if(Visible)
+            if (Visible)
             {
                 base.Draw(i_GameTime);
             }
@@ -50,19 +42,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             public bool Destroyed { get; set; }
         }
 
-        public Color[] Pixels
+        public int GetPixelAt(int i_X, int i_Y)
         {
-            get
-            {
-                return m_Pixels;
-            }
-            set
-            {
-                m_Pixels = value;
-            }
+            return Math.Clamp((i_X - Bounds.X) + (i_Y - Bounds.Y) * Texture.Width, 0, (Texture.Width * Texture.Height) - 1);
         }
 
-        public bool IsPixelsCollided(Sprite i_SourceSprite)
+        public bool IsPixelsCollided(GameEntity i_SourceSprite)
         {
             bool pixelsCollided = false;
             Color[] destDestColor = new Color[Texture.Width * Texture.Height];
@@ -78,8 +63,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             {
                 for (int x = xDest; x < xSource; ++x)
                 {
-                    Color destColor = destDestColor[(x - Bounds.X) + (y - Bounds.Y) * Texture.Width];
-                    Color sourceColor = sourceDataColor[(x - i_SourceSprite.Bounds.X) + (y - i_SourceSprite.Bounds.Y) * i_SourceSprite.Texture.Width];
+                    Color destColor = destDestColor[GetPixelAt(x, y)];
+                    Color sourceColor = sourceDataColor[i_SourceSprite.GetPixelAt(x, y)];
 
                     if (destColor.A != 0 && sourceColor.A != 0)
                     {

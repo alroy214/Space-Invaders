@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders
 {
-    class LifeCluster
+    public class LifeCluster
     {
         private readonly Life[] r_Lives;
         private int m_CurrentPlayerLives;

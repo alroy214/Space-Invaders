@@ -1,5 +1,6 @@
 ﻿using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
@@ -10,6 +11,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public class Enemy : GameEntity, ICollidable2D, GameEntity.IScorableEntity
     {
+        public event EventHandler<EventArgs> Disposed;
         private event EventHandler EnemyWentBelowBorder;
         private event Action<bool, bool, bool> EnemyDied;
         private event Action TurnEnemies;
@@ -30,7 +32,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const int k_EnemyPixelHeight = 32;
         private const int k_ShipPixelHeight = 32;
         private const int k_ShipAbovePixelHeight = 32;
-        private const int k_ShipBelowPixelHeight = 32;
+        private const int k_ShipBelowPixelHeight = 30;
+        private const int k_JumpDownMargin = 48;
         private const float k_InitJumpTime = 0.5f;
         private const int k_MatrixTopMargin = k_ShipPixelHeight + k_ShipAbovePixelHeight + k_ShipBelowPixelHeight;
         private readonly int r_RowPosition;
@@ -75,7 +78,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public override void Initialize()
         {
             base.Initialize();
-            EnemyWentBelowBorder += ((Invaders)Game).HandleGameOver;
+            EnemyWentBelowBorder += ((PlayScreen)GameScreen).HandleGameOver;
             m_WidthJump = Width / 2;
         }
 
@@ -119,6 +122,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                     {
                         break;
                     }
+            }
+
+            if (!m_Destroyed && m_IsMostBottom && Position.Y > Game.GraphicsDevice.Viewport.Height - Height - k_JumpDownMargin)
+            {
+                EnemyWentBelowBorder?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -169,7 +177,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             base.Update(i_GameTime);
             shootBullet();
             checkBorderCollision();
-      //      m_NextJumpTime -= (float)i_GameTime.ElapsedGameTime.TotalSeconds;
+            m_NextJumpTime -= (float)i_GameTime.ElapsedGameTime.TotalSeconds;
             if (m_NextJumpTime <= 0)
             {
                 float newPositionX;
@@ -210,19 +218,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private void checkBorderCollision()
         {
             if (m_IsMostRight && m_CurrentDirection == EnemyMatrix.eDirection.RIGHT
-                              && Position.X + m_WidthJump > Game.GraphicsDevice.Viewport.Width - Width || m_IsMostLeft
+                                          && Position.X + m_WidthJump > Game.GraphicsDevice.Viewport.Width - Width || m_IsMostLeft
                 && m_CurrentDirection == EnemyMatrix.eDirection.LEFT && Position.X - m_WidthJump < 0)
             {
                 TurnEnemies?.Invoke();
             }
-
-            if (m_IsMostBottom && Position.Y >= Game.GraphicsDevice.Viewport.Height - Height - k_ShipPixelHeight)
-            {
-                EnemyWentBelowBorder?.Invoke(this, EventArgs.Empty);
-            }
         }
-
-        public event EventHandler<EventArgs> Disposed;
 
         public override void Collided(ICollidable i_Collidable)
         {
@@ -251,7 +252,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private void destructionAnimation_Finished(object sender, EventArgs e)
         {
             Visible = false;
-            EnemyDied?.Invoke(m_IsMostLeft, m_IsMostRight, m_IsMostBottom);
             Enabled = false;
         }
 
@@ -272,6 +272,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             set
             {
                 m_Destroyed = value;
+                if(m_Destroyed)
+                {
+                    EnemyDied?.Invoke(m_IsMostLeft, m_IsMostRight, m_IsMostBottom);
+                }
             }
         }
 

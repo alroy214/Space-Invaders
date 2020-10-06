@@ -1,5 +1,6 @@
 ﻿using System;
 using C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
@@ -13,14 +14,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
     {
         public event EventHandler<EventArgs> Disposed;
         private event EventHandler ShipDestroyed;
-        private const string k_AssetName1 = @"Sprites\Ship01_32x32";
-        private const Keys k_RightKeyPlayer1 = Keys.P;
-        private const Keys k_LeftKeyPlayer1 = Keys.I;
-        private const Keys k_ShootKeyPlayer1 = Keys.D9;
-        private const string k_AssetName2 = @"Sprites\Ship02_32x32";
-        private const Keys k_RightKeyPlayer2 = Keys.R;
-        private const Keys k_LeftKeyPlayer2 = Keys.W;
-        private const Keys k_ShootKeyPlayer2 = Keys.D3;
         private const string k_NonFetalHitBlinkerAnimatorName = "PlayerShipNonFatalHitBlinkAnimator";
         private const string k_NonFetalHitAnimatorName = "PlayerShipNonFetalHitAnimator";
         private const string k_FetalHitAnimatorName = "PlayerShipFetalHitAnimator";
@@ -39,49 +32,32 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private IInputManager m_InputManager;
         private bool m_KeyboardPressLock;
         private bool m_MouseClickLock;
-        private readonly Keys r_CurrentRightKey;
-        private readonly Keys r_CurrentLeftKey;
-        private readonly Keys r_CurrentShootKey;
+        private Keys m_CurrentRightKey;
+        private Keys m_CurrentLeftKey;
+        private Keys m_CurrentShootKey;
 
-        public PlayerShip(GameScreen i_GameScreen, ePlayer i_Player) : base(i_Player == ePlayer.Player1 ? k_AssetName1 : k_AssetName2, i_GameScreen)
+        public PlayerShip(string i_AssetName, GameScreen i_GameScreen, ePlayer i_Player) : base(i_AssetName, i_GameScreen)
         {
             r_BulletMagazine = new PlayerBulletMagazine(i_GameScreen, k_NumberOfBullets, i_Player);
             r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int) i_Player, k_DefaultNumberOfLives);
             r_CurrentPlayer = i_Player;
-            switch (r_CurrentPlayer)
-            {
-                case ePlayer.Player1:
-                    {
-                        r_CurrentRightKey = k_RightKeyPlayer1;
-                        r_CurrentLeftKey = k_LeftKeyPlayer1;
-                        r_CurrentShootKey = k_ShootKeyPlayer1;
-                        break;
-                    }
-                case ePlayer.Player2:
-                    {
-                        r_CurrentRightKey = k_RightKeyPlayer2;
-                        r_CurrentLeftKey = k_LeftKeyPlayer2;
-                        r_CurrentShootKey = k_ShootKeyPlayer2;
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
         }
 
         public enum ePlayer
         {
-            Player1,
-            Player2
+            Player1 = 0,
+            Player2 = 1
         }
 
         public override void Initialize()
         {
             base.Initialize();
             m_InputManager = Game.Services.GetService(typeof(IInputManager)) as IInputManager;
-            ShipDestroyed += ((Invaders)Game).HandleGameOver;
+        }
+
+        public void OnShipDestroyed(EventHandler i_EventHandler)
+        {
+            ShipDestroyed += i_EventHandler;
         }
 
         public override void Update(GameTime i_GameTime)
@@ -100,11 +76,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             float positionX;
 
-            if (m_InputManager.KeyHeld(r_CurrentLeftKey))
+            if (m_InputManager.KeyHeld(m_CurrentLeftKey))
             {
                 m_Velocity.X = k_Velocity * -1;
             }
-            else if (m_InputManager.KeyHeld(r_CurrentRightKey))
+            else if (m_InputManager.KeyHeld(m_CurrentRightKey))
             {
                 m_Velocity.X = k_Velocity;
             }
@@ -127,7 +103,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             if (r_LifeCluster.LivesRemaining != 0)
             {
-                if (!m_KeyboardPressLock && m_InputManager.KeyPressed(r_CurrentShootKey) ||
+                if (!m_KeyboardPressLock && m_InputManager.KeyPressed(m_CurrentShootKey) ||
                    r_CurrentPlayer == ePlayer.Player1 && !m_MouseClickLock && m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
                 {
                     createBullet();
@@ -143,16 +119,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             r_BulletMagazine.ShootBullet(new Vector2(m_Position.X + Width / 2, m_Position.Y - Height / 2));
         }
 
-        private void bringToOriginPosition()
+        private void bringToMostLeftPosition()
         {
-            m_Position = new Vector2(GraphicsDevice.Viewport.Width - Texture.Width,
-                GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
+            m_Position = new Vector2(0, GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
         }
 
         protected override void InitBounds()
         {
             base.InitBounds();
-            bringToOriginPosition();
+            m_Position = new Vector2((int) CurrentPlayer * Width, GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
         }
 
         public override void Collided(ICollidable i_Collidable)
@@ -168,7 +143,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
                 else
                 {
                     Animations.Restart();
-                    bringToOriginPosition();
+                    bringToMostLeftPosition();
                 }
             }
         }
@@ -223,6 +198,30 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             get
             {
                 return r_CurrentPlayer;
+            }
+        }
+
+        public Keys CurrentRightKey
+        {
+            set
+            {
+                m_CurrentRightKey = value;
+            }
+        }
+
+        public Keys CurrentLeftKey
+        {
+            set
+            {
+                m_CurrentLeftKey = value;
+            }
+        }
+
+        public Keys CurrentShootKey
+        {
+            set
+            {
+                m_CurrentShootKey = value;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 
@@ -23,7 +24,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             markEnemiesClosestToTheBorder(eDirection.RIGHT);
             markEnemiesClosestToTheBorder(eDirection.LEFT);
             markEnemiesClosestToTheBorder(eDirection.BOTTOM);
-            AllEnemiesDestroyed += ((Invaders)i_GameScreen.Game).HandleGameOver; // TODO: Fix later
+            AllEnemiesDestroyed += ((PlayScreen)i_GameScreen).HandleGameOver;
         }
 
         public enum eDirection
@@ -116,7 +117,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                         {
                             for (int row = 0; row < r_EnemiesMatrix.GetLength(0); row++)
                             {
-                                if (r_EnemiesMatrix[row, col].Visible)
+                                if (!r_EnemiesMatrix[row, col].Destroyed)
                                 {
                                     m_CurrentNumberOfMostLeftEnemies++;
                                     isClosestToTheBorder = true;
@@ -138,7 +139,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                         {
                             for (int row = 0; row < r_EnemiesMatrix.GetLength(0); row++)
                             {
-                                if (r_EnemiesMatrix[row, col].Visible)
+                                if (!r_EnemiesMatrix[row, col].Destroyed)
                                 {
                                     m_CurrentNumberOfMostRightEnemies++;
                                     isClosestToTheBorder = true;
@@ -160,7 +161,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                         {
                             for (int col = r_EnemiesMatrix.GetLength(1) - 1; col >= 0; col--)
                             {
-                                if (r_EnemiesMatrix[row, col].Visible)
+                                if (!r_EnemiesMatrix[row, col].Destroyed)
                                 {
                                     m_CurrentNumberOfMostBottomEnemies++;
                                     isClosestToTheBorder = true;

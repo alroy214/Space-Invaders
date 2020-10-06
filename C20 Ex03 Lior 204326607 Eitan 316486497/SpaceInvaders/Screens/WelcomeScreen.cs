@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
-    class WelcomeScreen : NavigableScreen
+    public class WelcomeScreen : NavigableScreen
     {
         private const string k_StartMessage = "Press Enter Key to start the game";
         private const string k_ExitMessage = "Press Esc Key to exit the game";
@@ -21,6 +21,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             m_ScreenHeader = new ScreenHeader(this, @"Headers\Welcome2", 0.5f); //Change number
 
             float viewportWidthMargin = GraphicsDevice.Viewport.Width / 2f;
+         //   string test =""+( 35f * Math.Pow(1.06, 3));
+         //    string test =""+(3%2);
 
             TextItem startButton = new TextItem(this, k_StartMessage, new Vector2(viewportWidthMargin, 300),
                                        CurrentNumberOfItemsOnScreen(), Color.LightSeaGreen) { KeyRedirection = Keys.Enter };
@@ -50,11 +52,5 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private void menuButton_OnClicked(object sender, EventArgs e)
         {
         }
-
-        private ClickableItem CreateItem(string i_AssetName)
-        {
-            return new ClickableItem(i_AssetName, this, CurrentNumberOfItemsOnScreen());
-        }
-
     }
 }

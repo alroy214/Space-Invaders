@@ -7,8 +7,11 @@ namespace Infrastructure.ServiceInterfaces
     public interface IScoreManager
     {
         Action<int, PlayerShip.ePlayer> ScoreChanged { get; set; }
+        
         void UpdateScoreForHit(int i_Points, PlayerShip.ePlayer i_Player);
+
         void UpdateScoreForLosingLife(PlayerShip.ePlayer i_Player);
+        
         void AddScoreBoardToUpdate(Action<int, PlayerShip.ePlayer> i_Action);
     }
 }
