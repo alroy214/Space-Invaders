@@ -41,7 +41,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             r_BulletMagazine = new PlayerBulletMagazine(i_GameScreen, k_NumberOfBullets, i_Player);
             r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int) i_Player, k_DefaultNumberOfLives);
             r_CurrentPlayer = i_Player;
-            
         }
 
         public enum ePlayer

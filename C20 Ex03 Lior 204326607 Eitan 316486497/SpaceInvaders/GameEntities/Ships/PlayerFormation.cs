@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats;
 using Infrastructure.ObjectModel.Screens;
+using Infrastructure.ServiceInterfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships
@@ -23,8 +26,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
 
         public PlayerFormation(GameScreen i_GameScreen)
         {
-            PlayerShip.ePlayer[] players = ((PlayerShip.ePlayer[]) Enum.GetValues(typeof(PlayerShip.ePlayer)));
-            m_CurrentLivingPlayers = players.Length;
+            PlayerShip.ePlayer[] players = ((PlayerShip.ePlayer[])Enum.GetValues(typeof(PlayerShip.ePlayer)));
+
+            m_CurrentLivingPlayers =
+                i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playManager
+                    ? Math.Min(playManager.NumberOfPlayers, players.Length)
+                    : Math.Min(PlayManager.k_DefaultNumberOfPlayers, players.Length);
+
             r_PlayerShips = new PlayerShip[m_CurrentLivingPlayers];
 
             for(int i = 0; i < m_CurrentLivingPlayers; i++)
@@ -34,7 +42,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
                 Keys currentRightKey = Keys.None;
                 string assetName = "";
 
-                switch(players[i])
+                switch (players[i])
                 {
                     case PlayerShip.ePlayer.Player1:
                         {

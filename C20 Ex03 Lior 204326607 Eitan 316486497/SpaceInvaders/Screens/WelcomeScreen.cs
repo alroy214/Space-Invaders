@@ -50,11 +50,5 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private void menuButton_OnClicked(object sender, EventArgs e)
         {
         }
-
-        private ClickableItem CreateItem(string i_AssetName)
-        {
-            return new ClickableItem(i_AssetName, this, CurrentNumberOfItemsOnScreen());
-        }
-
     }
 }

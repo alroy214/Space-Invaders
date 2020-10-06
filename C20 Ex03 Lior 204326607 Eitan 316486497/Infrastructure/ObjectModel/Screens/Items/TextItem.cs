@@ -9,12 +9,22 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items
 {
-    public class TextItem : ClickableItem
+    public class TextItem : GameItem
     {
         private SpriteFont m_Font;
         private Color m_FontColor;
         private string m_TextMessage;
         private Vector2 r_Offset;
+
+        public TextItem(string i_AssetName, GameScreen i_GameScreen, string i_TextMessage, Vector2 i_Position, int i_ItemNumber, Color i_ActiveColor, Color i_FontColor)
+            : base(i_AssetName, i_GameScreen, i_ItemNumber)
+        {
+            r_Offset = i_Position;
+            m_TextMessage = i_TextMessage;
+            m_ActiveColor = i_ActiveColor;
+            m_FontColor = i_FontColor;
+            m_Scales = new Vector2(0.47f, 0.45f);
+        }
 
         public TextItem(GameScreen i_GameScreen, string i_TextMessage, Vector2 i_Position, int i_ItemNumber)
             : this(i_GameScreen, i_TextMessage, i_Position, i_ItemNumber, Color.White, Color.Black)
@@ -25,7 +35,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         {
         }
 
-        public TextItem(GameScreen i_GameScreen, string i_TextMessage, Vector2 i_Position, int i_ItemNumber, Color i_ActiveColor, Color i_FontColor)
+        public TextItem(GameScreen i_GameScreen, string i_TextMessage, Vector2 i_Position, int i_ItemNumber, Color i_ActiveColor, Color i_FontColor, bool i_TouchLock = false)
             : base(@"Screens/bubble3", i_GameScreen, i_ItemNumber)
         {
             r_Offset = i_Position;
@@ -33,7 +43,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             m_ActiveColor = i_ActiveColor;
             m_FontColor = i_FontColor;
             m_Scales = new Vector2(0.45f, 0.45f);
+            m_IsTouchLocked = i_TouchLock;
+            if (m_IsTouchLocked)
+            {
+                TintColor = i_ActiveColor;
+            }
         }
+
         public string TextMessage
         {
             get
@@ -65,9 +81,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             if(text == Vector2.Zero)
             {
                 Vector2 measuredText = m_Font.MeasureString(m_TextMessage);
+                bool isMultiLine = m_TextMessage.Split(Environment.NewLine).Length != 1;
                 text = new Vector2(
                     m_Position.X + Width / 2 - measuredText.X / 2,
-                    m_Position.Y + Height / 2 - measuredText.Y / 2);
+                    m_Position.Y + Height / 2 - measuredText.Y / 2 - (isMultiLine ? m_Font.LineSpacing : 0));
             }
             base.Draw(i_GameTime);
             m_SpriteBatch.DrawString(m_Font, m_TextMessage, text, m_FontColor);

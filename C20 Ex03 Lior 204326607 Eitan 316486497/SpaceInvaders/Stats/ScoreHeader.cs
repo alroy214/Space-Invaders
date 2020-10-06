@@ -1,54 +1,70 @@
 ﻿using System;
-using System.Threading.Tasks;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using Infrastructure.ObjectModel.Screens;
+using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats
 {
     public class ScoreHeader
     {
-        private const string k_ThankYouMessage = "Thanks for playing! :)";
-        private const string k_MessageBoxTitle = "Game Over!";
-        private const string k_MessageBoxButton = "Done";
-        private const string k_WinMessagePlayer1 = "Player 1 Wins!";
-        private const string k_WinMessagePlayer2 = "Player 2 Wins!";
-        private const string k_TieMessage = "It's a tie!";
+        private const string k_ScorePrefix1 = "P1 Score: ";
+        private const string k_ScorePrefix2 = "P2 Score: ";
         private readonly ScoreBoard[] r_ScoreBoards;
 
         public ScoreHeader(GameScreen i_GameScreen)
         {
-            r_ScoreBoards = new ScoreBoard[2];
-            r_ScoreBoards[0] = new ScoreBoard(i_GameScreen, PlayerShip.ePlayer.Player1);
-            r_ScoreBoards[1] = new ScoreBoard(i_GameScreen, PlayerShip.ePlayer.Player2);
+            PlayerShip.ePlayer[] players = ((PlayerShip.ePlayer[])Enum.GetValues(typeof(PlayerShip.ePlayer)));
+
+            int numberOfPlayers  =
+                i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playManager
+                    ? Math.Min(playManager.NumberOfPlayers, players.Length)
+                    : Math.Min(PlayManager.k_DefaultNumberOfPlayers, players.Length);
+
+            r_ScoreBoards = new ScoreBoard[numberOfPlayers];
+            for (int i = 0; i < numberOfPlayers; i++)
+            {
+                Color tintColor = Color.Purple;
+                string playerString = "";
+                switch (players[i])
+                {
+                    case PlayerShip.ePlayer.Player1:
+                        {
+                            playerString = k_ScorePrefix1;
+                            tintColor = Color.Blue;
+                            break;
+                        }
+                    case PlayerShip.ePlayer.Player2:
+                        {
+                            playerString = k_ScorePrefix2;
+                            tintColor = Color.Green;
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+
+                r_ScoreBoards[i] = new ScoreBoard(i_GameScreen, players[i])
+                                       {
+                                           TintColor = tintColor,
+                                           PlayerString = playerString
+                                       };
+            }
         }
 
-        public async Task GameOverMessage()
+        public int[] GetPlayerScores()
         {
-            string message = string.Format("{0} {3} {1} {3} {2} {3} {4}",
-                r_ScoreBoards[0], r_ScoreBoards[1], getWinningPlayer(), Environment.NewLine, k_ThankYouMessage);
+            int[] playerScores = new int[r_ScoreBoards.Length];
 
-            await MessageBox.Show(k_MessageBoxTitle, message, new[] { k_MessageBoxButton });
+            for(int i = 0; i < r_ScoreBoards.Length; i++)
+            {
+                playerScores[i] = r_ScoreBoards[i].PlayerScore;
+            }
+
+            return playerScores;
         }
 
-        private string getWinningPlayer()
-        {
-            string winner;
-
-            if (r_ScoreBoards[0].PlayerScore > r_ScoreBoards[1].PlayerScore)
-            {
-                winner = k_WinMessagePlayer1;
-            }
-            else if (r_ScoreBoards[0].PlayerScore < r_ScoreBoards[1].PlayerScore)
-            {
-                winner = k_WinMessagePlayer2;
-            }
-            else
-            {
-                winner = k_TieMessage;
-            }
-            return winner;
-        }
     }
 }

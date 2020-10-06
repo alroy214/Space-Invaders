@@ -17,8 +17,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 {
     public class Invaders : BaseGame
     {
-        private const int k_WindowSizeX = 600;
-        private const int k_WindowSizeY = 500;
+        private const int k_WindowSizeX = 800;
+        private const int k_WindowSizeY = 600;
         private const string k_WindowTitle = "Invaders 👽";
         private SpriteBatch m_SpriteBatch;
 
@@ -31,11 +31,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             r_Graphics.PreferredBackBufferHeight = k_WindowSizeY;
             r_Graphics.ApplyChanges();
             Window.Title = k_WindowTitle;
-
+           // this.Window.AllowUserResizing = true;
             GameScreen welcomeScreen = new WelcomeScreen(this);
+            //GameScreen welcomeScreen = new GameOverScreen(this, new []{10, 1}); 
             r_Screens.SetCurrentScreen(welcomeScreen);
 
             r_SoundManager = new SoundManager(this);
+            PlayManager r_playManager = new PlayManager(this);
         }
 
         protected override void LoadContent()

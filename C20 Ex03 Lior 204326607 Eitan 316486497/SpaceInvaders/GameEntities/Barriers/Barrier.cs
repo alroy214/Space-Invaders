@@ -24,6 +24,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             r_NumberInCluster = i_NumberInCluster;
             r_TotalNumberInCluster = i_TotalNumberInCluster;
+            if (i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
+            {
+            //    if()
+            }
             Velocity = new Vector2(k_BarrierVelocity, 0);
         }
 

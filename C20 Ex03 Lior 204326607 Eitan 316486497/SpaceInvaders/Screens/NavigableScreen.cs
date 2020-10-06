@@ -44,7 +44,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         {
             return r_GameItems.Count;
         }
-
         private void initializeFirstPosition()
         {
             m_firstPosition = new Vector2((r_Game.Window.ClientBounds.Width / 3f) - m_OffsetX, (r_Game.Window.ClientBounds.Height / 2.5f) + m_OffsetY);
