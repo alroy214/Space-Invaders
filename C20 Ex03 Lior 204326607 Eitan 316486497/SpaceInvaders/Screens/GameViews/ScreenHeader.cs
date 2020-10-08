@@ -14,7 +14,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private float m_OffsetY;
         private readonly bool r_CenterWidth;
 
-        public ScreenHeader(GameScreen i_GameScreen, string i_AssetName, float i_Scale, float i_OffsetX, float i_OffsetY, bool i_CenterWidth) : base(i_AssetName, i_GameScreen)
+        public ScreenHeader(GameScreen i_GameScreen, string i_AssetName, float i_Scale, float i_OffsetX, float i_OffsetY, bool i_CenterWidth = false) : base(i_AssetName, i_GameScreen)
         {
             m_Scales = new Vector2(i_Scale);
             m_OffsetX = i_OffsetX;

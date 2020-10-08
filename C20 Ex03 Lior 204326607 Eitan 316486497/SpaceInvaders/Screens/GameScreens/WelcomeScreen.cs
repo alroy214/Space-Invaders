@@ -12,6 +12,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
     public class WelcomeScreen : NavigableScreen
     {
+        private readonly Background r_Background;
         private const string k_StartMessage = "Press Enter Key to start the game";
         private const string k_ExitMessage = "Press Esc Key to exit the game";
         private const string k_MenuMessage = "Press the M Key to show the settings";
@@ -19,20 +20,17 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         public WelcomeScreen(Game i_Game) : base(i_Game)
         {
+            r_Background = new Background(this);
             m_ScreenHeader = new ScreenHeader(this, @"Headers\Welcome2", 0.5f); //Change number
 
             float viewportWidthMargin = GraphicsDevice.Viewport.Width / 2f;
-
-            TextItem startButton = new TextItem(this, k_StartMessage, new Vector2(viewportWidthMargin, 300),
-                                       CurrentNumberOfItemsOnScreen(), Color.LightSeaGreen) { KeyRedirection = Keys.Enter };
+            TextItem startButton = new TextItem(this, k_StartMessage, NumberOfItemsOnScreen(), Color.LightSeaGreen, Keys.Enter);
             startButton.AddToOnClick(startButton_OnClicked);
             AddGameItem(startButton);
-            TextItem exitButton = new TextItem(this, k_ExitMessage, new Vector2(viewportWidthMargin, 400), 
-                                      CurrentNumberOfItemsOnScreen(), Color.PaleVioletRed) { KeyRedirection = Keys.Escape };
+            TextItem exitButton = new TextItem(this, k_ExitMessage, NumberOfItemsOnScreen(), Color.PaleVioletRed, Keys.Escape);
             AddGameItem(exitButton);
             exitButton.AddToOnClick(exitButton_OnClicked);
-            TextItem menuButton = new TextItem(this, k_MenuMessage, new Vector2(viewportWidthMargin, 500),
-                                      CurrentNumberOfItemsOnScreen(), Color.DodgerBlue) { KeyRedirection = Keys.M };
+            TextItem menuButton = new TextItem(this, k_MenuMessage, NumberOfItemsOnScreen(), Color.DodgerBlue, Keys.M);
             menuButton.AddToOnClick(menuButton_OnClicked);
             AddGameItem(menuButton);
         }
@@ -40,7 +38,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private void startButton_OnClicked(object sender, EventArgs e)
         {
             m_ScreensManager.SetCurrentScreen(new LevelTransitionScreen(Game));
-            m_ScreenHeader.Visible = false;
             ExitScreen();
         }
 

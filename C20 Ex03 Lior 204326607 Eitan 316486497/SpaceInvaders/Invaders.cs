@@ -34,7 +34,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             Window.Title = k_WindowTitle;
            // this.Window.AllowUserResizing = true;
             GameScreen welcomeScreen = new WelcomeScreen(this);
-            //GameScreen welcomeScreen = new GameOverScreen(this, new []{10, 1}); 
+         //   GameScreen welcomeScreen = new GameOverScreen(this, new []{10, 1}); 
             r_Screens.SetCurrentScreen(welcomeScreen);
 
         }
@@ -42,7 +42,23 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         protected override void LoadContent()
         {
             m_SpriteBatch = new SpriteBatch(GraphicsDevice);
+            loadSoundEffects();
             base.LoadContent();
+        }
+
+        private void loadSoundEffects()
+        {
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/SSGunShot"), "SSGunShot");
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/EnemyGunShot"), "EnemyGunShot");
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/EnemyKill"), "EnemyKill");
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/MotherShipKill"), "MotherShipKill");
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/BarrierHit"), "BarrierHit");
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/GameOver"), "GameOver");
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/LevelWin"), "LevelWin");
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/LifeDie"), "LifeDie");
+            r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/MenuMove"), "MenuMove");
+            r_SoundManager.SetBackgroundMusic(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/BGMusic"));
+            r_SoundManager.SetHoverSoundEffect("MenuMove");
         }
     }
 }

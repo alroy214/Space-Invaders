@@ -6,7 +6,7 @@ namespace Infrastructure.ServiceInterfaces
 {
     public interface ISoundManager
     {
-        bool ToggledSoundOn { get; set; }
+        bool SoundToggle { get; set; }
         
         SoundEffectInstance GetSoundEffect(string i_Name);
 
@@ -18,5 +18,8 @@ namespace Infrastructure.ServiceInterfaces
 
         void PlaySoundEffect(string i_SoundEffect);
 
+        void PlayHoverSound();
+
+        void SetBackgroundMusic(SoundEffect i_SoundEffect);
     }
 }

@@ -14,37 +14,38 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
     public class GameItem : Sprite
     {
         private event EventHandler<EventArgs> ActiveStateChanged;
-        private readonly int r_NumberInScreen;
+        private event EventHandler OnClicked;
         private const int k_PulsePerSecond = 1;
         private const float k_PulseTargetScale = 0.5f;
+        private const float k_OriginOffsetX = 3.5f;
+        private const float k_OriginOffsetY = 3.5f;
         private const string k_PulseAnimationName = "PulseAnimation";
-        private bool m_IsItemActive;
-        private bool m_IsSoundEnabled; //TODO
+        private readonly int r_NumberInScreen;
+        private bool m_ItemActive;
         private PulseAnimator m_PulseAnimator;
         protected Color m_ActiveColor;
-        private event EventHandler OnClicked;
-        private Keys m_KeyRedirection;
-        protected bool m_IsTouchLocked;
-
+        protected bool m_TouchLocked;
+        protected ISoundManager m_SoundManager;
+        private bool m_ActivatedByMouse;
+        public bool m_CannotBeSelectedByMouse;
+        protected Keys m_KeyRedirection;
 
         public GameItem(string i_AssetName, GameScreen i_GameScreen, int i_ItemNumber) : base(i_AssetName, i_GameScreen)
         {
             r_NumberInScreen = i_ItemNumber;
-            m_IsSoundEnabled = true;
-            m_IsItemActive = false;
-            m_IsTouchLocked = false;
+            m_ItemActive = false;
+            m_TouchLocked = false;
+            m_ActivatedByMouse = false;
+            m_CannotBeSelectedByMouse = false;
         }
 
         public override void Initialize()
         {
             base.Initialize();
 
-            ActiveStateChanged += StateChanged;
+            ActiveStateChanged += stateChanged;
 
-            if (m_IsSoundEnabled)
-            {
-                //m_SoundManager = m_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundMananger;
-            }
+            m_SoundManager = m_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
         }
 
         protected override void InitAnimations()
@@ -53,44 +54,75 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             m_PulseAnimator = new PulseAnimator(k_PulseAnimationName, TimeSpan.Zero, k_PulseTargetScale, k_PulsePerSecond);
             Animations.Add(m_PulseAnimator);
             m_PulseAnimator.Enabled = false;
+            m_PositionOrigin = new Vector2(m_PositionOrigin.X + Width / k_OriginOffsetX, m_PositionOrigin.Y + Height / k_OriginOffsetY);
             CenterRectangle();
         }
 
         public override void Update(GameTime i_GameTime)
         {
-            if (Enabled)
+            if(Enabled)
             {
-                if (GameScreen.InputManager.ButtonReleased(eInputButtons.Left) && IsItemActive
-                    || GameScreen.InputManager.KeyReleased(m_KeyRedirection))
+                if(GameScreen.InputManager.ButtonReleased(eInputButtons.Left) && ItemActive
+                   || GameScreen.InputManager.KeyReleased(m_KeyRedirection))
                 {
                     OnItemClicked(this, EventArgs.Empty);
                 }
             }
 
             base.Update(i_GameTime);
-            bool isMouseHovering = IsMouseHoveringOverItem();
-            if (isMouseHovering != IsItemActive && !m_IsTouchLocked)
-            {
-                m_IsItemActive = isMouseHovering;
-                ActiveStateChanged?.Invoke(this, EventArgs.Empty);
-            }
         }
 
-        private void StateChanged(object sender, EventArgs e)
+        public bool CheckMouseActivation()
         {
-            if(m_IsItemActive)
+            bool itemChangedToActive = false;
+            if(!m_TouchLocked)
             {
-                if(!m_PulseAnimator.Enabled)
+                if(MouseHovering())
                 {
-                    m_PulseAnimator.Restart();
+                    m_ActivatedByMouse = true;
+                    if(!m_ItemActive && !m_CannotBeSelectedByMouse)
+                    {
+                        ItemActive = true;
+                        itemChangedToActive = true;
+                    }
                 }
-
-                TintColor = m_ActiveColor;
-
-                if(m_IsItemActive)
+                else
                 {
-                 //   m_SoundManager.PlaySoundEffect(m_SoundOnHover);
+                    if (m_ItemActive && m_ActivatedByMouse)
+                    {
+                        ItemActive = false;
+                        m_ActivatedByMouse = false;
+                    }
+
+                    m_CannotBeSelectedByMouse = false;
                 }
+            }
+
+            return itemChangedToActive;
+        }
+
+        public void SilentlyActivateItem()
+        {
+            m_ItemActive = true;
+            activateItem();
+        }
+
+        private void activateItem()
+        {
+            if (m_PulseAnimator != null && !m_PulseAnimator.Enabled)
+            {
+                m_PulseAnimator.Restart();
+            }
+
+            TintColor = m_ActiveColor;
+        }
+
+        private void stateChanged(object sender, EventArgs e)
+        {
+            if(m_ItemActive)
+            {
+                activateItem();
+                m_SoundManager.PlayHoverSound();
             }
             else
             {
@@ -101,17 +133,20 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
                 }
 
                 TintColor = Color.White;
+                m_ActivatedByMouse = false;
             }
         }
 
-        public bool IsMouseHoveringOverItem()
+        public bool MouseHovering()
         {
-            return Bounds.Contains(new Vector2(m_GameScreen.InputManager.MouseState.X, GameScreen.InputManager.MouseState.Y));
+            return PositionBounds.Contains(new Vector2(m_GameScreen.InputManager.MouseState.X, GameScreen.InputManager.MouseState.Y));
         }
+
         public void AddToOnClick(EventHandler i_Handler)
         {
             OnClicked += i_Handler;
         }
+
         protected virtual void OnItemClicked(object sender, EventArgs args)
         {
             OnClicked?.Invoke(sender, args);
@@ -129,18 +164,19 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             }
         }
 
-        public bool IsItemActive
+        public bool ItemActive
         {
             get
             {
-                return m_IsItemActive;
+                return m_ItemActive;
             }
             set
             {
-                m_IsItemActive = value;
+                m_ItemActive = value;
                 ActiveStateChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public Keys KeyRedirection
         {
             get
@@ -150,6 +186,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             set
             {
                 m_KeyRedirection = value;
+            }
+        }
+
+        public int NumberInScreen
+        {
+            get
+            {
+                return r_NumberInScreen;
             }
         }
     }

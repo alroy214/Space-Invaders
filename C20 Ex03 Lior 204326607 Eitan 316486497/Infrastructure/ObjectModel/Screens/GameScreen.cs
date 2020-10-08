@@ -227,6 +227,7 @@ namespace Infrastructure.ObjectModel.Screens
             {
                 this.State = eScreenState.Closed;
             }
+            this.Clear();
         }
 
         protected virtual void OnDeactivated()
