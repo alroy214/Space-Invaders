@@ -14,12 +14,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
         private const bool k_IsMusicOnFromStart = false;
         private readonly Dictionary<string, SoundEffectInstance> r_SoundsEffects;
         private SoundEffectInstance m_CurrentBackgroundMusic;
-        private bool m_IsSoundEffectsOn;
+        private string m_CurrentHoverSoundEffect;
+        private bool m_SoundEffectsEnabled;
 
         public SoundManager(Game i_Game) : base(i_Game)
         {
             r_SoundsEffects = new Dictionary<string, SoundEffectInstance>();
-            m_IsSoundEffectsOn = k_IsMusicOnFromStart;
+            m_SoundEffectsEnabled = k_IsMusicOnFromStart;
         }
 
         protected override void RegisterAsService()
@@ -31,11 +32,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
         {
             get
             {
-                return m_IsSoundEffectsOn;
+                return m_SoundEffectsEnabled;
             }
             set
             {
-                m_IsSoundEffectsOn = value;
+                m_SoundEffectsEnabled = value;
             }
         }
 
@@ -51,17 +52,27 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
         {
             m_CurrentBackgroundMusic = i_SoundEffect.CreateInstance();
             m_CurrentBackgroundMusic.IsLooped = true;
-            if(m_IsSoundEffectsOn)
+            if(m_SoundEffectsEnabled)
             {
                 m_CurrentBackgroundMusic.Play();
             }
         }
 
+        public void SetHoverSoundEffect(string i_SoundName)
+        {
+            m_CurrentHoverSoundEffect = i_SoundName;
+        }
+
+        public void PlayHoverSound()
+        {
+            PlaySoundEffect(m_CurrentHoverSoundEffect);
+        }
+
         public void PlaySoundEffect(string i_SoundEffect)
         {
-            if (m_IsSoundEffectsOn)
+            if (m_SoundEffectsEnabled)
             {
-                r_SoundsEffects[i_SoundEffect].Play();
+                r_SoundsEffects[i_SoundEffect]?.Play();
             }
         }      
         

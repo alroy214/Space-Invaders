@@ -1,20 +1,8 @@
 ﻿using System;
+using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-/*
- * /*
-        
-
-        public async Task GameOverMessage()
-        {
-            string message = string.Format("{0} {3} {1} {3} {2} {3} {4}",
-                r_ScoreBoards[0], r_ScoreBoards[1], getWinningPlayer(), Environment.NewLine, k_ThankYouMessage);
-
-            await MessageBox.Show(k_MessageBoxTitle, message, new[] { k_MessageBoxButton });
-        }
-
-        */
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
@@ -28,32 +16,36 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private const string k_ExitMessage = "Press Esc Key to exit the game";
         private const string k_StartMessage = "Press the Home Key to start the game";
         private const string k_MenuMessage = "Press the M Key to show the settings";
-        private int[] r_PlayerScores;
-        private ScreenHeader m_ScreenHeader;
+        private readonly int[] r_PlayerScores;
+        private readonly Background r_Background;
+        private readonly ScreenHeader r_ScreenHeader;
+        private readonly TextItem r_ScoreMessage;
 
         public GameOverScreen(Game i_Game, int[] i_PlayerScores) : base(i_Game)
         {
+            r_Background = new Background(this);
             r_PlayerScores = i_PlayerScores;
             float viewportWidthMargin = GraphicsDevice.Viewport.Width / 2f;
-
-            m_ScreenHeader = new ScreenHeader(this, @"Headers\Game Over", 0.3f, viewportWidthMargin, 50, true);
-
-            TextItem scoreMessage = new TextItem(this, createScoreMessage(i_PlayerScores), new Vector2(viewportWidthMargin, 250),
-                         CurrentNumberOfItemsOnScreen(), Color.DarkBlue, Color.AliceBlue, true)
-                         { Scales = new Vector2(0.45f, 0.9f) };
-            
-            TextItem exitButton = new TextItem(this, k_ExitMessage, new Vector2(viewportWidthMargin, 350),
-                                      CurrentNumberOfItemsOnScreen(), Color.PaleVioletRed) { KeyRedirection = Keys.Escape };
+            r_ScreenHeader = new ScreenHeader(this, @"Headers\Game Over", 0.3f, viewportWidthMargin, 50, true);
+            r_ScoreMessage = new TextItem(this, createScoreMessage(i_PlayerScores), NumberOfItemsOnScreen(),
+                                          Color.DarkBlue, Color.AliceBlue, true);
+            TextItem exitButton = new TextItem(this, k_ExitMessage, NumberOfItemsOnScreen(), Color.PaleVioletRed, Keys.Escape);
             AddGameItem(exitButton);
             exitButton.AddToOnClick(exitButton_OnClicked);
-            TextItem startButton = new TextItem(this, k_StartMessage, new Vector2(viewportWidthMargin, 450),
-                                       CurrentNumberOfItemsOnScreen(), Color.LightSeaGreen) { KeyRedirection = Keys.Home };
+            TextItem startButton = new TextItem(this, k_StartMessage, NumberOfItemsOnScreen(), Color.LightSeaGreen, Keys.Home);
             startButton.AddToOnClick(startButton_OnClicked);
             AddGameItem(startButton);
-            TextItem menuButton = new TextItem(this, k_MenuMessage, new Vector2(viewportWidthMargin, 550),
-                                      CurrentNumberOfItemsOnScreen(), Color.DodgerBlue) { KeyRedirection = Keys.M };
+            TextItem menuButton = new TextItem(this, k_MenuMessage, NumberOfItemsOnScreen(), Color.DodgerBlue, Keys.M);
             menuButton.AddToOnClick(menuButton_OnClicked);
             AddGameItem(menuButton);
+        }
+
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+            r_ScoreMessage.Scales = new Vector2(0.45f, 0.9f);
+            r_ScoreMessage.Position = new Vector2(GraphicsDevice.Viewport.Width / 2f - r_ScoreMessage.Width / 2,
+                GraphicsDevice.Viewport.Height / 2f - r_ScoreMessage.Height);
         }
 
         private string createScoreMessage(int[] i_PlayerScores)

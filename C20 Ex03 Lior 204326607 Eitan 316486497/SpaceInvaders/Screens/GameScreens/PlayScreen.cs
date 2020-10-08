@@ -47,7 +47,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private void onPauseScreenChanged(object sender, StateChangedEventArgs e)
         {
-            if (e.CurrentState.Equals(eScreenState.Closed))
+            if (e.CurrentState.Equals(eScreenState.Inactive))
             {
                 m_IsPaused = false;
             }

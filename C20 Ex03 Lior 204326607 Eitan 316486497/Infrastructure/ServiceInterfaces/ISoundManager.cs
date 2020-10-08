@@ -18,6 +18,8 @@ namespace Infrastructure.ServiceInterfaces
 
         void PlaySoundEffect(string i_SoundEffect);
 
+        void PlayHoverSound();
+
         void SetBackgroundMusic(SoundEffect i_SoundEffect);
     }
 }

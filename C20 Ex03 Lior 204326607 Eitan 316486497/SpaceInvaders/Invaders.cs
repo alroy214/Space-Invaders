@@ -35,7 +35,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             Window.Title = k_WindowTitle;
            // this.Window.AllowUserResizing = true;
             GameScreen welcomeScreen = new WelcomeScreen(this);
-            //GameScreen welcomeScreen = new GameOverScreen(this, new []{10, 1}); 
+         //   GameScreen welcomeScreen = new GameOverScreen(this, new []{10, 1}); 
             r_Screens.SetCurrentScreen(welcomeScreen);
 
         }
@@ -59,6 +59,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/LifeDie"), "LifeDie");
             r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/MenuMove"), "MenuMove");
             r_SoundManager.SetBackgroundMusic(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/BGMusic"));
+            r_SoundManager.SetHoverSoundEffect("MenuMove");
         }
     }
 }

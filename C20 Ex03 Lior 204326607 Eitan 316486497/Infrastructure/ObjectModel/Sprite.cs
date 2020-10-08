@@ -106,6 +106,18 @@ namespace Infrastructure.ObjectModel
             }
         }
 
+        public Rectangle PositionBounds
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)Position.X,
+                    (int)Position.Y,
+                    (int)this.Width,
+                    (int)this.Height);
+            }
+        }
+
         public Rectangle BoundsBeforeScale
         {
             get
@@ -314,7 +326,6 @@ namespace Infrastructure.ObjectModel
         protected void CenterRectangle()
         {
             RotationOrigin = new Vector2(Width / 2, Height / 2);
-            m_PositionOrigin = new Vector2(m_PositionOrigin.X + Width / 3.5f, m_PositionOrigin.Y + Height / 3.5f);
         }
 
         private bool m_UseSharedBatch = true;

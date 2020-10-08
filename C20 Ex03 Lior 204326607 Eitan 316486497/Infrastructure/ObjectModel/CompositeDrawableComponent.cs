@@ -264,9 +264,9 @@ namespace Infrastructure.ObjectModel
             m_SpriteBatch.End();
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(bool i_Disposing)
         {
-            if (disposing)
+            if (i_Disposing)
             {
                 // Dispose of components in this manager
                 for (int i = 0; i < Count; i++)
@@ -279,7 +279,7 @@ namespace Infrastructure.ObjectModel
                 }
             }
 
-            base.Dispose(disposing);
+            base.Dispose(i_Disposing);
         }
         #endregion //Compoiste Drawbale Component
 

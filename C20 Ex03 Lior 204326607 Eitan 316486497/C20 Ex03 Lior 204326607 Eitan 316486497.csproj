@@ -22,5 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SpaceInvaders\Content\Headers\" />
+    <Folder Include="SpaceInvaders\Screens\MenuScreens\" />
   </ItemGroup>
 </Project>

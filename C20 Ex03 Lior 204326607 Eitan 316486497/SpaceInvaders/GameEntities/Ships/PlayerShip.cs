@@ -29,7 +29,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private readonly ePlayer r_CurrentPlayer;
         private readonly LifeCluster r_LifeCluster;
         private CompositeAnimator m_FetalHitAnimator;
-        private IInputManager m_InputManager;
         private bool m_KeyboardPressLock;
         private bool m_MouseClickLock;
         private Keys m_CurrentRightKey;
@@ -52,7 +51,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         public override void Initialize()
         {
             base.Initialize();
-            m_InputManager = Game.Services.GetService(typeof(IInputManager)) as IInputManager;
         }
 
         public void OnShipDestroyed(EventHandler i_EventHandler)
@@ -76,11 +74,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             float positionX;
 
-            if (m_InputManager.KeyHeld(m_CurrentLeftKey))
+            if (GameScreen.InputManager.KeyHeld(m_CurrentLeftKey))
             {
                 m_Velocity.X = k_Velocity * -1;
             }
-            else if (m_InputManager.KeyHeld(m_CurrentRightKey))
+            else if (GameScreen.InputManager.KeyHeld(m_CurrentRightKey))
             {
                 m_Velocity.X = k_Velocity;
             }
@@ -95,7 +93,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         private void mouseMovement()
         {
-            Position = new Vector2(Math.Clamp(Position.X + m_InputManager.MousePositionDelta.X, 0,
+            Position = new Vector2(Math.Clamp(Position.X + GameScreen.InputManager.MousePositionDelta.X, 0,
                 GraphicsDevice.Viewport.Width - Texture.Width), Position.Y);
         }
 
@@ -103,14 +101,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             if (r_LifeCluster.LivesRemaining != 0)
             {
-                if (!m_KeyboardPressLock && m_InputManager.KeyPressed(m_CurrentShootKey) ||
-                   r_CurrentPlayer == ePlayer.Player1 && !m_MouseClickLock && m_InputManager.MouseState.LeftButton == ButtonState.Pressed)
+                if (!m_KeyboardPressLock && GameScreen.InputManager.KeyPressed(m_CurrentShootKey) ||
+                   r_CurrentPlayer == ePlayer.Player1 && !m_MouseClickLock && GameScreen.InputManager.MouseState.LeftButton == ButtonState.Pressed)
                 {
                     createBullet();
                 }
 
-                m_MouseClickLock = m_InputManager.MouseState.LeftButton == ButtonState.Pressed;
-                m_KeyboardPressLock = m_InputManager.KeyPressed(Keys.Enter);
+                m_MouseClickLock = GameScreen.InputManager.MouseState.LeftButton == ButtonState.Pressed;
+                m_KeyboardPressLock = GameScreen.InputManager.KeyPressed(Keys.Enter);
             }
         }
 
