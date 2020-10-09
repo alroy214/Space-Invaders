@@ -33,42 +33,6 @@ namespace Infrastructure.Managers
             get { return r_ScreensStack.Count > 0 ? r_ScreensStack.Peek() : null; }
         }
 
-        public bool AllowWindowResizing
-        {
-            get
-            {
-                return m_AllowWindowResizing;
-            }
-            set
-            {
-                m_AllowWindowResizing = value;
-            }
-        }
-
-        public bool FullScreenMode
-        {
-            get
-            {
-                return m_FullScreenMode;
-            }
-            set
-            {
-                m_FullScreenMode = value;
-            }
-        }
-
-        public bool MouseVisibility
-        {
-            get
-            {
-                return m_MouseVisibility;
-            }
-            set
-            {
-                m_MouseVisibility = value;
-            }
-        }
-
         public void SetCurrentScreen(GameScreen i_GameScreen)
         {
             Push(i_GameScreen);

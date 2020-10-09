@@ -42,7 +42,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         protected override void LoadContent()
         {
             base.LoadContent();
-
             float widthMargin = GraphicsDevice.Viewport.Width / 2f;
             float heightMargin = GraphicsDevice.Viewport.Height / 2f;
             r_LevelButton.Position = new Vector2(widthMargin - r_LevelButton.Width / 2, heightMargin - k_TopMarginBetweenMessages);

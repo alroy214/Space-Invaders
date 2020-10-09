@@ -19,7 +19,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private readonly List<GameItem> r_GameItems;
         private Vector2 m_FirstPosition;
         private float m_OffsetX;
-        private float m_OffsetY;
+        protected float m_OffsetY;
         private float m_ItemHeightMargin;
         public int m_CurrentActiveItem;
         private int m_PreviousActiveItem;
@@ -139,16 +139,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private void updateKeyboardNavigation()
         {
-            int scrollWheelItemDelta = InputManager.ScrollWheelDelta / 120;
 
-            if (InputManager.KeyPressed(m_NavigateDownKey) || 
-                ((scrollWheelItemDelta == r_GameItems.Count || scrollWheelItemDelta == -1)))
+            if (InputManager.KeyPressed(m_NavigateDownKey))
             {
                 checkKeyPressedWithNoItemsSelected();
 
                 m_CurrentActiveItem = (m_CurrentActiveItem + 1) % r_GameItems.Count;
             }
-            else if(InputManager.KeyPressed(m_NavigateUpKey) || ((scrollWheelItemDelta == 1)))
+            else if(InputManager.KeyPressed(m_NavigateUpKey))
             {
                 checkKeyPressedWithNoItemsSelected();
 

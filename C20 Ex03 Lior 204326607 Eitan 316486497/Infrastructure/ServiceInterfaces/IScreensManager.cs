@@ -7,12 +7,6 @@ namespace Infrastructure.ServiceInterfaces
     {
         GameScreen ActiveScreen { get; }
 
-        bool AllowWindowResizing { get; set; }
-
-        bool FullScreenMode { get; set; }
-
-        bool MouseVisibility { get; set; }
-
         void SetCurrentScreen(GameScreen i_NewScreen);
         
         bool Remove(GameScreen i_Screen);

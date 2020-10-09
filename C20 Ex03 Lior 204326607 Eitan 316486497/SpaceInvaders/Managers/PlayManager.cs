@@ -15,8 +15,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         public int m_CurrentNumberOfPlayers;
         public int m_PlayDifficultyLevel;
 
-        public PlayManager(Game i_Game)
-            : base(i_Game)
+        public PlayManager(Game i_Game) : base(i_Game)
         {
             m_CurrentNumberOfPlayers = k_DefaultNumberOfPlayers;
             m_PlayDifficultyLevel = k_DefaultDifficultyLevel;
@@ -25,6 +24,20 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         protected override void RegisterAsService()
         {
             Game.Services.AddService(typeof(IPlayManager), this);
+        }
+
+        public int ToggleNumberOfPlayers()
+        {
+            if (m_CurrentNumberOfPlayers == 1)
+            {
+                m_CurrentNumberOfPlayers++;
+            }
+            else
+            {
+                m_CurrentNumberOfPlayers--;
+            }
+
+            return m_CurrentNumberOfPlayers;
         }
 
         public int GetEffectiveDifficultyLevel()

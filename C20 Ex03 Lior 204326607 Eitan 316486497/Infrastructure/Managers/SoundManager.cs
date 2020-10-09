@@ -11,7 +11,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
 {
     public class SoundManager : GameService, ISoundManager
     {
-        private const bool k_IsMusicOnFromStart = false;
+        private const bool k_MusicOnFromStart = false;
         private readonly Dictionary<string, SoundEffectInstance> r_SoundsEffects;
         private SoundEffectInstance m_CurrentBackgroundMusic;
         private string m_CurrentHoverSoundEffect;
@@ -20,7 +20,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
         public SoundManager(Game i_Game) : base(i_Game)
         {
             r_SoundsEffects = new Dictionary<string, SoundEffectInstance>();
-            m_SoundEffectsEnabled = k_IsMusicOnFromStart;
+            m_SoundEffectsEnabled = k_MusicOnFromStart;
         }
 
         protected override void RegisterAsService()
@@ -37,6 +37,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
             set
             {
                 m_SoundEffectsEnabled = value;
+                toggleBackgroundMusic();
             }
         }
 
@@ -45,6 +46,18 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
             get
             {
                 return r_SoundsEffects;
+            }
+        }
+
+        private void toggleBackgroundMusic()
+        {
+            if (m_SoundEffectsEnabled)
+            {
+                m_CurrentBackgroundMusic?.Play();
+            }
+            else
+            {
+                m_CurrentBackgroundMusic?.Pause();
             }
         }
         

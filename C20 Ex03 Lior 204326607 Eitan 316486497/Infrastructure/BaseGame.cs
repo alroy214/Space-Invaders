@@ -16,8 +16,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure
         protected InputManager m_InputManager;
         protected CollisionsManager m_CollisionManager;
 
-        public BaseGame()
-            : base()
+        public BaseGame() : base()
         {
             r_Graphics = new GraphicsDeviceManager(this);
             r_Screens = new ScreensManager(this);
@@ -43,11 +42,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure
             r_Graphics.GraphicsDevice.Clear(Color.Black);
             base.Update(i_GameTime);
         }
-        public InputManager InputManager
+
+        public GraphicsDeviceManager GraphicsDeviceManager
         {
             get
             {
-                return m_InputManager;
+                return r_Graphics;
             }
         }
     }

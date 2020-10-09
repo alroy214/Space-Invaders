@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Infrastructure.Managers;
 using Infrastructure.ObjectModel;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
@@ -27,6 +28,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         protected bool m_TouchLocked;
         protected ISoundManager m_SoundManager;
         private bool m_ActivatedByMouse;
+        private bool m_IsToggleItem;
         public bool m_CannotBeSelectedByMouse;
         protected Keys m_KeyRedirection;
 
@@ -62,14 +64,29 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         {
             if(Enabled)
             {
-                if(GameScreen.InputManager.ButtonReleased(eInputButtons.Left) && ItemActive
-                   || GameScreen.InputManager.KeyReleased(m_KeyRedirection))
+                if(GameScreen.InputManager.ButtonReleased(eInputButtons.Left) && ItemActive)
                 {
-                    OnItemClicked(this, EventArgs.Empty);
+                    onItemClicked(true);
+                }
+                else if(GameScreen.InputManager.KeyReleased(m_KeyRedirection))
+                {
+                    onItemClicked(false);
+                }
+
+                if(m_ItemActive && m_IsToggleItem)
+                {
+                    int scrollWheelItemDelta = GameScreen.InputManager.ScrollWheelDelta / 120; //Make const
+
+                    if (GameScreen.InputManager.KeyPressed(Keys.PageUp)
+                     || GameScreen.InputManager.KeyPressed(Keys.PageDown)  //TODO Change to include sliders
+                     || scrollWheelItemDelta == 1 || scrollWheelItemDelta == -1)
+                    {
+                        onItemClicked(false);
+                    }
                 }
             }
 
-            base.Update(i_GameTime);
+            base.Update(i_GameTime) ;
         }
 
         public bool CheckMouseActivation()
@@ -147,9 +164,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             OnClicked += i_Handler;
         }
 
-        protected virtual void OnItemClicked(object sender, EventArgs args)
+        private void onItemClicked(bool i_InvokedByMouse)
         {
-            OnClicked?.Invoke(sender, args);
+            if (!i_InvokedByMouse || MouseHovering())
+            {
+                OnClicked?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public Color ActiveColor
@@ -174,6 +194,18 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             {
                 m_ItemActive = value;
                 ActiveStateChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public bool IsToggleItem
+        {
+            get
+            {
+                return m_IsToggleItem;
+            }
+            set
+            {
+                m_IsToggleItem = value;
             }
         }
 

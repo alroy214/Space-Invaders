@@ -2,6 +2,7 @@
 using System.Windows.Forms.VisualStyles;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScreens;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
@@ -23,7 +24,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             r_Background = new Background(this);
             m_ScreenHeader = new ScreenHeader(this, @"Headers\Welcome2", 0.5f); //Change number
 
-            float viewportWidthMargin = GraphicsDevice.Viewport.Width / 2f;
             TextItem startButton = new TextItem(this, k_StartMessage, NumberOfItemsOnScreen(), Color.LightSeaGreen, Keys.Enter);
             startButton.AddToOnClick(startButton_OnClicked);
             AddGameItem(startButton);
@@ -48,6 +48,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private void menuButton_OnClicked(object sender, EventArgs e)
         {
+            m_ScreensManager.SetCurrentScreen(new MainMenu(Game));
+            ExitScreen();
         }
     }
 }

@@ -8,6 +8,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
     public class GameOverScreen : NavigableScreen
     {
+        private const string k_HeaderAssetName = @"Headers\Game Over";
+        private const float k_HeaderScale = 0.3f;
+        private const int k_HeaderOffsetY = 50;
         private const string k_ThankYouMessage = "Thanks for playing! :)";
         private const string k_PlayerMessage = "Player ";
         private const string k_ScoreSeparatorMessage = ": ";
@@ -25,8 +28,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         {
             r_Background = new Background(this);
             r_PlayerScores = i_PlayerScores;
-            float viewportWidthMargin = GraphicsDevice.Viewport.Width / 2f;
-            r_ScreenHeader = new ScreenHeader(this, @"Headers\Game Over", 0.3f, viewportWidthMargin, 50, true);
+            r_ScreenHeader = new ScreenHeader(this, k_HeaderAssetName, k_HeaderScale, GraphicsDevice.Viewport.Width / 2f, k_HeaderOffsetY, true);
             r_ScoreMessage = new TextItem(this, createScoreMessage(i_PlayerScores), NumberOfItemsOnScreen(),
                                           Color.DarkBlue, Color.AliceBlue, true);
             TextItem exitButton = new TextItem(this, k_ExitMessage, NumberOfItemsOnScreen(), Color.PaleVioletRed, Keys.Escape);

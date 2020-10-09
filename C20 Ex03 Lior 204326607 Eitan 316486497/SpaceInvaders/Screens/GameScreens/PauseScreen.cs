@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
-    public class PauseScreen : GameScreen
+    public class PauseScreen : NavigableScreen
     {
         private string k_continueMessage = "Click the R Key to continue playing";
         private const string k_HeaderAsset = @"Headers\Welcome";
@@ -27,8 +27,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             float viewportWidthMargin = i_Game.Window.ClientBounds.Width / 2f;
             ScreenHeader pauseMessage = new ScreenHeader(this, k_HeaderAsset, k_HeaderScale,
                 viewportWidthMargin - k_HeaderWidthOffset, k_HeaderHeightOffset, true);
-            TextItem continueMessage = new TextItem(this, k_continueMessage, 0, Color.DodgerBlue, Color.AntiqueWhite, true)
-                                                  { KeyRedirection = Keys.R };
+            TextItem continueMessage = new TextItem(this, k_continueMessage, 0, Color.DodgerBlue,
+                Color.AntiqueWhite, Keys.R, true);
+            AddGameItem(continueMessage);
             continueMessage.AddToOnClick(deactivateScreen);
         }
 
