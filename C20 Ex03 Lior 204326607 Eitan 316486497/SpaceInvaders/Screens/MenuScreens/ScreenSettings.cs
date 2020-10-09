@@ -24,11 +24,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         {
             SetScreenHeader(k_HeaderAssetName, k_HeaderScale);
             r_Graphics = (GraphicsDeviceManager)i_Game.Services.GetService(typeof(IGraphicsDeviceManager));
-            AddOptionItem(k_WindowResizingMessage + Game.Window.AllowUserResizing, Color.MediumSeaGreen, windowResizing_OnClicked, true);
-            AddOptionItem(k_FullScreenMessage + r_Graphics.IsFullScreen, Color.CornflowerBlue, fullScreen_OnClicked, true);
-            AddOptionItem(k_MouseVisibilityMessage + mouseVisibilityMessage(), Color.Bisque, mouseVisibility_OnClicked, true);
+            AddOptionItem(k_WindowResizingMessage, Game.Window.AllowUserResizing, Color.MediumSeaGreen, windowResizing_OnClicked);
+            AddOptionItem(k_FullScreenMessage, r_Graphics.IsFullScreen, Color.CornflowerBlue, fullScreen_OnClicked);
+            AddOptionItem(mouseVisibilityMessage(), Color.Bisque, mouseVisibility_OnClicked, true, k_MouseVisibilityMessage);
             AddOptionItem(k_DoneMessage, Color.PaleVioletRed, done_OnClicked);
-
         }
 
         private string mouseVisibilityMessage()
@@ -40,19 +39,19 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         {
             bool allowResizing = !Game.Window.AllowUserResizing;
             Game.Window.AllowUserResizing = allowResizing;
-            ((TextItem)sender).TextMessage = k_WindowResizingMessage + Game.Window.AllowUserResizing;
+            ((TextItem)sender).TextMessage = GetDefaultToggleMessage(Game.Window.AllowUserResizing);
         }
 
         private void fullScreen_OnClicked(object sender, EventArgs e)
         {
             r_Graphics.ToggleFullScreen();
-            ((TextItem)sender).TextMessage = k_FullScreenMessage + r_Graphics.IsFullScreen;
+            ((TextItem)sender).TextMessage = GetDefaultToggleMessage(r_Graphics.IsFullScreen);
         }
 
         private void mouseVisibility_OnClicked(object sender, EventArgs e)
         {
             Game.IsMouseVisible = !Game.IsMouseVisible;
-            ((TextItem)sender).TextMessage = k_MouseVisibilityMessage + mouseVisibilityMessage();
+            ((TextItem)sender).TextMessage = mouseVisibilityMessage();
         }
 
         private void done_OnClicked(object sender, EventArgs e)
