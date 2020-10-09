@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
+using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 
@@ -28,13 +29,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
             AddOptionItem(k_SoundSettingsMessage, Color.RosyBrown, soundSettings_OnClicked);
             AddOptionItem(k_PlayGameMessage, Color.LightSeaGreen, playGame_OnClicked);
             AddOptionItem(k_QuitGameMessage, Color.PaleVioletRed, quitGame_OnClicked);
-
+            
         }
 
         private void screenSettings_OnClicked(object sender, EventArgs e)
         {
-            m_ScreensManager.SetCurrentScreen(new ScreenSettings(Game));
-       //     Clear();
+            SetScreen(new ScreenSettings(Game), false);
         }
 
         private void player_OnClicked(object sender, EventArgs e)
@@ -44,14 +44,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
 
         private void soundSettings_OnClicked(object sender, EventArgs e)
         {
-            m_ScreensManager.SetCurrentScreen(new SoundSettings(Game));
-          //  Clear();
+            SetScreen(new SoundSettings(Game), false);
         }
 
         private void playGame_OnClicked(object sender, EventArgs e)
         {
-            m_ScreensManager.SetCurrentScreen(new LevelTransitionScreen(Game));
-            ExitScreen();
+            SetScreen(new LevelTransitionScreen(Game));
         }
 
         private void quitGame_OnClicked(object sender, EventArgs e)

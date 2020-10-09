@@ -10,21 +10,23 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
     public class ScoreManager : GameService, IScoreManager
     {
         public Action<int, PlayerShip.ePlayer> ScoreChanged { get; set; }
-        private const int k_PlayerLoseLifeScore = -600;
+        private readonly int[] r_PlayerScores;
 
-        public ScoreManager(GameScreen i_GameScreen)
-            : base(i_GameScreen.Game)
+        public ScoreManager(Game i_Game) : base(i_Game)
         {
+            r_PlayerScores = new int[Enum.GetValues(typeof(PlayerShip.ePlayer)).Length];
         }
 
-        public void UpdateScoreForHit(int i_Points, PlayerShip.ePlayer i_Player)
+        protected override void RegisterAsService()
         {
-            ScoreChanged?.Invoke(i_Points, i_Player);
+            Game.Services.AddService(typeof(IScoreManager), this);
         }
 
-        public void UpdateScoreForLosingLife(PlayerShip.ePlayer i_Player)
+        public void UpdateScore(int i_Points, PlayerShip.ePlayer i_Player)
         {
-            ScoreChanged?.Invoke(k_PlayerLoseLifeScore, i_Player);
+            int newScore = Math.Max(0, r_PlayerScores[(int)i_Player] + i_Points);
+            r_PlayerScores[(int)i_Player] = newScore;
+            ScoreChanged?.Invoke(newScore, i_Player);
         }
 
         public void AddScoreBoardToUpdate(Action<int, PlayerShip.ePlayer> i_ScoreBoard)

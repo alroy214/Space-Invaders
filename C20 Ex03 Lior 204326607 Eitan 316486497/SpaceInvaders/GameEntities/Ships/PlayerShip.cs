@@ -48,11 +48,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             Player2 = 1
         }
 
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
         public void OnShipDestroyed(EventHandler i_EventHandler)
         {
             ShipDestroyed += i_EventHandler;

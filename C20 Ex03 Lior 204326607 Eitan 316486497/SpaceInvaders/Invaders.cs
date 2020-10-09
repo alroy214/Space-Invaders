@@ -22,11 +22,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         private SpriteBatch m_SpriteBatch;
 
         private readonly PlayManager r_PlayManager;
+        private readonly ScoreManager r_ScoreManager;
 
         public Invaders() : base()
         {
             r_PlayManager = new PlayManager(this);
-         //   r_playManager.PlayDifficultyLevel = 8;
+            r_ScoreManager = new ScoreManager(this);
+            //   r_playManager.PlayDifficultyLevel = 8;
             r_Graphics.IsFullScreen = false;
             r_Graphics.PreferredBackBufferWidth = k_WindowSizeX;
             r_Graphics.PreferredBackBufferHeight = k_WindowSizeY;
@@ -34,7 +36,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             Window.Title = k_WindowTitle;
            // this.Window.AllowUserResizing = true;
             GameScreen welcomeScreen = new WelcomeScreen(this);
-         //   GameScreen welcomeScreen = new GameOverScreen(this, new []{10, 1}); 
+            GameScreen boopScreen = new GameOverScreen(this, new []{10, 1}); 
+            r_Screens.SetCurrentScreen(boopScreen);
             r_Screens.SetCurrentScreen(welcomeScreen);
 
         }

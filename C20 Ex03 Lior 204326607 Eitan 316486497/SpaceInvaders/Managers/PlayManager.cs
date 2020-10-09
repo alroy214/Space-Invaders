@@ -1,7 +1,4 @@
-﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
-using Infrastructure.ObjectModel;
-using Infrastructure.ObjectModel.Screens;
+﻿using Infrastructure.ObjectModel;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 

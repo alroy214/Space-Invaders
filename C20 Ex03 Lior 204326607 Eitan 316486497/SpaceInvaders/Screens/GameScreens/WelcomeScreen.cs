@@ -37,8 +37,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private void startButton_OnClicked(object sender, EventArgs e)
         {
-            m_ScreensManager.SetCurrentScreen(new LevelTransitionScreen(Game));
-            ExitScreen();
+            SetScreen(new LevelTransitionScreen(Game));
         }
 
         private void exitButton_OnClicked(object sender, EventArgs e)
@@ -48,8 +47,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private void menuButton_OnClicked(object sender, EventArgs e)
         {
-            m_ScreensManager.SetCurrentScreen(new MainMenu(Game));
-            ExitScreen();
+            SetScreen(new MainMenu(Game), false);
         }
     }
 }

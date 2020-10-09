@@ -17,7 +17,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private readonly Background r_Background;
         private readonly MotherShip r_MotherShip;
         private readonly EnemyMatrix r_EnemyMatrix;
-        private readonly ScoreManager r_ScoreManager;
         private readonly BarrierCluster r_BarrierCluster;
         private readonly PlayerFormation r_PlayerFormation;
         private readonly ScoreHeader r_ScoreHeader;
@@ -27,7 +26,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         public PlayScreen(Game i_Game) : base(i_Game)
         {
             r_Background = new Background(this);
-            r_ScoreManager = new ScoreManager(this);
             r_MotherShip = new MotherShip(this);
             r_EnemyMatrix = new EnemyMatrix(this);
             r_BarrierCluster = new BarrierCluster(this);
@@ -38,11 +36,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             r_PauseScreen.StateChanged += onPauseScreenChanged;
             m_IsPaused = false;
         }
+        //FIX TRANSITIONS TODO
+        public void HandleLevelWin(object sender, EventArgs e)
+        {
+            SetScreen(new GameOverScreen(Game, r_ScoreHeader.GetPlayerScores()));
+        }
 
         public void HandleGameOver(object sender, EventArgs e)
         {
-            m_ScreensManager.SetCurrentScreen(new GameOverScreen(Game, r_ScoreHeader.GetPlayerScores()));
-            ExitScreen();
+            SetScreen(new GameOverScreen(Game, r_ScoreHeader.GetPlayerScores()));
         }
 
         private void onPauseScreenChanged(object sender, StateChangedEventArgs e)

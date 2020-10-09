@@ -60,7 +60,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             r_StartButton.TextMessage = k_StartMessageText + Math.Ceiling(m_TimeCounter) + k_SecondsMessageText;
             if (m_TimeCounter <= 0)
             {
-                m_ScreensManager.SetCurrentScreen(new PlayScreen(Game));
+                SetScreen(new PlayScreen(Game));
                 ExitScreen();
             }
         }

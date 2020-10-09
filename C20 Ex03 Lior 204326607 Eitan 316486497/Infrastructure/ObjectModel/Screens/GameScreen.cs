@@ -227,7 +227,17 @@ namespace Infrastructure.ObjectModel.Screens
             {
                 this.State = eScreenState.Closed;
             }
-            this.Clear();
+            Clear();
+        }
+
+        protected void SetScreen(GameScreen i_NewScreen, bool i_ExitScreen = true)
+        {
+            m_ScreensManager.SetCurrentScreen(i_NewScreen);
+            State = eScreenState.Inactive;
+            if (i_ExitScreen)
+            {
+                ExitScreen();
+            }
         }
 
         protected virtual void OnDeactivated()

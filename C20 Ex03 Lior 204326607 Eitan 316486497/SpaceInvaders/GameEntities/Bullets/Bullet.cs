@@ -10,7 +10,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public event EventHandler<EventArgs> Disposed;
         private const string k_AssetName = @"Sprites\Bullet";
         private const float k_InitialBulletVelocity = 140;
-        protected ScoreManager m_ScoreManager;
+        protected IScoreManager m_ScoreManager;
 
         protected Bullet(GameScreen i_GameScreen) : base(k_AssetName, i_GameScreen)
         {
@@ -21,7 +21,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public override void Initialize()
         {
             base.Initialize();
-            m_ScoreManager = Game.Services.GetService(typeof(ScoreManager)) as ScoreManager;
+            m_ScoreManager = ((IScoreManager)Game.Services.GetService(typeof(IScoreManager)));
         }
 
         public override void Update(GameTime i_GameTime)
@@ -56,7 +56,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             if (i_Collidable is IScorableEntity entity && m_ScoreManager != null && !entity.Destroyed)
             {
                 entity.Destroyed = true;
-                m_ScoreManager.UpdateScoreForHit(entity.Score, r_CurrentPlayer);
+                m_ScoreManager.UpdateScore(entity.Score, r_CurrentPlayer);
                 Visible = false;
             }
 
@@ -65,6 +65,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
     public class EnemyBullet : Bullet
     {
+        private const int k_PlayerLostLifePenaltyScore = -600;
         private const int k_ProbabilityToShatter = 1;
 
         public EnemyBullet(GameScreen i_GameScreen) : base(i_GameScreen)
@@ -84,7 +85,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
             if (i_Collidable is PlayerShip playerShip && m_ScoreManager != null)
             {
-                m_ScoreManager.UpdateScoreForLosingLife(playerShip.CurrentPlayer);
+                m_ScoreManager.UpdateScore(k_PlayerLostLifePenaltyScore, playerShip.CurrentPlayer);
                 Visible = false;
             }
         }

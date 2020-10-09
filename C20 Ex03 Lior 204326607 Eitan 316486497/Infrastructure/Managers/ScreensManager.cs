@@ -12,20 +12,10 @@ namespace Infrastructure.Managers
     {
 
         private readonly Stack<GameScreen> r_ScreensStack = new Stack<GameScreen>();
-        private bool m_AllowWindowResizing;
-        private bool m_FullScreenMode;
-        private bool m_MouseVisibility;
 
         public ScreensManager(Game i_Game) : base(i_Game)
         {
             i_Game.Components.Add(this);
-            m_AllowWindowResizing = false;
-        }
-
-
-        public GameScreen ScreenLoader
-        {
-            get { return r_ScreensStack.Count > 0 ? r_ScreensStack.Peek() : null; }
         }
 
         public GameScreen ActiveScreen

@@ -15,7 +15,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
     public class GameItem : Sprite
     {
         private event EventHandler<EventArgs> ActiveStateChanged;
+
         private event EventHandler OnClicked;
+
         private const int k_PulsePerSecond = 1;
         private const float k_PulseTargetScale = 0.5f;
         private const float k_OriginOffsetX = 3.5f;
@@ -29,14 +31,18 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         protected ISoundManager m_SoundManager;
         private bool m_ActivatedByMouse;
         private bool m_IsToggleItem;
+        private bool m_RedirectsToScreen;
         public bool m_CannotBeSelectedByMouse;
         protected Keys m_KeyRedirection;
 
-        public GameItem(string i_AssetName, GameScreen i_GameScreen, int i_ItemNumber) : base(i_AssetName, i_GameScreen)
+        public GameItem(string i_AssetName, GameScreen i_GameScreen, int i_ItemNumber)
+            : base(i_AssetName, i_GameScreen)
         {
             r_NumberInScreen = i_ItemNumber;
             m_ItemActive = false;
             m_TouchLocked = false;
+            m_IsToggleItem = false;
+            m_RedirectsToScreen = false;
             m_ActivatedByMouse = false;
             m_CannotBeSelectedByMouse = false;
         }
@@ -64,7 +70,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         {
             if(Enabled)
             {
-                if(GameScreen.InputManager.ButtonReleased(eInputButtons.Left) && ItemActive)
+                if(ItemActive && GameScreen.InputManager.ButtonReleased(eInputButtons.Left) && MouseHovering())
                 {
                     onItemClicked(true);
                 }
@@ -73,20 +79,27 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
                     onItemClicked(false);
                 }
 
-                if(m_ItemActive && m_IsToggleItem)
+                if(m_ItemActive)
                 {
-                    int scrollWheelItemDelta = GameScreen.InputManager.ScrollWheelDelta / 120; //Make const
+                    if(m_IsToggleItem)
+                    {
+                        int scrollWheelItemDelta = GameScreen.InputManager.ScrollWheelDelta / 120; //Make const
 
-                    if (GameScreen.InputManager.KeyPressed(Keys.PageUp)
-                     || GameScreen.InputManager.KeyPressed(Keys.PageDown)  //TODO Change to include sliders
-                     || scrollWheelItemDelta == 1 || scrollWheelItemDelta == -1)
+                        if(GameScreen.InputManager.KeyPressed(Keys.PageUp)
+                           || GameScreen.InputManager.KeyPressed(Keys.PageDown) //TODO Change to include sliders
+                           || scrollWheelItemDelta == 1 || scrollWheelItemDelta == -1)
+                        {
+                            onItemClicked(false);
+                        }
+                    }
+                    else if(m_RedirectsToScreen && GameScreen.InputManager.KeyPressed(Keys.Enter))
                     {
                         onItemClicked(false);
                     }
                 }
             }
 
-            base.Update(i_GameTime) ;
+            base.Update(i_GameTime);
         }
 
         public bool CheckMouseActivation()
@@ -166,10 +179,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
 
         private void onItemClicked(bool i_InvokedByMouse)
         {
-            if (!i_InvokedByMouse || MouseHovering())
-            {
-                OnClicked?.Invoke(this, EventArgs.Empty);
-            }
+            OnClicked?.Invoke(this, EventArgs.Empty);
         }
 
         public Color ActiveColor
@@ -206,6 +216,18 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             set
             {
                 m_IsToggleItem = value;
+            }
+        }
+
+        public bool RedirectsToScreen
+        {
+            get
+            {
+                return m_RedirectsToScreen;
+            }
+            set
+            {
+                m_RedirectsToScreen = value;
             }
         }
 
