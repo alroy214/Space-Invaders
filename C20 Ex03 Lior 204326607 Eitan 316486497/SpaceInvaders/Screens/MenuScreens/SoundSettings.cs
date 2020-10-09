@@ -34,10 +34,34 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
             r_SoundManager.SoundToggle = !r_SoundManager.SoundToggle;
             ((TextItem)sender).TextMessage = GetDefaultToggleMessage(r_SoundManager.SoundToggle);
         }
-        
+
         private void backgroundMusicMessage_OnClicked(object sender, EventArgs e)
         {
-            ((TextItem)sender).TextMessage = k_BackgroundMusicMessage;
+            if(e is ItemValueChangeEventArgs eItemValue)
+            {
+                switch(eItemValue.ValueChange)
+                {
+                    case eValueChange.Increase:
+                        {
+                            ((TextItem)sender).TextMessage = "+10";
+                            break;
+                        }
+                    case eValueChange.Decrease:
+                        {
+                            ((TextItem)sender).TextMessage = "-10";
+                            break;
+                        }
+                    case eValueChange.Unchanged:
+                        {
+                            break;
+                        }
+                    default: { break; }
+                }
+            }
+            else
+            {
+                ((TextItem)sender).TextMessage = "+10";
+            }
         }
 
         private void soundEffects_OnClicked(object sender, EventArgs e)
