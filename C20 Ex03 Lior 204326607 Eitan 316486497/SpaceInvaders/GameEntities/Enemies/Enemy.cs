@@ -143,7 +143,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         protected override void LoadContent()
         {
-            switch (r_EnemyType)
+            switch (r_EnemyType) // Change to outside :) TODO
             {
                 case eEnemyType.PINK:
                     {

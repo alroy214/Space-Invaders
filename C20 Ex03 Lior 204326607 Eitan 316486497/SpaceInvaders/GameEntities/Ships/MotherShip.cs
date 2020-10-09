@@ -3,6 +3,7 @@ using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 {
@@ -83,12 +84,19 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             ShrinkAnimator shrinkAnimator = new ShrinkAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
             BlinkAnimator blinkAnimator = new BlinkAnimator(TimeSpan.FromSeconds(k_AnimationBlinkTime), TimeSpan.FromSeconds(k_AnimationDestroyTime));
             FadeAnimator fadeAnimator = new FadeAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
-          //  Animations.Add(shrinkAnimator);
-           // Animations.Add(blinkAnimator);
+            Animations.Add(shrinkAnimator);
+            Animations.Add(blinkAnimator);
             Animations.Add(fadeAnimator);
             fadeAnimator.Finished += destructionAnimation_Finished;
-            
             Animations.Restart();
+        }
+
+        public override void Draw(GameTime i_GameTime)
+        {
+            SpriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            m_SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+            base.Draw(i_GameTime);
+            m_SpriteBatch.End();
         }
 
         private void destructionAnimation_Finished(object sender, EventArgs e)
