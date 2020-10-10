@@ -21,6 +21,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats
                     ? Math.Min(playManager.NumberOfPlayers, players.Length)
                     : Math.Min(PlayManager.k_DefaultNumberOfPlayers, players.Length);
 
+
+            IScoreManager scoreManager = i_GameScreen.Game.Services.GetService(typeof(IScoreManager)) as IScoreManager;
+
             r_ScoreBoards = new ScoreBoard[numberOfPlayers];
             for (int i = 0; i < numberOfPlayers; i++)
             {
@@ -51,7 +54,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats
                                            TintColor = tintColor,
                                            PlayerString = playerString
                                        };
+                scoreManager?.AddScoreBoardToUpdate(r_ScoreBoards[i].UpdateScore);
             }
+
+            scoreManager?.AssignScores();
         }
 
         public int[] GetPlayerScores()

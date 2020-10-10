@@ -22,6 +22,26 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             Game.Services.AddService(typeof(IScoreManager), this);
         }
 
+        public void ResetScores()
+        {
+            for(int i = 0; i < r_PlayerScores.Length; i++)
+            {
+                r_PlayerScores[i] = 0;
+            }
+        }
+
+        public void AssignScores()
+        {
+            PlayerShip.ePlayer[] players = Enum.GetValues(typeof(PlayerShip.ePlayer)) as PlayerShip.ePlayer[];
+            for (int i = 0; i < r_PlayerScores.Length; i++)
+            {
+                if(players != null)
+                {
+                    ScoreChanged?.Invoke(r_PlayerScores[i], players[i]);
+                }
+            }
+        }
+
         public void UpdateScore(int i_Points, PlayerShip.ePlayer i_Player)
         {
             int newScore = Math.Max(0, r_PlayerScores[(int)i_Player] + i_Points);

@@ -23,6 +23,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             Game.Services.AddService(typeof(IPlayManager), this);
         }
 
+        public void IncreaseDifficultyLevel()
+        {
+            m_PlayDifficultyLevel++;
+        }
+
         public int ToggleNumberOfPlayers()
         {
             if (m_CurrentNumberOfPlayers == 1)

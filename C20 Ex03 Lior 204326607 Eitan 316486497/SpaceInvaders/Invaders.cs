@@ -34,10 +34,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             r_Graphics.PreferredBackBufferHeight = k_WindowSizeY;
             r_Graphics.ApplyChanges();
             Window.Title = k_WindowTitle;
-           // this.Window.AllowUserResizing = true;
+            // this.Window.AllowUserResizing = true;
             GameScreen welcomeScreen = new WelcomeScreen(this);
-            GameScreen boopScreen = new GameOverScreen(this, new []{10, 1}); 
-            r_Screens.SetCurrentScreen(boopScreen);
+         //   GameScreen gameOverScreen = new GameOverScreen(this, new []{10, 1}); 
+           // r_Screens.Push(gameOverScreen);
             r_Screens.SetCurrentScreen(welcomeScreen);
 
         }

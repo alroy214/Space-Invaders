@@ -10,6 +10,8 @@ namespace Infrastructure.ServiceInterfaces
 
         int PlayDifficultyLevel { get; set; }
 
+        void IncreaseDifficultyLevel();
+
         int ToggleNumberOfPlayers();
 
         int GetEffectiveDifficultyLevel();

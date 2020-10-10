@@ -12,6 +12,11 @@ namespace Infrastructure.Managers
     {
         protected readonly List<ICollidable> m_Collidables = new List<ICollidable>();
 
+        public void PurgeCollisions()
+        {
+            m_Collidables.Clear();
+        }
+
         public CollisionsManager(Game i_Game) :
             base(i_Game, int.MaxValue)
         { }

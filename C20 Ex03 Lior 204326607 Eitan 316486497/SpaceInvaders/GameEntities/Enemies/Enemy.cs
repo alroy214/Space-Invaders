@@ -19,9 +19,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const int k_NumberOfCells = 2;
         private const int k_NumberOfTypes = 3;
         private const int k_MaxNumberOfBullets = 1;
-        private const int k_PinkEnemyPoints = 300;
-        private const int k_BlueEnemyPoints = 200;
-        private const int k_YellowEnemyPoints = 70;
         private const int k_RandomShootValue = 700;
         private const float k_AnimationDestroyTime = 1.7f;
         private const int k_NumberOfAnimationRoundsPerSecond = 5;
@@ -33,7 +30,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const int k_ShipPixelHeight = 32;
         private const int k_ShipAbovePixelHeight = 32;
         private const int k_ShipBelowPixelHeight = 30;
-        private const int k_LevelBonusPoints = 100;
         private const int k_JumpDownMargin = 48;
         private const float k_InitJumpTime = 0.5f;
         private const int k_MatrixTopMargin = k_ShipPixelHeight + k_ShipAbovePixelHeight + k_ShipBelowPixelHeight;
@@ -51,14 +47,16 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private bool m_IsMostRight;
         private bool m_IsMostLeft;
         private bool m_IsMostBottom;
-        private int m_EnemyPoints;
+        private int r_EnemyPoints;
         private bool m_Destroyed;
 
-        public Enemy(GameScreen i_GameScreen, eEnemyType i_EnemyType, int i_RowPosition, int i_ColPosition)
+        public Enemy(GameScreen i_GameScreen, eEnemyType i_EnemyType, Color i_TintColor, int i_EnemyPoints, int i_RowPosition, int i_ColPosition)
             : base(k_EnemyCollectionAssetName, i_GameScreen)
         {
             r_Random = new Random();
             r_EnemyType = i_EnemyType;
+            TintColor = i_TintColor;
+            r_EnemyPoints = i_EnemyPoints;
             r_RowPosition = i_RowPosition;
             r_ColPosition = i_ColPosition;
             m_CurrentJumpTime = k_InitJumpTime;
@@ -139,44 +137,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public void AddActionToEnemyDied(Action<bool, bool, bool> i_ActionToPreform)
         {
             EnemyDied += i_ActionToPreform;
-        }
-
-        protected override void LoadContent()
-        {
-            switch (r_EnemyType) // Change to outside :) TODO
-            {
-                case eEnemyType.PINK:
-                    {
-                        m_TintColor = Color.LightPink;
-                        m_EnemyPoints = k_PinkEnemyPoints;
-                        break;
-                    }
-                case eEnemyType.BLUE:
-                    {
-                        m_TintColor = Color.LightBlue;
-                        m_EnemyPoints = k_BlueEnemyPoints;
-                        break;
-                    }
-                case eEnemyType.YELLOW:
-                    {
-                        m_TintColor = Color.LightYellow;
-                        m_EnemyPoints = k_YellowEnemyPoints;
-                        break;
-                    }
-                default:
-                    {
-                        m_EnemyPoints = 0;
-                        break;
-                    }
-            }
-
-            if(Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
-            {
-                int currentDifficultyLevel = playerManager.GetEffectiveDifficultyLevel() - 1;
-                m_EnemyPoints += currentDifficultyLevel * k_LevelBonusPoints;
-            }
-
-            base.LoadContent();
         }
 
         public override void Update(GameTime i_GameTime)
@@ -266,7 +226,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             get
             {
-                return m_EnemyPoints;
+                return r_EnemyPoints;
             }
         }
 

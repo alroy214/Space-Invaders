@@ -61,10 +61,7 @@ namespace Infrastructure.ObjectModel.Screens
 
         public eScreenState State
         {
-            get
-            {
-                return m_State;
-            }
+            get { return m_State; }
             set
             {
                 if (m_State != value)
@@ -77,7 +74,6 @@ namespace Infrastructure.ObjectModel.Screens
         }
 
         public event EventHandler<StateChangedEventArgs> StateChanged;
-
         private void OnStateChanged(StateChangedEventArgs args)
         {
             switch (args.CurrentState)
@@ -100,7 +96,10 @@ namespace Infrastructure.ObjectModel.Screens
                     break;
             }
 
-            StateChanged?.Invoke(this, args);
+            if (StateChanged != null)
+            {
+                StateChanged(this, args);
+            }
         }
 
         //PROPS:
@@ -227,13 +226,11 @@ namespace Infrastructure.ObjectModel.Screens
             {
                 this.State = eScreenState.Closed;
             }
-            Clear();
         }
 
         protected void SetScreen(GameScreen i_NewScreen, bool i_ExitScreen = true)
         {
             m_ScreensManager.SetCurrentScreen(i_NewScreen);
-            State = eScreenState.Inactive;
             if (i_ExitScreen)
             {
                 ExitScreen();
@@ -275,6 +272,7 @@ namespace Infrastructure.ObjectModel.Screens
                     FadeBackBufferToBlack((byte)(m_BlackTintAlpha * byte.MaxValue));
                 }
             }
+
             base.Draw(gameTime);
 
             if (fading)
@@ -300,7 +298,7 @@ namespace Infrastructure.ObjectModel.Screens
             SpriteBatch.Begin();
             SpriteBatch.Draw(background,
                              new Rectangle(0, 0, viewport.Width, viewport.Height),
-							 new Color(byte.MinValue, byte.MinValue, byte.MinValue, i_Alpha));
+                             new Color(byte.MinValue, byte.MinValue, byte.MinValue, i_Alpha));
             SpriteBatch.End();
         }
 
@@ -355,7 +353,7 @@ namespace Infrastructure.ObjectModel.Screens
 
         private bool m_IsClosing = false;
 
-        public override void Update(GameTime i_GameTime)
+        public override void Update(GameTime gameTime)
         {
             bool doUpdate = true;
             switch (this.State)
@@ -363,7 +361,7 @@ namespace Infrastructure.ObjectModel.Screens
                 case eScreenState.Activating:
                 case eScreenState.Deactivating:
                 case eScreenState.Closing:
-                    UpdateTransition(i_GameTime);
+                    UpdateTransition(gameTime);
                     break;
                 case eScreenState.Active:
                     break;
@@ -377,11 +375,11 @@ namespace Infrastructure.ObjectModel.Screens
 
             if (doUpdate)
             {
-                base.Update(i_GameTime);
+                base.Update(gameTime);
 
                 if (PreviousScreen != null && !this.IsModal)
                 {
-                    PreviousScreen.Update(i_GameTime);
+                    PreviousScreen.Update(gameTime);
                 }
             }
         }

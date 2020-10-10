@@ -11,7 +11,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public event EventHandler AllEnemiesDestroyed;
         private const int k_DefaultNumberOfRows = 5;
         private const int k_DefaultNumberOfCols = 9;
+        private const int k_PinkEnemyPoints = 300;
+        private const int k_BlueEnemyPoints = 200;
+        private const int k_YellowEnemyPoints = 70;
+        private const int k_LevelBonusPoints = 100;
         private readonly Enemy[,] r_EnemiesMatrix;
+        private readonly int r_BonusPoints;
         private int m_CurrentNumberOfEnemies;
         private int m_CurrentNumberOfMostRightEnemies;
         private int m_CurrentNumberOfMostLeftEnemies;
@@ -19,11 +24,16 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         public EnemyMatrix(GameScreen i_GameScreen)
         {
-            int addedNumberOfCols = 0;
-
-            if(i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
+            int addedNumberOfCols;
+            if (i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
             {
                 addedNumberOfCols = playerManager.GetEffectiveDifficultyLevel() - 1;
+                r_BonusPoints = addedNumberOfCols * k_LevelBonusPoints;
+            }
+            else
+            {
+                addedNumberOfCols = 0;
+                r_BonusPoints = 0;
             }
 
             m_CurrentNumberOfEnemies = k_DefaultNumberOfRows * (k_DefaultNumberOfCols + addedNumberOfCols);
@@ -32,7 +42,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             markEnemiesClosestToTheBorder(eDirection.RIGHT);
             markEnemiesClosestToTheBorder(eDirection.LEFT);
             markEnemiesClosestToTheBorder(eDirection.BOTTOM);
-            AllEnemiesDestroyed += ((PlayScreen)i_GameScreen).HandleGameOver;
+            AllEnemiesDestroyed += ((PlayScreen)i_GameScreen).HandleLevelWin;
         }
 
         public enum eDirection
@@ -47,23 +57,32 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             for (int row = 0; row < r_EnemiesMatrix.GetLength(0); row++)
             {
                 Enemy.eEnemyType enemyType;
-
+                Color tintColor;
+                int enemyPoints;
                 if (row == 0)
                 {
                     enemyType = Enemy.eEnemyType.PINK;
+                    tintColor = Color.LightPink;
+                    enemyPoints = k_PinkEnemyPoints;
+
                 }
                 else if (row < 3)
                 {
                     enemyType = Enemy.eEnemyType.BLUE;
+                    tintColor = Color.LightBlue;
+                    enemyPoints = k_BlueEnemyPoints;
                 }
                 else
                 {
                     enemyType = Enemy.eEnemyType.YELLOW;
+                    tintColor = Color.LightYellow;
+                    enemyPoints = k_YellowEnemyPoints;
                 }
 
+                enemyPoints += r_BonusPoints;
                 for (int col = 0; col < r_EnemiesMatrix.GetLength(1); col++)
                 {
-                    r_EnemiesMatrix[row, col] = new Enemy(i_GameScreen, enemyType, row, col);
+                    r_EnemiesMatrix[row, col] = new Enemy(i_GameScreen, enemyType, tintColor, enemyPoints, row, col);
                     r_EnemiesMatrix[row, col].AddActionToTurnEnemies(changeDirection);
                     r_EnemiesMatrix[row, col].AddActionToEnemyDied(enemyDied);
                 }

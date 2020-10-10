@@ -30,9 +30,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             int currentDifficultyLevel = PlayManager.k_DefaultDifficultyLevel;
             if (i_Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
             {
-                currentDifficultyLevel = playerManager.GetEffectiveDifficultyLevel();
+                currentDifficultyLevel = playerManager.PlayDifficultyLevel;
             }
 
+            m_TimeCounter = k_TransitionSeconds;
             r_LevelButton = new TextItem(this, k_LevelMessageText + currentDifficultyLevel,
                 Color.White, Color.Black, true);
             r_StartButton = new TextItem(this, Math.Ceiling(m_TimeCounter) + k_SecondsMessageText, 
@@ -52,17 +53,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         public override void Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
-            if(m_StartTimeScreen == 0)
-            {
-                m_StartTimeScreen = i_GameTime.TotalGameTime.Seconds;
-            }
-
-            m_TimeCounter = (float) Math.Ceiling(k_TransitionSeconds + m_StartTimeScreen - i_GameTime.TotalGameTime.Seconds);
-            r_StartButton.TextMessage = m_TimeCounter + (m_TimeCounter > 1 ? k_SecondsMessageText:k_SecondMessageText);
+            m_TimeCounter -= (float) i_GameTime.ElapsedGameTime.TotalSeconds;
             if (m_TimeCounter <= 0)
             {
-                SetScreen(new PlayScreen(Game));
                 ExitScreen();
+                m_ScreensManager.SetCurrentScreen(new PlayScreen(Game));
+            }
+            else
+            {
+                r_StartButton.TextMessage = (float)Math.Ceiling(m_TimeCounter) + (m_TimeCounter > 1 ? k_SecondsMessageText : k_SecondMessageText);
             }
         }
     }

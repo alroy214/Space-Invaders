@@ -156,7 +156,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             CompositeAnimator nonFetalHitAnimator = new CompositeAnimator(this, k_NonFetalHitAnimatorName);
             BlinkAnimator blinkAnimator = new BlinkAnimator(k_NonFetalHitBlinkerAnimatorName, 
                 TimeSpan.FromSeconds(k_NonFatalBlinkerTime), TimeSpan.FromSeconds(k_NonFatalHitAnimationTime));
-
             nonFetalHitAnimator.Add(blinkAnimator);
             Animations = nonFetalHitAnimator;
         }
@@ -165,7 +164,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             RotateAnimator rotateAnimator = new RotateAnimator(TimeSpan.FromSeconds(k_FatalHitAnimationTime), k_NumberOfRotationRoundsPerSecond);
             FadeAnimator fadeAnimator = new FadeAnimator(TimeSpan.FromSeconds(k_FatalHitAnimationTime));
-
             m_FetalHitAnimator = new CompositeAnimator(k_FetalHitAnimatorName, TimeSpan.FromSeconds(k_FatalHitAnimationTime), 
                 this, fadeAnimator, rotateAnimator);
             m_FetalHitAnimator.Finished += fatalHitAnimation_Finished;
