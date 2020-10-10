@@ -21,5 +21,13 @@ namespace Infrastructure.ServiceInterfaces
         void PlayHoverSound();
 
         void SetBackgroundMusic(SoundEffect i_SoundEffect);
+
+        int GetBackgroundMusicVolumePercentage();
+
+        int GetSoundEffectsVolumePercentage();
+
+        void ChangeBackgroundMusicVolumeLevel(float i_VolumeChange);
+
+        void ChangeSoundEffectsVolumeLevel(float i_VolumeChange);
     }
 }
