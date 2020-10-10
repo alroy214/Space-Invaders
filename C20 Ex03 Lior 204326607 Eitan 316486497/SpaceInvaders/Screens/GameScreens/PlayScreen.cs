@@ -55,8 +55,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private void onScreenEnd()
         {
-            CollisionsManager collisionsManager =
-                Game.Services.GetService(typeof(ICollisionsManager)) as CollisionsManager;
+            ICollisionsManager collisionsManager =
+                Game.Services.GetService(typeof(ICollisionsManager)) as ICollisionsManager;
             collisionsManager?.PurgeCollisions();
         }
 

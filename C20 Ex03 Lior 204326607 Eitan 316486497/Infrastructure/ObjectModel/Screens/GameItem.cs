@@ -44,6 +44,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         private const float k_PulseTargetScale = 0.5f;
         private const float k_OriginOffsetX = 3.5f;
         private const float k_OriginOffsetY = 3.5f;
+        private const int k_ScrollWheelDeltaThreshold = 120;
         private const string k_PulseAnimationName = "PulseAnimation";
         private readonly int r_NumberInScreen;
         private bool m_ItemActive;
@@ -53,7 +54,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         protected ISoundManager m_SoundManager;
         private bool m_ActivatedByMouse;
         private bool m_IsToggleItem;
-        private bool m_RedirectsToScreen;
         public bool m_CannotBeSelectedByMouse;
         private bool m_IsItemPressed;
         private Keys m_KeyRedirection;
@@ -65,13 +65,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             m_ItemActive = false;
             m_TouchLocked = false;
             m_IsToggleItem = false;
-            m_RedirectsToScreen = false;
             m_ActivatedByMouse = false;
             m_IsItemPressed = false;   
             m_CannotBeSelectedByMouse = false;
         }
-
-       
 
         public override void Initialize()
         {
@@ -109,7 +106,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             {
                 if(m_IsToggleItem)
                 {
-                    int scrollWheelItemDelta = GameScreen.InputManager.ScrollWheelDelta / 120; //Make const
+                    int scrollWheelItemDelta = GameScreen.InputManager.ScrollWheelDelta / k_ScrollWheelDeltaThreshold; 
 
                     if(GameScreen.InputManager.KeyPressed(Keys.PageUp) || scrollWheelItemDelta == 1)
                     {
@@ -120,7 +117,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
                         onItemClicked(new ItemValueChangeEventArgs(eValueChange.Decrease));
                     }
                 }
-                else if(m_RedirectsToScreen && GameScreen.InputManager.KeyPressed(Keys.Enter))
+                else if(GameScreen.InputManager.KeyPressed(Keys.Enter))
                 {
                     onItemClicked();
                 }
@@ -248,18 +245,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             set
             {
                 m_IsToggleItem = value;
-            }
-        }
-
-        public bool RedirectsToScreen
-        {
-            get
-            {
-                return m_RedirectsToScreen;
-            }
-            set
-            {
-                m_RedirectsToScreen = value;
             }
         }
 

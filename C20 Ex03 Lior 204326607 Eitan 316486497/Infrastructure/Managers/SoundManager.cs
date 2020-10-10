@@ -109,30 +109,58 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
 
         public int GetBackgroundMusicVolumePercentage()
         {
-            return (int) (this.m_CurrentBackgroundMusic.Volume * 100);
+            if(m_CurrentBackgroundMusic == null)
+            {
+                return 0;
+            }
+
+            return (int) (m_CurrentBackgroundMusic.Volume * 100);
         }
 
         public int GetSoundEffectsVolumePercentage()
         {
+            if (r_SoundsEffects?.First() == null)
+            {
+                return 0;
+            }
+
             return (int) (r_SoundsEffects.First().Value.Volume * 100);
+        }
+
+        private float changeVolumeLevel(float i_CurrentVolume, float i_VolumeChange)
+        {
+            i_CurrentVolume = i_CurrentVolume * 100 + i_VolumeChange;;
+
+            if (i_CurrentVolume > k_MaxSoundsVolumeLevel)
+            {
+                i_CurrentVolume = k_MinSoundsVolumeLevel;
+            }
+            else if (i_CurrentVolume < k_MinSoundsVolumeLevel)
+            {
+                i_CurrentVolume = k_MaxSoundsVolumeLevel;
+            }
+
+            return i_CurrentVolume / 100;
         }
 
         public void ChangeBackgroundMusicVolumeLevel(float i_VolumeChange)
         {
-            float backgroundMusicOldVolumeLevel = m_CurrentBackgroundMusic.Volume * 100;
-            float backgroundMusicNewVolumeLevel = MathHelper.Clamp(backgroundMusicOldVolumeLevel + i_VolumeChange, k_MinSoundsVolumeLevel, k_MaxSoundsVolumeLevel);
-            
-            m_CurrentBackgroundMusic.Volume = backgroundMusicNewVolumeLevel / 100;
+            if (m_CurrentBackgroundMusic != null)
+            {
+                m_CurrentBackgroundMusic.Volume = changeVolumeLevel(m_CurrentBackgroundMusic.Volume, i_VolumeChange);
+            }
         }
 
         public void ChangeSoundEffectsVolumeLevel(float i_VolumeChange)
         {
-            float soundEffectsOldVolumeLevel = r_SoundsEffects.First().Value.Volume * 100;
-            float soundEffectsNewVolumeLevel = MathHelper.Clamp(soundEffectsOldVolumeLevel + i_VolumeChange, k_MinSoundsVolumeLevel, k_MaxSoundsVolumeLevel);
-
-            foreach (SoundEffectInstance soundEffectInstance in r_SoundsEffects.Values)
+            if (r_SoundsEffects?.First() != null)
             {
-                soundEffectInstance.Volume = soundEffectsNewVolumeLevel / 100;
+                float newVolumeLevel = changeVolumeLevel(r_SoundsEffects.First().Value.Volume, i_VolumeChange);
+
+                foreach (SoundEffectInstance soundEffectInstance in r_SoundsEffects.Values)
+                {
+                    soundEffectInstance.Volume = newVolumeLevel;
+                }
             }
         }
     }

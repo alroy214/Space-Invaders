@@ -62,6 +62,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             r_SoundManager.AddSoundEffect(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/MenuMove"), "MenuMove");
             r_SoundManager.SetBackgroundMusic(Content.Load<SoundEffect>(@"C:/temp/XNA_Assets/Ex03/Sounds/BGMusic"));
             r_SoundManager.SetHoverSoundEffect("MenuMove");
+            r_SoundManager.ChangeBackgroundMusicVolumeLevel(-90);
+            r_SoundManager.ChangeSoundEffectsVolumeLevel(-90);
+            r_SoundManager.SoundToggle = true;
         }
     }
 }

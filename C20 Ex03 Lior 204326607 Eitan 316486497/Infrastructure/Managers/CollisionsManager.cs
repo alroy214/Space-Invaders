@@ -12,11 +12,6 @@ namespace Infrastructure.Managers
     {
         protected readonly List<ICollidable> m_Collidables = new List<ICollidable>();
 
-        public void PurgeCollisions()
-        {
-            m_Collidables.Clear();
-        }
-
         public CollisionsManager(Game i_Game) :
             base(i_Game, int.MaxValue)
         { }
@@ -24,6 +19,11 @@ namespace Infrastructure.Managers
         protected override void RegisterAsService()
         {
             this.Game.Services.AddService(typeof(ICollisionsManager), this);
+        }
+
+        public void PurgeCollisions()
+        {
+            m_Collidables.Clear();
         }
 
         public void AddObjectToMonitor(ICollidable i_Collidable)

@@ -19,15 +19,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         private const string k_SoundEffectsMessage = "Sound Effects Volume: ";
         private const string k_DoneMessage = "Done";
         private readonly ISoundManager r_SoundManager;
-        private readonly IInputManager r_InputManager; // for asking what KeyPressed
         private const int k_SoundsVolumeChange = 10;
 
         public SoundSettings(Game i_Game) : base(i_Game)
         {
             SetScreenHeader(k_HeaderAssetName, k_HeaderScale);
             r_SoundManager = (ISoundManager)i_Game.Services.GetService(typeof(ISoundManager));
-            r_InputManager = i_Game.Services.GetService(typeof(IInputManager)) as IInputManager;
-            AddOptionItem(k_ToggleSoundMessage + "Off", Color.MediumSeaGreen, soundToggle_OnClicked, true);
+            AddOptionItem(k_ToggleSoundMessage, r_SoundManager.SoundToggle, Color.MediumSeaGreen, soundToggle_OnClicked);
             AddOptionItem(k_BackgroundMusicMessage + r_SoundManager.GetBackgroundMusicVolumePercentage(), Color.CornflowerBlue, backgroundMusicMessage_OnClicked, true);
             AddOptionItem(k_SoundEffectsMessage + r_SoundManager.GetSoundEffectsVolumePercentage(), Color.Bisque, soundEffects_OnClicked, true);
             AddOptionItem(k_DoneMessage, Color.PaleVioletRed, done_OnClicked);
@@ -36,36 +34,53 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         private void soundToggle_OnClicked(object sender, EventArgs e)
         {
             r_SoundManager.SoundToggle = !r_SoundManager.SoundToggle;
-            ((TextItem)sender).TextMessage = k_ToggleSoundMessage + (r_SoundManager.SoundToggle ? "On" : "Off");
+            ((TextItem)sender).TextMessage = GetDefaultToggleMessage(r_SoundManager.SoundToggle);
         }
         
         private void backgroundMusicMessage_OnClicked(object sender, EventArgs e)
         {
-            int raiseOrLowerVolumeFlag = getRaiseOrLowerVolumeFlag();
+            int raiseOrLowerVolumeFlag = getRaiseOrLowerVolumeFlag(e);
 
-            this.r_SoundManager.ChangeBackgroundMusicVolumeLevel((float) k_SoundsVolumeChange * raiseOrLowerVolumeFlag);
+            r_SoundManager.ChangeBackgroundMusicVolumeLevel((float) k_SoundsVolumeChange * raiseOrLowerVolumeFlag);
             ((TextItem)sender).TextMessage = k_BackgroundMusicMessage + r_SoundManager.GetBackgroundMusicVolumePercentage();
         }
 
         private void soundEffects_OnClicked(object sender, EventArgs e)
         {
-            int raiseOrLowerVolumeFlag = getRaiseOrLowerVolumeFlag();
+            int raiseOrLowerVolumeFlag = getRaiseOrLowerVolumeFlag(e);
 
-            this.r_SoundManager.ChangeSoundEffectsVolumeLevel((float) k_SoundsVolumeChange * raiseOrLowerVolumeFlag);
+            r_SoundManager.ChangeSoundEffectsVolumeLevel((float) k_SoundsVolumeChange * raiseOrLowerVolumeFlag);
             ((TextItem)sender).TextMessage = k_SoundEffectsMessage + r_SoundManager.GetSoundEffectsVolumePercentage();
         }
 
-        private int getRaiseOrLowerVolumeFlag()
+        private int getRaiseOrLowerVolumeFlag(EventArgs i_ItemValue)
         {
             int raiseOrLowerVolumeFlag = 0;
 
-            if (this.r_InputManager.KeyPressed(Microsoft.Xna.Framework.Input.Keys.PageUp))
+            if (i_ItemValue is ItemValueChangeEventArgs itemValue)
+            {
+                switch (itemValue.ValueChange)
+                {
+                    case eValueChange.Increase:
+                        {
+                            raiseOrLowerVolumeFlag = 1;
+                            break;
+                        }
+                    case eValueChange.Decrease:
+                        {
+                            raiseOrLowerVolumeFlag = -1;
+                            break;
+                        }
+                    case eValueChange.Unchanged:
+                        {
+                            break;
+                        }
+                    default: { break; }
+                }
+            }
+            else
             {
                 raiseOrLowerVolumeFlag = 1;
-            }
-            else if (this.r_InputManager.KeyPressed(Microsoft.Xna.Framework.Input.Keys.PageDown))
-            {
-                raiseOrLowerVolumeFlag = -1;
             }
 
             return raiseOrLowerVolumeFlag;

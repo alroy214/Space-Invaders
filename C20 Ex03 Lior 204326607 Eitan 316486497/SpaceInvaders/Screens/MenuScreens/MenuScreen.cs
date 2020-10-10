@@ -44,7 +44,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
             TextItem textItem = new TextItem(this, i_Message, NumberOfItemsOnScreen(), i_ActiveColor);
             textItem.AddToOnClick(i_EventHandler);
             textItem.IsToggleItem = i_IsToggleItem;
-            textItem.RedirectsToScreen = !i_IsToggleItem;
             textItem.PrefixMessage = i_PrefixMessage;
             AddGameItem(textItem);
             return textItem;
