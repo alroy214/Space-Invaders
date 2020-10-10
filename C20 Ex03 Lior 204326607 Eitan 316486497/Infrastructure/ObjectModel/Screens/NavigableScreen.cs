@@ -17,9 +17,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private const bool k_KeyboardEnabledByDefault = true;
         private const int k_NoItemSelectedIndex = -1;
         private readonly List<GameItem> r_GameItems;
-        private Vector2 m_FirstPosition;
-        private float m_OffsetX;
+        protected float m_OffsetX;
         protected float m_OffsetY;
+        private Vector2 m_FirstPosition;
         private float m_ItemHeightMargin;
         public int m_CurrentActiveItem;
         private int m_PreviousActiveItem;

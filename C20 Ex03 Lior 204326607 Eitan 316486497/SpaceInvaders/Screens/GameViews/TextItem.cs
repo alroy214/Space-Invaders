@@ -19,14 +19,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         private SpriteFont m_Font;
         private Vector2 m_TextPosition;
         private string m_TextMessage;
+        private string m_PrefixMessage;
 
         public TextItem(GameScreen i_GameScreen, string i_TextMessage, int i_ItemNumber, Color i_ActiveColor, Keys i_KeyRedirection = Keys.None)
             : this(i_GameScreen, i_TextMessage, i_ItemNumber, i_ActiveColor, Color.Black, i_KeyRedirection)
         {
         }
 
-        public TextItem(GameScreen i_GameScreen, string i_TextMessage, Color i_ActiveColor, Color i_FontColor, bool i_TouchLock = false)
-            : this(i_GameScreen, i_TextMessage, 0, i_ActiveColor, i_FontColor, Keys.None, i_TouchLock)
+        public TextItem(GameScreen i_GameScreen, string i_TextMessage, Color i_ActiveColor, Color i_FontColor, bool i_TouchLock = false, string i_PrefixMessage = "")
+            : this(i_GameScreen, i_TextMessage, 0, i_ActiveColor, i_FontColor, Keys.None, i_TouchLock, i_PrefixMessage)
         {
         }
 
@@ -35,7 +36,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         {
         }
 
-        public TextItem(GameScreen i_GameScreen, string i_TextMessage, int i_ItemNumber, Color i_ActiveColor, Color i_FontColor, Keys i_KeyRedirection = Keys.None, bool i_TouchLock = false)
+        public TextItem(GameScreen i_GameScreen, string i_TextMessage, int i_ItemNumber, Color i_ActiveColor, Color i_FontColor,
+                        Keys i_KeyRedirection = Keys.None, bool i_TouchLock = false, string i_PrefixMessage = "")
             : base(k_TextAsset, i_GameScreen, i_ItemNumber)
         {
             m_TextMessage = i_TextMessage;
@@ -44,9 +46,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             m_Scales = new Vector2(k_ScaleX, k_ScaleY);
             m_TouchLocked = i_TouchLock;
             m_TextPosition = Vector2.Zero;
+            m_PrefixMessage = i_PrefixMessage;
             if(i_KeyRedirection != Keys.None)
             {
-                m_KeyRedirection = i_KeyRedirection;
+                KeyRedirection = i_KeyRedirection;
             }
             if (m_TouchLocked)
             {
@@ -66,6 +69,18 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             }
         }
 
+        public string PrefixMessage
+        {
+            get
+            {
+                return m_PrefixMessage;
+            }
+            set
+            {
+                m_PrefixMessage = value;
+            }
+        }
+
         protected override void InitBounds()
         {
             base.InitBounds();
@@ -80,16 +95,21 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
 
         public override void Draw(GameTime i_GameTime)
         {
-            if(m_TextPosition == Vector2.Zero)
+            if (m_TextPosition == Vector2.Zero)
             {
-                Vector2 measuredText = m_Font.MeasureString(m_TextMessage);
-                bool isMultiLine = m_TextMessage.Split(Environment.NewLine).Length != 1;
+                Vector2 measuredText = m_Font.MeasureString(ToString());
+                bool isMultiLine = ToString().Split(Environment.NewLine).Length != 1;
                 m_TextPosition = new Vector2(
                     m_Position.X + Width / 2 - measuredText.X / 2,
                     m_Position.Y + Height / 2 - measuredText.Y / 2 - (isMultiLine ? m_Font.LineSpacing / 2 : 0));
             }
             base.Draw(i_GameTime);
-            m_SpriteBatch.DrawString(m_Font, m_TextMessage, m_TextPosition, r_FontColor);
+            m_SpriteBatch.DrawString(m_Font, ToString(), m_TextPosition, r_FontColor);
+        }
+
+        public override string ToString()
+        {
+            return m_PrefixMessage + m_TextMessage;
         }
     }
 }

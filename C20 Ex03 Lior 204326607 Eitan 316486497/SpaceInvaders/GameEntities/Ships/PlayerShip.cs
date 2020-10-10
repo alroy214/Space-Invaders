@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Animators;
@@ -44,7 +45,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         public enum ePlayer
         {
+            [Description("One")]
             Player1 = 0,
+            [Description("Two")]
             Player2 = 1
         }
 

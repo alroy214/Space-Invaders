@@ -12,9 +12,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
     public class PauseScreen : NavigableScreen
     {
         private string k_continueMessage = "Click the R Key to continue playing";
-        private const string k_HeaderAsset = @"Headers\Welcome";
-        private const int k_HeaderWidthOffset = 40;
-        private const int k_HeaderHeightOffset = 60;
+        private const string k_HeaderAsset = @"Headers\Game Paused";
+        private const int k_HeaderWidthOffset = 20;
+        private const int k_HeaderHeightOffset = 130;
         private const float k_HeaderScale = 0.35f;
         private const float k_BlackTintAlpha = 0.4f;
 
@@ -27,8 +27,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             float viewportWidthMargin = i_Game.Window.ClientBounds.Width / 2f;
             ScreenHeader pauseMessage = new ScreenHeader(this, k_HeaderAsset, k_HeaderScale,
                 viewportWidthMargin - k_HeaderWidthOffset, k_HeaderHeightOffset, true);
-            TextItem continueMessage = new TextItem(this, k_continueMessage, 0, Color.DodgerBlue,
-                Color.AntiqueWhite, Keys.R, true);
+            TextItem continueMessage = new TextItem(this, k_continueMessage, 0, Color.LightGoldenrodYellow,
+                Color.Black, Keys.R, true);
             AddGameItem(continueMessage);
             continueMessage.AddToOnClick(deactivateScreen);
         }

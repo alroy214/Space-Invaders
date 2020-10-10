@@ -12,6 +12,28 @@ using SharpDX.Direct2D1.Effects;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items
 {
+    public enum eValueChange
+    {
+        Increase,
+        Decrease,
+        Unchanged
+    }
+
+    public class ItemValueChangeEventArgs : EventArgs
+    {
+        protected eValueChange r_ValueChange;
+
+        public ItemValueChangeEventArgs(eValueChange i_ValueChange)
+        {
+            r_ValueChange = i_ValueChange;
+        }
+
+        public eValueChange ValueChange
+        {
+            get { return r_ValueChange; }
+        }
+    }
+
     public class GameItem : Sprite
     {
         private event EventHandler<EventArgs> ActiveStateChanged;
@@ -33,7 +55,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         private bool m_IsToggleItem;
         private bool m_RedirectsToScreen;
         public bool m_CannotBeSelectedByMouse;
-        protected Keys m_KeyRedirection;
+        private bool m_IsItemPressed;
+        private Keys m_KeyRedirection;
 
         public GameItem(string i_AssetName, GameScreen i_GameScreen, int i_ItemNumber)
             : base(i_AssetName, i_GameScreen)
@@ -44,8 +67,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             m_IsToggleItem = false;
             m_RedirectsToScreen = false;
             m_ActivatedByMouse = false;
+            m_IsItemPressed = false;   
             m_CannotBeSelectedByMouse = false;
         }
+
+       
 
         public override void Initialize()
         {
@@ -68,34 +94,35 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
 
         public override void Update(GameTime i_GameTime)
         {
-            if(Enabled)
+            if (ItemActive && m_IsItemPressed && GameScreen.InputManager.ButtonIsUp(eInputButtons.Left) && MouseHovering())
             {
-                if(ItemActive && GameScreen.InputManager.ButtonReleased(eInputButtons.Left) && MouseHovering())
-                {
-                    onItemClicked(true);
-                }
-                else if(GameScreen.InputManager.KeyReleased(m_KeyRedirection))
-                {
-                    onItemClicked(false);
-                }
+                onItemClicked();
+            }
+            else if(GameScreen.InputManager.KeyReleased(m_KeyRedirection))
+            {
+                onItemClicked();
+            }
 
-                if(m_ItemActive)
-                {
-                    if(m_IsToggleItem)
-                    {
-                        int scrollWheelItemDelta = GameScreen.InputManager.ScrollWheelDelta / 120; //Make const
+            m_IsItemPressed = GameScreen.InputManager.ButtonIsDown(eInputButtons.Left);
 
-                        if(GameScreen.InputManager.KeyPressed(Keys.PageUp)
-                           || GameScreen.InputManager.KeyPressed(Keys.PageDown) //TODO Change to include sliders
-                           || scrollWheelItemDelta == 1 || scrollWheelItemDelta == -1)
-                        {
-                            onItemClicked(false);
-                        }
-                    }
-                    else if(m_RedirectsToScreen && GameScreen.InputManager.KeyPressed(Keys.Enter))
+            if (m_ItemActive)
+            {
+                if(m_IsToggleItem)
+                {
+                    int scrollWheelItemDelta = GameScreen.InputManager.ScrollWheelDelta / 120; //Make const
+
+                    if(GameScreen.InputManager.KeyPressed(Keys.PageUp) || scrollWheelItemDelta == 1)
                     {
-                        onItemClicked(false);
+                        onItemClicked(new ItemValueChangeEventArgs(eValueChange.Increase));
                     }
+                    else if(GameScreen.InputManager.KeyPressed(Keys.PageDown) || scrollWheelItemDelta == -1)
+                    {
+                        onItemClicked(new ItemValueChangeEventArgs(eValueChange.Decrease));
+                    }
+                }
+                else if(m_RedirectsToScreen && GameScreen.InputManager.KeyPressed(Keys.Enter))
+                {
+                    onItemClicked();
                 }
             }
 
@@ -177,9 +204,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             OnClicked += i_Handler;
         }
 
-        private void onItemClicked(bool i_InvokedByMouse)
+        private void onItemClicked()
         {
             OnClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void onItemClicked(EventArgs e)
+        {
+            OnClicked?.Invoke(this, e);
         }
 
         public Color ActiveColor

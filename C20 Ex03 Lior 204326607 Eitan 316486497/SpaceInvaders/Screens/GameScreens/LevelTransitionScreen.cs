@@ -14,7 +14,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private const float k_TransitionSeconds = 2.5f;
         private const string k_LevelMessageText = "Level: ";
         private const string k_SecondsMessageText = " seconds";
-        private const string k_StartMessageText = "start in ";
+        private const string k_SecondMessageText = " second";
+        private const string k_StartMessageText = "Start in ";
         private const int k_TopMarginBetweenMessages = 100;
         private readonly Background r_Background;
         private readonly TextItem r_StartButton;
@@ -34,8 +35,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
             r_LevelButton = new TextItem(this, k_LevelMessageText + currentDifficultyLevel,
                 Color.White, Color.Black, true);
-            r_StartButton = new TextItem(this, k_StartMessageText + Math.Ceiling(m_TimeCounter) + k_SecondsMessageText, 
-                Color.DarkGray, Color.Black, true);
+            r_StartButton = new TextItem(this, Math.Ceiling(m_TimeCounter) + k_SecondsMessageText, 
+                Color.DarkGray, Color.Black, true, k_StartMessageText);
             m_StartTimeScreen = 0;
         }
 
@@ -56,8 +57,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
                 m_StartTimeScreen = i_GameTime.TotalGameTime.Seconds;
             }
 
-            m_TimeCounter = k_TransitionSeconds + m_StartTimeScreen - i_GameTime.TotalGameTime.Seconds;
-            r_StartButton.TextMessage = k_StartMessageText + Math.Ceiling(m_TimeCounter) + k_SecondsMessageText;
+            m_TimeCounter = (float) Math.Ceiling(k_TransitionSeconds + m_StartTimeScreen - i_GameTime.TotalGameTime.Seconds);
+            r_StartButton.TextMessage = m_TimeCounter + (m_TimeCounter > 1 ? k_SecondsMessageText:k_SecondMessageText);
             if (m_TimeCounter <= 0)
             {
                 SetScreen(new PlayScreen(Game));
