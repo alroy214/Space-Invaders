@@ -86,9 +86,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
 
         public void PlaySoundEffect(string i_SoundEffect)
         {
-            if (m_SoundEffectsEnabled)
+            if (m_SoundEffectsEnabled && r_SoundsEffects.ContainsKey(i_SoundEffect))
             {
-                r_SoundsEffects[i_SoundEffect]?.Play();
+                r_SoundsEffects[i_SoundEffect].Play();
             }
         }      
         
@@ -104,7 +104,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
 
         public SoundEffectInstance GetSoundEffect(string i_Name)
         {
-            return r_SoundsEffects[i_Name];
+            return r_SoundsEffects.ContainsKey(i_Name) ? r_SoundsEffects[i_Name] : null;
         }
 
         public int GetBackgroundMusicVolumePercentage()

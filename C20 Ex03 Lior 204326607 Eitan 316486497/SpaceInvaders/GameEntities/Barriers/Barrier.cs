@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders;
 using Infrastructure.ObjectModel.Screens;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
@@ -11,8 +12,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public event EventHandler<EventArgs> Disposed;
         private const string k_AssetName = @"Sprites\Barrier_44x32";
         private const float k_BulletRedactionPercentage = 0.35f;
-        private readonly int r_NumberInCluster;
-        private readonly int r_TotalNumberInCluster;
         private const int k_BottomMarginBounds = 62;
         private const int k_ButtonMarginMultiplier = 2;
         private const float k_RightMarginMultiplier = 2.6f;
@@ -20,11 +19,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const float k_BarrierVelocityLevelMultiplier = 1.06f;
         private const int k_BarrierVelocityImmobileLevel = 1;
         private const int k_BarrierVelocityThresholdLevel = 2;
+        private readonly int r_NumberInCluster;
+        private readonly int r_TotalNumberInCluster;
+        private readonly ISoundManager r_SoundManager;
         private Vector2 m_InitPosition;
 
         public Barrier(GameScreen i_GameScreen, int i_NumberInCluster, int i_TotalNumberInCluster)
             : base(k_AssetName, i_GameScreen)
         {
+            r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
             r_NumberInCluster = i_NumberInCluster;
             r_TotalNumberInCluster = i_TotalNumberInCluster;
             float leveledVelocity = k_BarrierVelocity;
@@ -90,6 +93,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         public override void Collided(ICollidable i_Collidable)
         {
+            r_SoundManager.PlaySoundEffect(MusicUtils.k_BarrierHitSound);
+
             if (i_Collidable is Bullet bullet)
             {
                 if (IsPixelsCollided(bullet))

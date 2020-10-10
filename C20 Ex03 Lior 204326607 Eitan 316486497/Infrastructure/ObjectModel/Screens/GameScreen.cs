@@ -228,15 +228,6 @@ namespace Infrastructure.ObjectModel.Screens
             }
         }
 
-        protected void SetScreen(GameScreen i_NewScreen, bool i_ExitScreen = true)
-        {
-            m_ScreensManager.SetCurrentScreen(i_NewScreen);
-            if (i_ExitScreen)
-            {
-                ExitScreen();
-            }
-        }
-
         protected virtual void OnDeactivated()
         {
             this.Enabled = false;

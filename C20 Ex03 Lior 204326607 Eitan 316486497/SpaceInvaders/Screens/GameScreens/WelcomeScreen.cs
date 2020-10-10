@@ -47,7 +47,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private void menuButton_OnClicked(object sender, EventArgs e)
         {
-            SetScreen(new MainMenu(Game), false);
+
+            m_ScreensManager.SetCurrentScreen(new MainMenu(Game));
         }
     }
 }

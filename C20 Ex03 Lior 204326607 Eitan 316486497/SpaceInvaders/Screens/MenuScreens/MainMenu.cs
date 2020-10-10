@@ -56,7 +56,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
 
         private void screenSettings_OnClicked(object sender, EventArgs e)
         {
-            SetScreen(new ScreenSettings(Game), false);
+            m_ScreensManager.SetCurrentScreen(new ScreenSettings(Game));
         }
 
         private void player_OnClicked(object sender, EventArgs e)
@@ -66,12 +66,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
 
         private void soundSettings_OnClicked(object sender, EventArgs e)
         {
-            SetScreen(new SoundSettings(Game), false);
+            m_ScreensManager.SetCurrentScreen(new SoundSettings(Game));
         }
 
         private void playGame_OnClicked(object sender, EventArgs e)
         {
-            SetScreen(new LevelTransitionScreen(Game));
+            m_ScreensManager.SetCurrentScreen(new LevelTransitionScreen(Game));
         }
 
         private void quitGame_OnClicked(object sender, EventArgs e)

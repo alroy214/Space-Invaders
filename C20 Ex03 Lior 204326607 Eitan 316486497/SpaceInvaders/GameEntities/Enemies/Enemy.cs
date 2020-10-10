@@ -1,5 +1,6 @@
 ﻿using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
@@ -37,6 +38,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private readonly int r_ColPosition;
         private readonly eEnemyType r_EnemyType;
         private readonly BulletMagazine r_BulletMagazine;
+        private readonly ISoundManager r_SoundManager;
         private readonly Random r_Random;
         private EnemyMatrix.eDirection m_CurrentDirection;
         private CompositeAnimator m_EnemyDestroyAnimator;
@@ -53,6 +55,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public Enemy(GameScreen i_GameScreen, eEnemyType i_EnemyType, Color i_TintColor, int i_EnemyPoints, int i_RowPosition, int i_ColPosition)
             : base(k_EnemyCollectionAssetName, i_GameScreen)
         {
+            r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
             r_Random = new Random();
             r_EnemyType = i_EnemyType;
             TintColor = i_TintColor;
@@ -178,7 +181,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             if (r_Random.Next(k_RandomShootValue) == 0)
             {
-                r_BulletMagazine.ShootBullet(Position);
+                if(r_BulletMagazine.ShootBullet(Position))
+                {
+                    r_SoundManager.PlaySoundEffect(MusicUtils.k_EnemyShootSound);
+                }
             }
         }
 
@@ -196,6 +202,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             if (i_Collidable is PlayerBullet && !m_EnemyDestroyAnimator.Enabled)
             {
+                r_SoundManager.PlaySoundEffect(MusicUtils.k_EnemyKillSound);
                 m_EnemyDestroyAnimator.Restart();
             }
         }

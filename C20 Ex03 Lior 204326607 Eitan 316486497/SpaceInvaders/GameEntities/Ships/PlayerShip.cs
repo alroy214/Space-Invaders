@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
@@ -29,6 +30,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private readonly BulletMagazine r_BulletMagazine;
         private readonly ePlayer r_CurrentPlayer;
         private readonly LifeCluster r_LifeCluster;
+        private readonly ISoundManager r_SoundManager;
         private CompositeAnimator m_FetalHitAnimator;
         private bool m_KeyboardPressLock;
         private bool m_MouseClickLock;
@@ -38,6 +40,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         public PlayerShip(string i_AssetName, GameScreen i_GameScreen, ePlayer i_Player) : base(i_AssetName, i_GameScreen)
         {
+            r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
             r_BulletMagazine = new PlayerBulletMagazine(i_GameScreen, k_NumberOfBullets, i_Player);
             r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int) i_Player, k_DefaultNumberOfLives);
             r_CurrentPlayer = i_Player;
@@ -112,7 +115,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         private void createBullet()
         {
-            r_BulletMagazine.ShootBullet(new Vector2(m_Position.X + Width / 2, m_Position.Y - Height / 2));
+            if(r_BulletMagazine.ShootBullet(new Vector2(m_Position.X + Width / 2, m_Position.Y - Height / 2)))
+            {
+                r_SoundManager.PlaySoundEffect(MusicUtils.k_PlayerShipShootSound);
+            }
         }
 
         private void bringToMostLeftPosition()
@@ -131,6 +137,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             base.Collided(i_Collidable);
             if (i_Collidable is EnemyBullet)
             {
+                r_SoundManager.PlaySoundEffect(MusicUtils.k_LifeDieSound);
                 if (r_LifeCluster.LifeShuttered() == 0)
                 {
                     Animations = m_FetalHitAnimator;
@@ -184,7 +191,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             Enabled = false;
             Visible = false;
-            Dispose();
         }
 
         public ePlayer CurrentPlayer

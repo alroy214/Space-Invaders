@@ -23,11 +23,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private readonly ScoreHeader r_ScoreHeader;
         private readonly IPlayManager r_PlayManager;
         private readonly IScoreManager r_ScoreManager;
+        private readonly ISoundManager r_SoundManager;
 
         public PlayScreen(Game i_Game) : base(i_Game)
         {
             r_PlayManager = i_Game.Services.GetService(typeof(IPlayManager)) as IPlayManager;
             r_ScoreManager = i_Game.Services.GetService(typeof(IScoreManager)) as IScoreManager;
+            r_SoundManager = i_Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
             r_Background = new Background(this);
             r_MotherShip = new MotherShip(this);
             r_EnemyMatrix = new EnemyMatrix(this);
@@ -42,12 +44,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         {
             r_PlayManager.IncreaseDifficultyLevel();
             onScreenEnd();
+            r_SoundManager.PlaySoundEffect(MusicUtils.k_LevelWinSound);
             m_ScreensManager.SetCurrentScreen(new LevelTransitionScreen(Game));
         }
 
         public void HandleGameOver(object sender, EventArgs e)
         {
-            SetScreen(new GameOverScreen(Game, r_ScoreHeader.GetPlayerScores()));
+            r_SoundManager.PlaySoundEffect(MusicUtils.k_GameOverSound);
+            m_ScreensManager.SetCurrentScreen(new GameOverScreen(Game, r_ScoreHeader.GetPlayerScores()));
             r_PlayManager.PlayDifficultyLevel = PlayManager.k_DefaultDifficultyLevel;
             r_ScoreManager.ResetScores();
             onScreenEnd();

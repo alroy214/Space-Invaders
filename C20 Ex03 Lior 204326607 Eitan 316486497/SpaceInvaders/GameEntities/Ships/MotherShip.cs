@@ -1,4 +1,5 @@
 ﻿using System;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
@@ -17,12 +18,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private const float k_AnimationBlinkTime = 0.2f;
         private const float k_AnimationDestroyTime = 3.0f;
         private const string k_AnimationDestroyName = "MotherShipDestroyAnimator";
+        private readonly ISoundManager r_SoundManager;
         private readonly Random r_Random;
         private float m_NextAppearanceInSeconds;
         private bool m_IsInDestroyedState;
 
         public MotherShip(GameScreen i_GameScreen) : base(k_AssetName, i_GameScreen)
         {
+            r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
             m_TintColor = Color.Red;
             r_Random = new Random();
         }
@@ -74,6 +77,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             {
                 if (!Animations.Enabled)
                 {
+                    r_SoundManager.PlaySoundEffect(MusicUtils.k_MotherShipKillSound);
                     Animations.Restart();
                 }
             }

@@ -85,8 +85,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
             if (i_Collidable is PlayerShip playerShip && m_ScoreManager != null)
             {
-                m_ScoreManager.UpdateScore(k_PlayerLostLifePenaltyScore, playerShip.CurrentPlayer);
                 Visible = false;
+                m_ScoreManager.UpdateScore(k_PlayerLostLifePenaltyScore, playerShip.CurrentPlayer);
             }
         }
     }
