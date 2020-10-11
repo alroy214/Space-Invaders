@@ -22,6 +22,26 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         {
             r_Background = new Background(this);
             m_OffsetY = k_ItemsOffsetY;
+
+            ActivationLength = TimeSpan.FromMilliseconds(300);
+            DeactivationLength = TimeSpan.FromMilliseconds(200);
+            BlendState = BlendState.NonPremultiplied;
+            UseFadeTransition = true;
+        }
+
+
+        public override void Update(GameTime i_GameTime)
+        {
+            base.Update(i_GameTime);
+
+            if (Math.Abs(TransitionPosition - 1) > 0)
+            {
+                r_Background.Opacity = TransitionPosition;
+                if(m_ScreenHeader != null)
+                {
+                    m_ScreenHeader.Opacity = TransitionPosition;
+                }
+            }
         }
 
         protected void SetScreenHeader(string i_HeaderAsset,  float i_Scale)
@@ -44,6 +64,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
             TextItem textItem = new TextItem(this, i_Message, NumberOfItemsOnScreen(), i_ActiveColor);
             textItem.AddToOnClick(i_EventHandler);
             textItem.IsToggleItem = i_IsToggleItem;
+            textItem.RedirectsToScreen = !i_IsToggleItem;
             textItem.PrefixMessage = i_PrefixMessage;
             AddGameItem(textItem);
             return textItem;

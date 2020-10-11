@@ -6,6 +6,7 @@ using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
@@ -53,10 +54,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         public override void Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
+
             m_TimeCounter -= (float) i_GameTime.ElapsedGameTime.TotalSeconds;
             if (m_TimeCounter <= 0)
             {
-                ExitScreen();
                 m_ScreensManager.SetCurrentScreen(new PlayScreen(Game));
             }
             else

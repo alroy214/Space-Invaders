@@ -377,7 +377,7 @@ namespace Infrastructure.ObjectModel.Screens
         /// <summary>
         /// Helper for updating the screen transition position.
         /// </summary>
-        void UpdateTransition(GameTime i_GameTime)
+        protected virtual void UpdateTransition(GameTime i_GameTime)
         {
             bool transionEnded = false;
 

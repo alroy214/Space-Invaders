@@ -17,6 +17,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private const int k_HeaderHeightOffset = 130;
         private const float k_HeaderScale = 0.35f;
         private const float k_BlackTintAlpha = 0.4f;
+        private const float k_FadeActivationTime = 0.4f;
+        private const float k_FadeDeactivationTime = 0.1f;
+        private readonly ScreenHeader r_PauseMessage;
+        private readonly TextItem r_ContinueMessage;
 
         public PauseScreen(Game i_Game) : base(i_Game)
         {
@@ -25,18 +29,31 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             IsOverlayed = true;
             BlackTintAlpha = k_BlackTintAlpha;
             float viewportWidthMargin = i_Game.Window.ClientBounds.Width / 2f;
-            ScreenHeader pauseMessage = new ScreenHeader(this, k_HeaderAsset, k_HeaderScale,
+            r_PauseMessage = new ScreenHeader(this, k_HeaderAsset, k_HeaderScale,
                 viewportWidthMargin - k_HeaderWidthOffset, k_HeaderHeightOffset, true);
-            TextItem continueMessage = new TextItem(this, k_continueMessage, 0, Color.LightGoldenrodYellow,
+            r_ContinueMessage = new TextItem(this, k_continueMessage, 0, Color.LightGoldenrodYellow,
                 Color.Black, Keys.R, true);
-            AddGameItem(continueMessage);
-            continueMessage.AddToOnClick(deactivateScreen);
+            AddGameItem(r_ContinueMessage);
+            r_ContinueMessage.AddToOnClick(deactivateScreen);
+            UseFadeTransition = true;
+            BlendState = BlendState.NonPremultiplied;
+            ActivationLength = TimeSpan.FromSeconds(k_FadeActivationTime);
+            DeactivationLength = TimeSpan.FromSeconds(k_FadeDeactivationTime);
+        }
+
+        public override void Update(GameTime i_GameTime)
+        {
+            base.Update(i_GameTime);
+            if (Math.Abs(TransitionPosition - 1) > 0)
+            {
+                r_PauseMessage.Opacity = TransitionPosition;
+                r_ContinueMessage.Opacity = TransitionPosition;
+            }
         }
 
         private void deactivateScreen(object sender, EventArgs e)
-        {
-          //  Deactivate();
-          ExitScreen();
+        { 
+            ExitScreen();
         }
     }
 }

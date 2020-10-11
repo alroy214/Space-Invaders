@@ -21,6 +21,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private const string k_ExitMessage = "Press Esc Key to exit the game";
         private const string k_StartMessage = "Press the Home Key to start the game";
         private const string k_MenuMessage = "Press the M Key to show the settings";
+        private const float k_ActivationTime = 1f;
         private readonly int[] r_PlayerScores;
         private readonly Background r_Background;
         private readonly ScreenHeader r_ScreenHeader;
@@ -42,6 +43,17 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             TextItem menuButton = new TextItem(this, k_MenuMessage, NumberOfItemsOnScreen(), Color.DodgerBlue, Keys.M);
             menuButton.AddToOnClick(menuButton_OnClicked);
             AddGameItem(menuButton);
+            ActivationLength = TimeSpan.FromSeconds(k_ActivationTime);
+            UseFadeTransition = true;
+        }
+
+        public override void Update(GameTime i_GameTime)
+        {
+            base.Update(i_GameTime);
+            if (Math.Abs(TransitionPosition - 1) > 0)
+            {
+                r_ScreenHeader.Scales = new Vector2(TransitionPosition) * k_HeaderScale;
+            }
         }
 
         protected override void LoadContent()
@@ -69,7 +81,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private void startButton_OnClicked(object sender, EventArgs e)
         {
             m_ScreensManager.SetCurrentScreen(new LevelTransitionScreen(Game));
-            ExitScreen();
         }
 
         private void exitButton_OnClicked(object sender, EventArgs e)

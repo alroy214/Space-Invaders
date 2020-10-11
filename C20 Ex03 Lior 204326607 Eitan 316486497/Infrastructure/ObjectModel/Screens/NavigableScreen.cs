@@ -16,7 +16,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private const bool k_MouseEnabledByDefault = true;
         private const bool k_KeyboardEnabledByDefault = true;
         private const int k_NoItemSelectedIndex = -1;
-        private readonly List<GameItem> r_GameItems;
+        protected readonly List<GameItem> r_GameItems;
         protected float m_OffsetX;
         protected float m_OffsetY;
         private Vector2 m_FirstPosition;
@@ -57,7 +57,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         
         private void initializeFirstPosition()
         {
-            m_FirstPosition = new Vector2(Game.Window.ClientBounds.Width / 2f - m_OffsetX, Game.Window.ClientBounds.Height / 2f + m_OffsetY);
+           m_FirstPosition = CenterOfViewPort + new Vector2(-m_OffsetX, m_OffsetY);
         }
 
         private void initializeAllPositions()
@@ -85,6 +85,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             updateItemNavigation();
             checkIfActiveItemChanged();
             base.Update(i_GameTime);
+        }
+
+        protected override void UpdateTransition(GameTime i_GameTime)
+        {
+            base.UpdateTransition(i_GameTime);
+            foreach(GameItem item in r_GameItems)
+            {
+                item.Opacity = TransitionPosition;
+            }
         }
 
         private void updateItemNavigation()

@@ -54,6 +54,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         protected ISoundManager r_SoundManager;
         private bool m_ActivatedByMouse;
         private bool m_IsToggleItem;
+        private bool m_RedirectsToScreen;
         public bool m_CannotBeSelectedByMouse;
         private bool m_IsItemPressed;
         private Keys m_KeyRedirection;
@@ -67,7 +68,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             m_TouchLocked = false;
             m_IsToggleItem = false;
             m_ActivatedByMouse = false;
-            m_IsItemPressed = false;   
+            m_IsItemPressed = false;
+            m_IsItemPressed = false;
             m_CannotBeSelectedByMouse = false;
         }
 
@@ -76,16 +78,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             base.Initialize();
 
             ActiveStateChanged += stateChanged;
-        }
 
-        protected override void InitAnimations()
-        {
-            Animations.Enabled = true;
+
             m_PulseAnimator = new PulseAnimator(k_PulseAnimationName, TimeSpan.Zero, k_PulseTargetScale, k_PulsePerSecond);
             Animations.Add(m_PulseAnimator);
+            Animations.Enabled = true;
             m_PulseAnimator.Enabled = false;
-            m_PositionOrigin = new Vector2(m_PositionOrigin.X + Width / k_OriginOffsetX, m_PositionOrigin.Y + Height / k_OriginOffsetY);
-            CenterRectangle();
+            PositionOrigin = SourceRectangleCenter - new Vector2(Width/2, Height/2);
+            RotationOrigin = SourceRectangleCenter;
         }
 
         public override void Update(GameTime i_GameTime)
@@ -116,7 +116,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
                         onItemClicked(new ItemValueChangeEventArgs(eValueChange.Decrease));
                     }
                 }
-                else if(GameScreen.InputManager.KeyPressed(Keys.Enter))
+                else if(GameScreen.InputManager.KeyPressed(Keys.Enter) && m_RedirectsToScreen)
                 {
                     onItemClicked();
                 }
@@ -219,6 +219,18 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             set
             {
                 m_ActiveColor = value;
+            }
+        }
+
+        public bool RedirectsToScreen
+        {
+            get
+            {
+                return m_RedirectsToScreen;
+            }
+            set
+            {
+                m_RedirectsToScreen = value;
             }
         }
 

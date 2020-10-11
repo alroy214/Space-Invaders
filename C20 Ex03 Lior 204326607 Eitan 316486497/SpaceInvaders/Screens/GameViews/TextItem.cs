@@ -35,7 +35,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             : this(i_GameScreen, i_TextMessage, i_ItemNumber, i_ActiveColor, i_FontColor, Keys.None, i_TouchLock)
         {
         }
-
         public TextItem(GameScreen i_GameScreen, string i_TextMessage, int i_ItemNumber, Color i_ActiveColor, Color i_FontColor,
                         Keys i_KeyRedirection = Keys.None, bool i_TouchLock = false, string i_PrefixMessage = "")
             : base(k_TextAsset, i_GameScreen, i_ItemNumber)
@@ -101,7 +100,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
                 bool isMultiLine = ToString().Split(Environment.NewLine).Length != 1;
                 m_TextPosition = new Vector2(
                     m_Position.X + Width / 2 - measuredText.X / 2,
-                    m_Position.Y + Height / 2 - measuredText.Y / 2 - (isMultiLine ? m_Font.LineSpacing / 2 : 0));
+                    m_Position.Y + Height / 2 - measuredText.Y / 2 - (isMultiLine ? m_Font.LineSpacing : 0));
             }
             base.Draw(i_GameTime);
             m_SpriteBatch.DrawString(m_Font, ToString(), m_TextPosition, r_FontColor);

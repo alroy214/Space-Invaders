@@ -39,7 +39,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             r_PlayerFormation.OnAllShipDestroyed(HandleGameOver);
         }
 
-        //FIX TRANSITIONS TODO
         public void HandleLevelWin(object sender, EventArgs e)
         {
             r_PlayManager.IncreaseDifficultyLevel();
@@ -79,10 +78,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
             if (InputManager.KeyPressed(Keys.P))
             {
+                Enabled = false;
                 PauseScreen pauseScreen = new PauseScreen(Game);
                 pauseScreen.StateChanged += onPauseScreenChanged;
                 ScreensManager.SetCurrentScreen(pauseScreen);
-                Enabled = false;
             }
         }
     }
