@@ -13,12 +13,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
     public class SoundManager : GameService, ISoundManager
     {
         private const bool k_MusicOnFromStart = false;
+        private const int k_MaxSoundsVolumeLevel = 100;
+        private const int k_MinSoundsVolumeLevel = 0;
         private readonly Dictionary<string, SoundEffectInstance> r_SoundsEffects;
         private SoundEffectInstance m_CurrentBackgroundMusic;
         private string m_CurrentHoverSoundEffect;
         private bool m_SoundEffectsEnabled;
-        private const int k_MaxSoundsVolumeLevel = 100;
-        private const int k_MinSoundsVolumeLevel = 0;
 
         public SoundManager(Game i_Game) : base(i_Game)
         {
@@ -119,7 +119,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
 
         public int GetSoundEffectsVolumePercentage()
         {
-            if (r_SoundsEffects?.First() == null)
+            if (r_SoundsEffects == null || r_SoundsEffects.Count == 0)
             {
                 return 0;
             }
@@ -153,7 +153,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
 
         public void ChangeSoundEffectsVolumeLevel(float i_VolumeChange)
         {
-            if (r_SoundsEffects?.First() != null)
+            if (r_SoundsEffects != null && r_SoundsEffects.Count != 0)
             {
                 float newVolumeLevel = changeVolumeLevel(r_SoundsEffects.First().Value.Volume, i_VolumeChange);
 

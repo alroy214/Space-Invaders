@@ -29,24 +29,27 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             r_ScoreManager = new ScoreManager(this);
             r_PlayManager = new PlayManager(this);
 
-            r_Graphics.IsFullScreen = false;
             r_Graphics.PreferredBackBufferWidth = k_WindowSizeX;
             r_Graphics.PreferredBackBufferHeight = k_WindowSizeY;
             r_Graphics.ApplyChanges();
 
+            /*DEBUG*/
+            Window.AllowUserResizing = true;
+            /*END OF DEBUG*/
+
             Window.Title = k_WindowTitle;
-            // this.Window.AllowUserResizing = true;
-            GameScreen welcomeScreen = new WelcomeScreen(this);
-         //   GameScreen gameOverScreen = new GameOverScreen(this, new []{10, 1}); 
-           // r_Screens.Push(gameOverScreen);
-            r_Screens.SetCurrentScreen(welcomeScreen);
-            
+            r_Screens.SetCurrentScreen(new WelcomeScreen(this));
         }
 
         protected override void LoadContent()
         {
             m_SpriteBatch = new SpriteBatch(GraphicsDevice);
             MusicUtils.LoadSoundEffects(r_SoundManager, Content);
+            /*DEBUG*/
+            r_SoundManager.ChangeBackgroundMusicVolumeLevel(-90);
+            r_SoundManager.ChangeSoundEffectsVolumeLevel(-90);
+            r_SoundManager.SoundToggle = true;
+            /*END OF DEBUG*/
             base.LoadContent();
         }
     }

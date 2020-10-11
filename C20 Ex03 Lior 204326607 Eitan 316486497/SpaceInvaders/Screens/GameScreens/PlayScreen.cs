@@ -54,6 +54,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             m_ScreensManager.SetCurrentScreen(new GameOverScreen(Game, r_ScoreHeader.GetPlayerScores()));
             r_PlayManager.PlayDifficultyLevel = PlayManager.k_DefaultDifficultyLevel;
             r_ScoreManager.ResetScores();
+            r_PlayManager.ResetLives();
             onScreenEnd();
         }
 

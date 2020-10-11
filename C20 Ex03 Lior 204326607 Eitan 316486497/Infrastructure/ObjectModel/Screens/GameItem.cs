@@ -51,7 +51,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         private PulseAnimator m_PulseAnimator;
         protected Color m_ActiveColor;
         protected bool m_TouchLocked;
-        protected ISoundManager m_SoundManager;
+        protected ISoundManager r_SoundManager;
         private bool m_ActivatedByMouse;
         private bool m_IsToggleItem;
         public bool m_CannotBeSelectedByMouse;
@@ -61,6 +61,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         public GameItem(string i_AssetName, GameScreen i_GameScreen, int i_ItemNumber)
             : base(i_AssetName, i_GameScreen)
         {
+            r_SoundManager = m_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
             r_NumberInScreen = i_ItemNumber;
             m_ItemActive = false;
             m_TouchLocked = false;
@@ -75,8 +76,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             base.Initialize();
 
             ActiveStateChanged += stateChanged;
-
-            m_SoundManager = m_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
         }
 
         protected override void InitAnimations()
@@ -176,7 +175,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             if(m_ItemActive)
             {
                 activateItem();
-                m_SoundManager.PlayHoverSound();
+                r_SoundManager.PlayHoverSound();
             }
             else
             {

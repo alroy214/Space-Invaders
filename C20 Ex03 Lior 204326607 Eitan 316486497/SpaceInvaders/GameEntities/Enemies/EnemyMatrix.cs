@@ -126,7 +126,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             }
 
             m_CurrentNumberOfEnemies--;
-            if (m_CurrentNumberOfEnemies == 0)
+     //       if (m_CurrentNumberOfEnemies == 0)
             {
                 AllEnemiesDestroyed?.Invoke(this, EventArgs.Empty);
             }

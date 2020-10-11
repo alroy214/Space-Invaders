@@ -28,15 +28,24 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
         {
             PlayerShip.ePlayer[] players = ((PlayerShip.ePlayer[])Enum.GetValues(typeof(PlayerShip.ePlayer)));
 
-            m_CurrentLivingPlayers =
-                i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playManager
-                    ? Math.Min(playManager.NumberOfPlayers, players.Length)
-                    : Math.Min(PlayManager.k_DefaultNumberOfPlayers, players.Length);
+            IPlayManager playManager = i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) as IPlayManager;
+
+            m_CurrentLivingPlayers = playManager != null
+                                         ? Math.Min(playManager.NumberOfPlayers, players.Length)
+                                         : Math.Min(PlayManager.k_DefaultNumberOfPlayers, players.Length);
 
             r_PlayerShips = new PlayerShip[m_CurrentLivingPlayers];
 
-            for(int i = 0; i < m_CurrentLivingPlayers; i++)
+            int numberInFormation = 0;
+
+            for(int i = 0; i < r_PlayerShips.Length; i++)
             {
+                if(playManager != null && playManager.GetNumberOfLives(players[i]) == 0)
+                {
+                    m_CurrentLivingPlayers--;
+                    continue;
+                }
+
                 Keys currentShootKey = Keys.None;
                 Keys currentLeftKey = Keys.None;
                 Keys currentRightKey = Keys.None;
@@ -66,7 +75,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
                         }
                 }
 
-                r_PlayerShips[i] = new PlayerShip(assetName, i_GameScreen, players[i])
+                r_PlayerShips[i] = new PlayerShip(assetName, i_GameScreen, players[i], numberInFormation++)
                                       {
                                           CurrentRightKey = currentRightKey,
                                           CurrentLeftKey = currentLeftKey,

@@ -12,6 +12,12 @@ namespace Infrastructure.ServiceInterfaces
 
         void IncreaseDifficultyLevel();
 
+        void ResetLives();
+
+        void LifeLost(PlayerShip.ePlayer i_Player);
+
+        int GetNumberOfLives(PlayerShip.ePlayer i_Player);
+
         int ToggleNumberOfPlayers();
 
         int GetEffectiveDifficultyLevel();

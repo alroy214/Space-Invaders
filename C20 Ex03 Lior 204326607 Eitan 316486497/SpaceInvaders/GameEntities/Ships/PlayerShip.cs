@@ -26,11 +26,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private const float k_Velocity = 140f;
         private const int k_NumberOfBullets = 2;
         private const int k_MarginBottom = 30;
-        private const int k_DefaultNumberOfLives = 3;
         private readonly BulletMagazine r_BulletMagazine;
         private readonly ePlayer r_CurrentPlayer;
         private readonly LifeCluster r_LifeCluster;
         private readonly ISoundManager r_SoundManager;
+        private readonly IPlayManager r_PlayManager;
+        private readonly int r_NumberInFormation;
         private CompositeAnimator m_FetalHitAnimator;
         private bool m_KeyboardPressLock;
         private bool m_MouseClickLock;
@@ -38,11 +39,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private Keys m_CurrentLeftKey;
         private Keys m_CurrentShootKey;
 
-        public PlayerShip(string i_AssetName, GameScreen i_GameScreen, ePlayer i_Player) : base(i_AssetName, i_GameScreen)
+        public PlayerShip(string i_AssetName, GameScreen i_GameScreen, ePlayer i_Player, int i_NumberInFormation) : base(i_AssetName, i_GameScreen)
         {
             r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
+            r_PlayManager = i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) as IPlayManager;
             r_BulletMagazine = new PlayerBulletMagazine(i_GameScreen, k_NumberOfBullets, i_Player);
-            r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int) i_Player, k_DefaultNumberOfLives);
+            int numberOfLives = r_PlayManager?.GetNumberOfLives(i_Player) ?? PlayManager.k_DefaultNumberOfLives;
+            r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int)i_Player, numberOfLives);
+            r_NumberInFormation = i_NumberInFormation;
             r_CurrentPlayer = i_Player;
         }
 
@@ -129,7 +133,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         protected override void InitBounds()
         {
             base.InitBounds();
-            m_Position = new Vector2((int) CurrentPlayer * Width, GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
+            m_Position = new Vector2(r_NumberInFormation * Width, GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
         }
 
         public override void Collided(ICollidable i_Collidable)
@@ -137,17 +141,23 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             base.Collided(i_Collidable);
             if (i_Collidable is EnemyBullet)
             {
-                r_SoundManager.PlaySoundEffect(MusicUtils.k_LifeDieSound);
-                if (r_LifeCluster.LifeShuttered() == 0)
-                {
-                    Animations = m_FetalHitAnimator;
-                    Animations.Resume();
-                }
-                else
-                {
-                    Animations.Restart();
-                    bringToMostLeftPosition();
-                }
+                shipLifeLost();
+            }
+        }
+
+        private void shipLifeLost()
+        {
+            r_SoundManager.PlaySoundEffect(MusicUtils.k_LifeDieSound);
+            r_PlayManager.LifeLost(CurrentPlayer);
+            if (r_LifeCluster.LifeShuttered() == 0)
+            {
+                Animations = m_FetalHitAnimator;
+                Animations.Resume();
+            }
+            else
+            {
+                Animations.Restart();
+                bringToMostLeftPosition();
             }
         }
 

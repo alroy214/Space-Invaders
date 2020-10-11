@@ -30,10 +30,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders
             i_SoundManager.AddSoundEffect(i_Content.Load<SoundEffect>($"{k_SoundEffectRoot}{k_LifeDieSound}"), k_LifeDieSound);
             i_SoundManager.AddSoundEffect(i_Content.Load<SoundEffect>($"{k_SoundEffectRoot}{k_MenuMoveSound}"), k_MenuMoveSound);
             i_SoundManager.SetBackgroundMusic(i_Content.Load<SoundEffect>($"{k_SoundEffectRoot}{k_BackgroundMusicSound}"));
-            i_SoundManager.SetHoverSoundEffect(k_BackgroundMusicSound);
-            i_SoundManager.ChangeBackgroundMusicVolumeLevel(-90);
-            i_SoundManager.ChangeSoundEffectsVolumeLevel(-90);
-            i_SoundManager.SoundToggle = true;
+            i_SoundManager.SetHoverSoundEffect(k_MenuMoveSound);
         }
     }
 }
