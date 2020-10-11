@@ -35,9 +35,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             : this(i_GameScreen, i_TextMessage, i_ItemNumber, i_ActiveColor, i_FontColor, Keys.None, i_TouchLock)
         {
         }
-        public TextItem(GameScreen i_GameScreen, string i_TextMessage, int i_ItemNumber, Color i_ActiveColor, Color i_FontColor,
-                        Keys i_KeyRedirection = Keys.None, bool i_TouchLock = false, string i_PrefixMessage = "")
-            : base(k_TextAsset, i_GameScreen, i_ItemNumber)
+
+        public TextItem(GameScreen i_GameScreen, string i_TextMessage, int i_ItemNumber, Color i_ActiveColor, Color i_FontColor, Keys i_KeyRedirection = Keys.None,
+                        bool i_TouchLock = false, string i_PrefixMessage = "") : base(k_TextAsset, i_GameScreen, i_ItemNumber)
         {
             m_TextMessage = i_TextMessage;
             m_ActiveColor = i_ActiveColor;
@@ -50,10 +50,18 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             {
                 KeyRedirection = i_KeyRedirection;
             }
-            if (m_TouchLocked)
+
+            if(m_TouchLocked)
             {
                 TintColor = i_ActiveColor;
             }
+
+            Game.Window.ClientSizeChanged += windowChanged;
+        }
+
+        private void windowChanged(object i_Sender, EventArgs i_E)
+        {
+            m_TextPosition = Vector2.Zero;
         }
 
         public string TextMessage

@@ -1,4 +1,5 @@
-﻿using Infrastructure.ObjectModel.Screens;
+﻿using System;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
@@ -29,8 +30,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
             float scaleX = Game.GraphicsDevice.Viewport.Width / WidthBeforeScale;
             float scaleY = Game.GraphicsDevice.Viewport.Height / HeightBeforeScale;
-
             Scales = new Vector2(scaleX, scaleY);
+
             DrawOrder = int.MinValue;
         }
     }

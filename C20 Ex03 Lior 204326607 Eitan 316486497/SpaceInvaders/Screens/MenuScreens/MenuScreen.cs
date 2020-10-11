@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
@@ -11,12 +12,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
 {
     class MenuScreen : NavigableScreen
     {
-        private const int k_HeaderOffsetY = 50;
         private const int k_ItemsOffsetY = -130;
         private const string k_ToggleOnMessage = "On";
         private const string k_ToggleOffMessage = "Off";
         private readonly Background r_Background;
-        private ScreenHeader m_ScreenHeader;
 
         public MenuScreen(Game i_Game) : base(i_Game)
         {
@@ -28,7 +27,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
             BlendState = BlendState.NonPremultiplied;
             UseFadeTransition = true;
         }
-
 
         public override void Update(GameTime i_GameTime)
         {
@@ -42,11 +40,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
                     m_ScreenHeader.Opacity = TransitionPosition;
                 }
             }
-        }
-
-        protected void SetScreenHeader(string i_HeaderAsset,  float i_Scale)
-        {
-            m_ScreenHeader = new ScreenHeader(this, i_HeaderAsset, i_Scale, GraphicsDevice.Viewport.Width / 2f, k_HeaderOffsetY, true);
         }
 
         protected string GetDefaultToggleMessage(bool i_ToggleValue)

@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497
 {
-    public class Life : Sprite
+    public class Life : GameEntity
     {
         private const float k_Opacity = 0.5f;
         private const int k_InitTopMargin = 10;

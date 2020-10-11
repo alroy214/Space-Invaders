@@ -20,7 +20,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private const string k_ExitMessage = "Press Esc Key to exit the game";
         private const string k_MenuMessage = "Press the M Key to show the settings";
         private readonly Background r_Background;
-        private readonly ScreenHeader r_ScreenHeader;
         private TextItem startButton;
         private TextItem exitButton;
         private TextItem menuButton;
@@ -28,8 +27,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         public WelcomeScreen(Game i_Game) : base(i_Game)
         {
             r_Background = new Background(this);
-            r_ScreenHeader = new ScreenHeader(this, k_HeaderAssetName, k_HeaderScale);
-
+            SetScreenHeader(k_HeaderAssetName, k_HeaderScale);
             startButton = new TextItem(this, k_StartMessage, NumberOfItemsOnScreen(), Color.LightSeaGreen, Keys.Enter);
             startButton.AddToOnClick(startButton_OnClicked);
             AddGameItem(startButton);
@@ -53,7 +51,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             if (Math.Abs(TransitionPosition - 1) > 0)
             {
                 r_Background.Opacity = TransitionPosition;
-                r_ScreenHeader.Opacity = TransitionPosition;
+                m_ScreenHeader.Opacity = TransitionPosition;
             }
         }
 

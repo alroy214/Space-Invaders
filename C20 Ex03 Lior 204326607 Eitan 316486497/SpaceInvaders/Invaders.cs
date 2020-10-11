@@ -39,6 +39,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
             Window.Title = k_WindowTitle;
             r_Screens.SetCurrentScreen(new WelcomeScreen(this));
+          //  r_Screens.SetCurrentScreen(new GameOverScreen(this, new []{10, 2}));
         }
 
         protected override void LoadContent()

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
+using Infrastructure.ObjectModel;
 using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,6 +21,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         protected readonly List<GameItem> r_GameItems;
         protected float m_OffsetX;
         protected float m_OffsetY;
+        protected Sprite m_ScreenHeader;
         private Vector2 m_FirstPosition;
         private float m_ItemHeightMargin;
         public int m_CurrentActiveItem;
@@ -37,38 +40,65 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             m_LastInputWasByAKeyboard = false;
             m_NavigateUpKey = k_DefaultNavigateUpKey;
             m_NavigateDownKey = k_DefaultNavigateDownKey;
-            m_ItemHeightMargin = k_DefaultItemHeightMargin; 
+            m_ItemHeightMargin = k_DefaultItemHeightMargin;
             m_MouseEnabled = k_MouseEnabledByDefault; 
             m_KeyBoardEnabled = k_KeyboardEnabledByDefault;
+            Game.Window.ClientSizeChanged += sizeChange;
         }
 
         protected override void LoadContent()
         {
             base.LoadContent();
             activateFirstItem();
+            initializePositions();
         }
 
-        public override void Initialize()
+        private void sizeChange(object i_Sender, EventArgs i_E)
         {
-            base.Initialize();
-            initializeFirstPosition();
-            initializeAllPositions();
-        }
-        
-        private void initializeFirstPosition()
-        {
-           m_FirstPosition = CenterOfViewPort + new Vector2(-m_OffsetX, m_OffsetY);
+            if(r_GameItems != null && m_CurrentActiveItem < r_GameItems.Count && m_CurrentActiveItem >= 0)
+            {
+                r_GameItems[m_CurrentActiveItem].ItemActive = false;
+                initializePositions();
+                r_GameItems[m_CurrentActiveItem].SilentlyActivateItem();
+            }
+            else
+            {
+                initializePositions();
+            }
         }
 
-        private void initializeAllPositions()
+        private void initializePositions()
         {
+            m_FirstPosition = CenterOfViewPort + new Vector2(-m_OffsetX, m_OffsetY);
             if (r_GameItems != null)
             {
-                foreach(GameItem item in r_GameItems)
+                foreach (GameItem item in r_GameItems)
                 {
-                    item.Position = m_FirstPosition + new Vector2(-item.Width / 2f, item.NumberInScreen * (m_ItemHeightMargin + item.Texture.Height / 2f));
+                    initItemPosition(item);
+                }
+
+                if (m_ScreenHeader != null)
+                {
+                    m_ScreenHeader.Position = m_FirstPosition + new Vector2(-m_ScreenHeader.Width / 2f, 
+                                                  - m_ScreenHeader.Height - m_ItemHeightMargin / 2f);
                 }
             }
+        }
+
+        private void initItemPosition(GameItem i_Item)
+        {
+            i_Item.Position = m_FirstPosition + new Vector2(-i_Item.Width / 2f, i_Item.NumberInScreen * (m_ItemHeightMargin + i_Item.Texture.Height / 2f));
+        }
+
+        protected void SetScreenHeader(string i_HeaderAsset, float i_Scale)
+        {
+            m_ScreenHeader = CreateHeaderSprite(i_HeaderAsset, i_Scale);
+        }
+
+        protected Sprite CreateHeaderSprite(string i_HeaderAsset, float i_Scale)
+        {
+            Sprite sprite = new Sprite(i_HeaderAsset, this) { Scales = new Vector2(i_Scale) };
+            return sprite;
         }
 
         private void activateFirstItem()

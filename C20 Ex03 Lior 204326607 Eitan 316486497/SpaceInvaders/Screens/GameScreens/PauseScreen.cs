@@ -13,13 +13,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
     {
         private string k_continueMessage = "Click the R Key to continue playing";
         private const string k_HeaderAsset = @"Headers\Game Paused";
-        private const int k_HeaderWidthOffset = 20;
-        private const int k_HeaderHeightOffset = 130;
         private const float k_HeaderScale = 0.35f;
         private const float k_BlackTintAlpha = 0.4f;
         private const float k_FadeActivationTime = 0.4f;
         private const float k_FadeDeactivationTime = 0.1f;
-        private readonly ScreenHeader r_PauseMessage;
         private readonly TextItem r_ContinueMessage;
 
         public PauseScreen(Game i_Game) : base(i_Game)
@@ -28,10 +25,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             IsModal = true;
             IsOverlayed = true;
             BlackTintAlpha = k_BlackTintAlpha;
-            float viewportWidthMargin = i_Game.Window.ClientBounds.Width / 2f;
-            r_PauseMessage = new ScreenHeader(this, k_HeaderAsset, k_HeaderScale,
-                viewportWidthMargin - k_HeaderWidthOffset, k_HeaderHeightOffset, true);
-            r_ContinueMessage = new TextItem(this, k_continueMessage, 0, Color.LightGoldenrodYellow,
+            SetScreenHeader(k_HeaderAsset, k_HeaderScale);
+            r_ContinueMessage = new TextItem(this, k_continueMessage, 
+                0, Color.LightGoldenrodYellow,
                 Color.Black, Keys.R, true);
             AddGameItem(r_ContinueMessage);
             r_ContinueMessage.AddToOnClick(deactivateScreen);
@@ -46,7 +42,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             base.Update(i_GameTime);
             if (Math.Abs(TransitionPosition - 1) > 0)
             {
-                r_PauseMessage.Opacity = TransitionPosition;
+                m_ScreenHeader.Opacity = TransitionPosition;
                 r_ContinueMessage.Opacity = TransitionPosition;
             }
         }

@@ -10,6 +10,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         protected GameEntity(string i_AssetName, GameScreen i_GameScreen)
             : base(i_AssetName, i_GameScreen)
         {
+            Game.Window.ClientSizeChanged += initBounds;
+        }
+
+        private void initBounds(object i_Sender, EventArgs i_E)
+        {
+            InitBounds();
         }
 
         public override void Draw(GameTime i_GameTime)

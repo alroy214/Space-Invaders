@@ -1,4 +1,6 @@
 //*** Guy Ronen © 2008-2011 ***//
+
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Infrastructure.ServiceInterfaces;
@@ -7,6 +9,7 @@ namespace Infrastructure.ObjectModel
 {
     public abstract class LoadableDrawableComponent : DrawableGameComponent
     {
+        public event EventHandler<EventArgs> Disposed;
         protected string m_AssetName;
 
         // used to load the sprite:
@@ -88,5 +91,18 @@ namespace Infrastructure.ObjectModel
         }
 
         protected abstract void DrawBoundingBox();
+        protected virtual void OnDisposed(object sender, EventArgs args)
+        {
+            if (Disposed != null)
+            {
+                Disposed.Invoke(sender, args);
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            OnDisposed(this, EventArgs.Empty);
+        }
     }
 }
