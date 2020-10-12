@@ -38,8 +38,6 @@ namespace Infrastructure.ServiceInterfaces
     public interface ICollisionsManager
     {
         void AddObjectToMonitor(ICollidable i_Collidable);
-
-        void PurgeCollisions();
     }
     // -- end of TODO 09
 }

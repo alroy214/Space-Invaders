@@ -10,10 +10,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 {
     public class MotherShip : GameEntity, ICollidable2D, GameEntity.IScorableEntity
     {
-        public event EventHandler<EventArgs> Disposed;
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
         private const int k_MotherShipPointsValue = 600;
-        private const int k_MaxSecondsToAppearance = 15;
+        private const int k_MaxSecondsToAppearance = 5;
         private const int k_MotherShipVelocity = 95;
         private const float k_AnimationBlinkTime = 0.2f;
         private const float k_AnimationDestroyTime = 3.0f;
@@ -34,6 +33,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             base.Initialize();
             BringToInitPosition();
+        }
+
+        protected override void ScreenChanged(object i_Sender, EventArgs i_E)
+        {
+            Position = new Vector2(Math.Clamp(Position.X, 0,
+                Game.GraphicsDevice.Viewport.Width - Width), Texture.Height);
         }
 
         public override void Update(GameTime i_GameTime)

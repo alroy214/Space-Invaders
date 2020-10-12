@@ -21,7 +21,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private readonly Background r_Background;
         private readonly TextItem r_StartButton;
         private readonly TextItem r_LevelButton;
-        private float m_StartTimeScreen;
         private float m_TimeCounter;
 
         public LevelTransitionScreen(Game i_Game)
@@ -39,16 +38,26 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
                 Color.White, Color.Black, true);
             r_StartButton = new TextItem(this, Math.Ceiling(m_TimeCounter) + k_SecondsMessageText, 
                 Color.DarkGray, Color.Black, true, k_StartMessageText);
-            m_StartTimeScreen = 0;
+            Game.Window.ClientSizeChanged += changePosition;
+        }
+
+        private void changePosition(object i_Sender, EventArgs i_E)
+        {
+            changePosition();
+        }
+
+        private void changePosition()
+        {
+            float widthMargin = GraphicsDevice.Viewport.Width / 2f;
+            float heightMargin = GraphicsDevice.Viewport.Height / 2f;
+            r_LevelButton.Position = new Vector2(widthMargin - r_LevelButton.Width / 2, heightMargin - k_TopMarginBetweenMessages);
+            r_StartButton.Position = new Vector2(widthMargin - r_StartButton.Width / 2, heightMargin);
         }
 
         protected override void LoadContent()
         {
             base.LoadContent();
-            float widthMargin = GraphicsDevice.Viewport.Width / 2f;
-            float heightMargin = GraphicsDevice.Viewport.Height / 2f;
-            r_LevelButton.Position = new Vector2(widthMargin - r_LevelButton.Width / 2, heightMargin - k_TopMarginBetweenMessages);
-            r_StartButton.Position = new Vector2(widthMargin - r_StartButton.Width / 2, heightMargin);
+            changePosition();
         }
 
         public override void Update(GameTime i_GameTime)

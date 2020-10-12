@@ -9,18 +9,17 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public class Barrier : GameEntity, ICollidable2D
     {
-        public event EventHandler<EventArgs> Disposed;
         private const string k_AssetName = @"Sprites\Barrier_44x32";
         private const float k_BulletRedactionPercentage = 0.35f;
         private const int k_BottomMarginBounds = 62;
         private const int k_ButtonMarginMultiplier = 2;
-        private const float k_RightMarginMultiplier = 2.6f;
+        private const float k_RightMarginMultiplier = 1.3f;
         private const float k_BarrierVelocity = 35f;
         private const float k_BarrierVelocityLevelMultiplier = 1.06f;
         private const int k_BarrierVelocityImmobileLevel = 1;
         private const int k_BarrierVelocityThresholdLevel = 2;
         private readonly int r_NumberInCluster;
-        private readonly int r_TotalNumberInCluster;
+        private readonly float r_TotalNumberInCluster;
         private readonly ISoundManager r_SoundManager;
         private Vector2 m_InitPosition;
 
@@ -46,22 +45,30 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             Velocity = new Vector2(leveledVelocity, 0);
         }
 
+        protected override void ScreenChanged(object i_Sender, EventArgs i_E)
+        {
+            setPosition();
+        }
+
         protected override void InitBounds()
         {
             base.InitBounds();
-            
-            if (r_NumberInCluster >= 0)
-            {
-                m_Position = new Vector2(
-                    (float)GraphicsDevice.Viewport.Width / r_TotalNumberInCluster
-                    + r_NumberInCluster * Width * k_RightMarginMultiplier,
-                    GraphicsDevice.Viewport.Height - k_BottomMarginBounds - (k_ButtonMarginMultiplier * Height));
-            }
+
+            setPosition();
 
             Color[] colorData = new Color[Texture.Height * Texture.Width];
             Texture.GetData(colorData);
             Texture = new Texture2D(Game.GraphicsDevice, (int)Width, (int)Height);
             Texture.SetData(colorData);
+        }
+
+        private void setPosition()
+        {
+            m_Position = new Vector2((Game.Window.ClientBounds.Width / 2f) -
+                                     (Texture.Width * (r_TotalNumberInCluster +
+                                                       ((r_TotalNumberInCluster - 1) * k_RightMarginMultiplier))) / 2f +
+                                     (Texture.Width * (1 + k_RightMarginMultiplier)) * r_NumberInCluster,
+                GraphicsDevice.Viewport.Height - k_BottomMarginBounds - (k_ButtonMarginMultiplier * Texture.Height));
         }
 
         public override void Update(GameTime i_GameTime)

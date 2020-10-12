@@ -12,7 +12,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public class Enemy : GameEntity, ICollidable2D, GameEntity.IScorableEntity
     {
-        public event EventHandler<EventArgs> Disposed;
         private event EventHandler EnemyWentBelowBorder;
         private event Action<bool, bool, bool> EnemyDied;
         private event Action TurnEnemies;
@@ -77,6 +76,17 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             YELLOW
         }
 
+        protected override void ScreenChanged(object i_Sender, EventArgs i_E)
+        {
+        }
+
+        private Vector2 getStartingPosition()
+        {
+            float xPosition = r_ColPosition * k_EnemyPixelHeight * k_EnemyBelowMarginMultiplier;
+            float yPosition = r_RowPosition * k_EnemyPixelHeight * k_EnemyBelowMarginMultiplier + k_MatrixTopMargin;
+            return new Vector2(xPosition, yPosition);
+        }
+
         public override void Initialize()
         {
             base.Initialize();
@@ -92,11 +102,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         protected override void InitBounds()
         {
-            float xPosition = r_ColPosition * k_EnemyPixelHeight * k_EnemyBelowMarginMultiplier;
-            float yPosition = r_RowPosition * k_EnemyPixelHeight * k_EnemyBelowMarginMultiplier + k_MatrixTopMargin;
-
             base.InitBounds();
-            m_Position = new Vector2(xPosition, yPosition);
+            m_Position = getStartingPosition();
             WidthBeforeScale = (float)Texture.Width / k_NumberOfCells;
             HeightBeforeScale = (float)Texture.Height / k_NumberOfTypes;
             InitSourceRectangle();

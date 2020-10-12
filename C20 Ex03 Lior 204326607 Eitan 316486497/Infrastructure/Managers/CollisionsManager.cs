@@ -21,11 +21,6 @@ namespace Infrastructure.Managers
             this.Game.Services.AddService(typeof(ICollisionsManager), this);
         }
 
-        public void PurgeCollisions()
-        {
-            m_Collidables.Clear();
-        }
-
         public void AddObjectToMonitor(ICollidable i_Collidable)
         {
             if (!this.m_Collidables.Contains(i_Collidable))

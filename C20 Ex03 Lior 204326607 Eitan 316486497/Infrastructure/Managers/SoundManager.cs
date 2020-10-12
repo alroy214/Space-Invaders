@@ -12,7 +12,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
 {
     public class SoundManager : GameService, ISoundManager
     {
-        private const bool k_MusicOnFromStart = false;
+        private const bool k_MusicOnFromStart = true;
         private const int k_MaxSoundsVolumeLevel = 100;
         private const int k_MinSoundsVolumeLevel = 0;
         private readonly Dictionary<string, SoundEffectInstance> r_SoundsEffects;

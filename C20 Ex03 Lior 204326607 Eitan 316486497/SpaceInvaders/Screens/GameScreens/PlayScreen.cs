@@ -42,7 +42,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         public void HandleLevelWin(object sender, EventArgs e)
         {
             r_PlayManager.IncreaseDifficultyLevel();
-            onScreenEnd();
+            Dispose(true);
             r_SoundManager.PlaySoundEffect(MusicUtils.k_LevelWinSound);
             m_ScreensManager.SetCurrentScreen(new LevelTransitionScreen(Game));
         }
@@ -54,14 +54,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             r_PlayManager.PlayDifficultyLevel = PlayManager.k_DefaultDifficultyLevel;
             r_ScoreManager.ResetScores();
             r_PlayManager.ResetLives();
-            onScreenEnd();
-        }
-
-        private void onScreenEnd()
-        {
-            ICollisionsManager collisionsManager =
-                Game.Services.GetService(typeof(ICollisionsManager)) as ICollisionsManager;
-            collisionsManager?.PurgeCollisions();
+            Dispose(true);
         }
 
         private void onPauseScreenChanged(object sender, StateChangedEventArgs e)

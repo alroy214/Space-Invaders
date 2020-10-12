@@ -14,7 +14,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 {
     public class PlayerShip : GameEntity, ICollidable2D
     {
-        public event EventHandler<EventArgs> Disposed;
         private event EventHandler ShipDestroyed;
         private const string k_NonFetalHitBlinkerAnimatorName = "PlayerShipNonFatalHitBlinkAnimator";
         private const string k_NonFetalHitAnimatorName = "PlayerShipNonFetalHitAnimator";
@@ -48,6 +47,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int)i_Player, numberOfLives);
             r_NumberInFormation = i_NumberInFormation;
             r_CurrentPlayer = i_Player;
+        }
+
+        protected override void ScreenChanged(object i_Sender, EventArgs i_E)
+        {
+            Position = new Vector2(Math.Clamp(Position.X, getStartingPosition().X, 
+                Game.GraphicsDevice.Viewport.Width - Width), getStartingPosition().Y);
         }
 
         public enum ePlayer
@@ -133,7 +138,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         protected override void InitBounds()
         {
             base.InitBounds();
-            m_Position = new Vector2(r_NumberInFormation * Width, GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
+            m_Position = getStartingPosition();
+        }
+
+        private Vector2 getStartingPosition()
+        {
+            return new Vector2(r_NumberInFormation * Width, GraphicsDevice.Viewport.Height - Texture.Height - k_MarginBottom);
         }
 
         public override void Collided(ICollidable i_Collidable)

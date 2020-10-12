@@ -46,10 +46,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             AddGameItem(menuButton);
             ActivationLength = TimeSpan.FromSeconds(k_ActivationTime);
             UseFadeTransition = true;
-            Game.Window.ClientSizeChanged += Initialize;
+            Game.Window.ClientSizeChanged += changePosition;
         }
 
-        private void Initialize(object? i_Sender, EventArgs i_E)
+        private void changePosition(object i_Sender, EventArgs i_E)
         {
             changePosition();
         }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure;
@@ -28,7 +30,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         {
             r_ScoreManager = new ScoreManager(this);
             r_PlayManager = new PlayManager(this);
-
             r_Graphics.PreferredBackBufferWidth = k_WindowSizeX;
             r_Graphics.PreferredBackBufferHeight = k_WindowSizeY;
             r_Graphics.ApplyChanges();
@@ -39,7 +40,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
             Window.Title = k_WindowTitle;
             r_Screens.SetCurrentScreen(new WelcomeScreen(this));
-          //  r_Screens.SetCurrentScreen(new GameOverScreen(this, new []{10, 2}));
         }
 
         protected override void LoadContent()
@@ -47,8 +47,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             m_SpriteBatch = new SpriteBatch(GraphicsDevice);
             MusicUtils.LoadSoundEffects(r_SoundManager, Content);
             /*DEBUG*/
-            r_SoundManager.ChangeBackgroundMusicVolumeLevel(-90);
-            r_SoundManager.ChangeSoundEffectsVolumeLevel(-90);
+            r_SoundManager.ChangeBackgroundMusicVolumeLevel(-99);
+            r_SoundManager.ChangeSoundEffectsVolumeLevel(-99);
             r_SoundManager.SoundToggle = true;
             /*END OF DEBUG*/
             base.LoadContent();

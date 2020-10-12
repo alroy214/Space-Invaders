@@ -10,10 +10,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         protected GameEntity(string i_AssetName, GameScreen i_GameScreen)
             : base(i_AssetName, i_GameScreen)
         {
-            Game.Window.ClientSizeChanged += initBounds;
+            Game.Window.ClientSizeChanged += ScreenChanged;
         }
 
-        private void initBounds(object i_Sender, EventArgs i_E)
+        protected virtual void ScreenChanged(object i_Sender, EventArgs i_E)
         {
             InitBounds();
         }

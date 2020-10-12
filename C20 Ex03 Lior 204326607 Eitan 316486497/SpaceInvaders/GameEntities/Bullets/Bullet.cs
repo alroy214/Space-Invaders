@@ -17,6 +17,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             Visible = false;
         }
 
+        protected override void ScreenChanged(object i_Sender, EventArgs i_E)
+        {
+            Position = new Vector2(Math.Clamp(Position.X, 0,
+                Game.GraphicsDevice.Viewport.Width - Width), Math.Clamp(Position.Y, 0,
+                Game.GraphicsDevice.Viewport.Height - Height));
+        }
+
         public override void Initialize()
         {
             base.Initialize();

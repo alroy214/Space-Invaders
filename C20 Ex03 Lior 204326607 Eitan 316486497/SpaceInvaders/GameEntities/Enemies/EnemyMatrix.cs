@@ -21,6 +21,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private int m_CurrentNumberOfMostRightEnemies;
         private int m_CurrentNumberOfMostLeftEnemies;
         private int m_CurrentNumberOfMostBottomEnemies;
+        private Enemy m_MostRightEnemy;
+        private readonly GameScreen r_GameScreen;
 
         public EnemyMatrix(GameScreen i_GameScreen)
         {
@@ -43,6 +45,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             markEnemiesClosestToTheBorder(eDirection.LEFT);
             markEnemiesClosestToTheBorder(eDirection.BOTTOM);
             AllEnemiesDestroyed += ((PlayScreen)i_GameScreen).HandleLevelWin;
+            r_GameScreen = i_GameScreen;
+            i_GameScreen.Game.Window.ClientSizeChanged += sizeChanged;
         }
 
         public enum eDirection
@@ -50,6 +54,27 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             RIGHT,
             LEFT,
             BOTTOM
+        }
+
+        private void sizeChanged(object sender, EventArgs e)
+        {
+            if (m_MostRightEnemy.Position.X + m_MostRightEnemy.Width >= r_GameScreen.Game.GraphicsDevice.Viewport.Width)
+            {
+                float moveBack = m_MostRightEnemy.Position.X + m_MostRightEnemy.Width
+                                     - r_GameScreen.Game.GraphicsDevice.Viewport.Width;
+                changeEnemiesRightPosition(new Vector2(moveBack, 0));
+            }
+        }
+
+        private void changeEnemiesRightPosition(Vector2 i_MoveBack)
+        {
+            foreach(Enemy enemy in r_EnemiesMatrix)
+            {
+                if (enemy.Enabled)
+                {
+                    enemy.Position -= i_MoveBack;
+                }
+            }
         }
 
         private void initEnemyMatrix(GameScreen i_GameScreen)
@@ -168,6 +193,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                             {
                                 if (!r_EnemiesMatrix[row, col].Destroyed)
                                 {
+                                    m_MostRightEnemy = r_EnemiesMatrix[row, col];
                                     m_CurrentNumberOfMostRightEnemies++;
                                     isClosestToTheBorder = true;
                                     r_EnemiesMatrix[row, col].IsMostRight = true;
