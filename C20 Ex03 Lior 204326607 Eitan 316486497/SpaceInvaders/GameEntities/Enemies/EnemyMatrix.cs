@@ -6,9 +6,10 @@ using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
-    public class EnemyMatrix
+    public class EnemyMatrix : GameComponent
     {
-        public event EventHandler AllEnemiesDestroyed;
+        private event EventHandler AllEnemiesDestroyed;
+        private event EventHandler EnemyCausedGameOver;
         private const int k_DefaultNumberOfRows = 5;
         private const int k_DefaultNumberOfCols = 9;
         private const int k_PinkEnemyPoints = 300;
@@ -24,7 +25,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private Enemy m_MostRightEnemy;
         private readonly GameScreen r_GameScreen;
 
-        public EnemyMatrix(GameScreen i_GameScreen)
+        public EnemyMatrix(GameScreen i_GameScreen) : base (i_GameScreen.Game)
         {
             int addedNumberOfCols;
             if (i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
@@ -44,7 +45,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             markEnemiesClosestToTheBorder(eDirection.RIGHT);
             markEnemiesClosestToTheBorder(eDirection.LEFT);
             markEnemiesClosestToTheBorder(eDirection.BOTTOM);
-            AllEnemiesDestroyed += ((PlayScreen)i_GameScreen).HandleLevelWin;
             r_GameScreen = i_GameScreen;
             i_GameScreen.Game.Window.ClientSizeChanged += sizeChanged;
         }
@@ -54,6 +54,17 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             RIGHT,
             LEFT,
             BOTTOM
+        }
+
+        public void OnAllEnemiesDestroyed(EventHandler i_EventHandler)
+        {
+            AllEnemiesDestroyed += i_EventHandler;
+        }
+
+
+        public void OnEnemyCausedGameOver(EventHandler i_EventHandler)
+        {
+            EnemyCausedGameOver += i_EventHandler;
         }
 
         private void sizeChanged(object sender, EventArgs e)
@@ -108,6 +119,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 for (int col = 0; col < r_EnemiesMatrix.GetLength(1); col++)
                 {
                     r_EnemiesMatrix[row, col] = new Enemy(i_GameScreen, enemyType, tintColor, enemyPoints, row, col);
+                    r_EnemiesMatrix[row, col].AddOnEnemyWentBelowBorder(EnemyCausedGameOver);
                     r_EnemiesMatrix[row, col].AddActionToTurnEnemies(changeDirection);
                     r_EnemiesMatrix[row, col].AddActionToEnemyDied(enemyDied);
                 }

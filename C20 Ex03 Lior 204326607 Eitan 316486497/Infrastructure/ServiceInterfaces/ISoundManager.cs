@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿using System;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 
@@ -6,6 +7,8 @@ namespace Infrastructure.ServiceInterfaces
 {
     public interface ISoundManager
     {
+        EventHandler OnSoundToggled { get; set; }
+
         bool SoundToggle { get; set; }
         
         SoundEffectInstance GetSoundEffect(string i_Name);

@@ -12,6 +12,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
 {
     public class SoundManager : GameService, ISoundManager
     {
+        public EventHandler OnSoundToggled { get; set; }
         private const bool k_MusicOnFromStart = true;
         private const int k_MaxSoundsVolumeLevel = 100;
         private const int k_MinSoundsVolumeLevel = 0;
@@ -40,6 +41,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
             set
             {
                 m_SoundEffectsEnabled = value;
+                OnSoundToggled?.Invoke(this, EventArgs.Empty);
                 toggleBackgroundMusic();
             }
         }

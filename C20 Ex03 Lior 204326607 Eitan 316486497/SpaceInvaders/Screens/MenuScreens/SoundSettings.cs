@@ -18,23 +18,32 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         private const string k_BackgroundMusicMessage = "Background Music Volume: ";
         private const string k_SoundEffectsMessage = "Sound Effects Volume: ";
         private const string k_DoneMessage = "Done";
-        private readonly ISoundManager r_SoundManager;
         private const int k_SoundsVolumeChange = 10;
+        private readonly TextItem r_musicToggleTextItem;
+        private readonly ISoundManager r_SoundManager;
 
         public SoundSettings(Game i_Game) : base(i_Game)
         {
             SetScreenHeader(k_HeaderAssetName, k_HeaderScale);
             r_SoundManager = (ISoundManager)i_Game.Services.GetService(typeof(ISoundManager));
-            AddOptionItem(k_ToggleSoundMessage, r_SoundManager.SoundToggle, Color.MediumSeaGreen, soundToggle_OnClicked);
-            AddOptionItem(k_BackgroundMusicMessage + r_SoundManager.GetBackgroundMusicVolumePercentage(), Color.CornflowerBlue, backgroundMusicMessage_OnClicked, true);
-            AddOptionItem(k_SoundEffectsMessage + r_SoundManager.GetSoundEffectsVolumePercentage(), Color.Bisque, soundEffects_OnClicked, true);
+            r_SoundManager.OnSoundToggled += onMusicMuteKeyPressed;
+            r_musicToggleTextItem = AddOptionItem(k_ToggleSoundMessage, r_SoundManager.SoundToggle, 
+                Color.MediumSeaGreen, soundToggle_OnClicked);
+            AddOptionItem(k_BackgroundMusicMessage + r_SoundManager.GetBackgroundMusicVolumePercentage(),
+                Color.CornflowerBlue, backgroundMusicMessage_OnClicked, true);
+            AddOptionItem(k_SoundEffectsMessage + r_SoundManager.GetSoundEffectsVolumePercentage(),
+                Color.Bisque, soundEffects_OnClicked, true);
             AddOptionItem(k_DoneMessage, Color.PaleVioletRed, done_OnClicked);
+        }
+
+        private void onMusicMuteKeyPressed(object sender, EventArgs e)
+        {
+            r_musicToggleTextItem.TextMessage = GetDefaultToggleMessage(r_SoundManager.SoundToggle);
         }
 
         private void soundToggle_OnClicked(object sender, EventArgs e)
         {
             r_SoundManager.SoundToggle = !r_SoundManager.SoundToggle;
-            ((TextItem)sender).TextMessage = GetDefaultToggleMessage(r_SoundManager.SoundToggle);
         }
         
         private void backgroundMusicMessage_OnClicked(object sender, EventArgs e)

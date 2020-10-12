@@ -1,11 +1,13 @@
 ﻿using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders
 {
     class MusicUtils
     {
+        public const Keys k_MusicMuteKey = Keys.M;
         public const string k_SoundEffectRoot = @"C:/temp/XNA_Assets/Ex03/Sounds/";
         public const string k_PlayerShipShootSound = "SSGunShot";
         public const string k_EnemyShootSound = "EnemyGunShot";

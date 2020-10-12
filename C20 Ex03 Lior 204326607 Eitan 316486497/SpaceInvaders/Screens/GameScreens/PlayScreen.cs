@@ -36,9 +36,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             r_BarrierCluster = new BarrierCluster(this);
             r_PlayerFormation = new PlayerFormation(this);
             r_ScoreHeader = new ScoreHeader(this);
+            r_EnemyMatrix.OnAllEnemiesDestroyed(HandleLevelWin);
+            r_EnemyMatrix.OnEnemyCausedGameOver(HandleGameOver);
             r_PlayerFormation.OnAllShipDestroyed(HandleGameOver);
         }
-
+        
         public void HandleLevelWin(object sender, EventArgs e)
         {
             r_PlayManager.IncreaseDifficultyLevel();
