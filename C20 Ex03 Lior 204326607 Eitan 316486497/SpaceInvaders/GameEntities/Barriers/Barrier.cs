@@ -26,21 +26,18 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public Barrier(GameScreen i_GameScreen, int i_NumberInCluster, int i_TotalNumberInCluster)
             : base(k_AssetName, i_GameScreen)
         {
-            r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
+            r_SoundManager = (ISoundManager)i_GameScreen.Game.Services.GetService(typeof(ISoundManager));
             r_NumberInCluster = i_NumberInCluster;
             r_TotalNumberInCluster = i_TotalNumberInCluster;
             float leveledVelocity = k_BarrierVelocity;
-            if (i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
+            int currentDifficultyLevel = ((IPlayManager)i_GameScreen.Game.Services.GetService(typeof(IPlayManager))).GetEffectiveDifficultyLevel();
+            if (currentDifficultyLevel == k_BarrierVelocityImmobileLevel)
             {
-                int currentDifficultyLevel = playerManager.GetEffectiveDifficultyLevel();
-                if (currentDifficultyLevel == k_BarrierVelocityImmobileLevel)
-                {
-                    leveledVelocity = 0;
-                }
-                else if(currentDifficultyLevel != k_BarrierVelocityThresholdLevel)
-                {
-                    leveledVelocity = k_BarrierVelocity * (float) Math.Pow(k_BarrierVelocityLevelMultiplier, currentDifficultyLevel - k_BarrierVelocityThresholdLevel);
-                }
+                leveledVelocity = 0;
+            }
+            else if(currentDifficultyLevel != k_BarrierVelocityThresholdLevel)
+            {
+                leveledVelocity = k_BarrierVelocity * (float) Math.Pow(k_BarrierVelocityLevelMultiplier, currentDifficultyLevel - k_BarrierVelocityThresholdLevel);
             }
             Velocity = new Vector2(leveledVelocity, 0);
         }
@@ -102,20 +99,27 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             r_SoundManager.PlaySoundEffect(MusicUtils.k_BarrierHitSound);
 
-            if (i_Collidable is Bullet bullet)
+            switch(i_Collidable)
             {
-                if (IsPixelsCollided(bullet))
-                {
-                    colliededWithBullet(bullet);
-                    bullet.Visible = false;
-                }
-            }
-            else if (i_Collidable is Enemy enemy)
-            {
-                if (IsPixelsCollided(enemy))
-                {
-                    colliededWithEnemy(enemy);
-                }
+                case Bullet bullet:
+                    {
+                        if (IsPixelsCollided(bullet))
+                        {
+                            colliededWithBullet(bullet);
+                            bullet.Visible = false;
+                        }
+
+                        break;
+                    }
+                case Enemy enemy:
+                    {
+                        if (IsPixelsCollided(enemy))
+                        {
+                            colliededWithEnemy(enemy);
+                        }
+
+                        break;
+                    }
             }
         }
 

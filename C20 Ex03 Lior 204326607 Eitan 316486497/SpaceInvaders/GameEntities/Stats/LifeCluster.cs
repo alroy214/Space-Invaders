@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using C20_Ex03_Lior_204326607_Eitan_316486497;
+﻿using C20_Ex03_Lior_204326607_Eitan_316486497;
 using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 
@@ -17,7 +14,6 @@ namespace C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders
             m_CurrentPlayerLives = i_PlayerLives;
             r_Lives = new Life[i_PlayerLives + 1];
             initLives(i_AssetName, i_GameScreen, i_CurrentPlayer);
-
         }
 
         private void initLives(string i_AssetName, GameScreen i_GameScreen, int i_CurrentPlayer)
@@ -30,11 +26,12 @@ namespace C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders
 
         public int LifeShuttered()
         {
-            if(m_CurrentPlayerLives > 0)
+            if (m_CurrentPlayerLives > 0)
             {
                 r_Lives[m_CurrentPlayerLives].Visible = false;
                 m_CurrentPlayerLives--;
             }
+
             return m_CurrentPlayerLives;
         }
 

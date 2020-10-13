@@ -1,18 +1,18 @@
 ﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 
 namespace Infrastructure.ServiceInterfaces
 {
     public interface IScoreManager
     {
-        Action<int, PlayerShip.ePlayer> ScoreChanged { get; set; }
-
         void ResetScores();
 
         void AssignScores();
 
-        void UpdateScore(int i_Points, PlayerShip.ePlayer i_Player);
+        void UpdateScore(int i_Points, PlayerFormation.ePlayer i_Player);
 
-        void AddScoreBoardToUpdate(Action<int, PlayerShip.ePlayer> i_Action);
+        void AddScoreBoardToUpdate(Action<int, PlayerFormation.ePlayer> i_Action);
+
+        int[] GetScores(int i_CurrentNumberOfPlayers);
     }
 }

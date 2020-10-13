@@ -13,6 +13,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
     {
         private const string k_HeaderAssetName = @"Headers\Game Over";
         private const float k_HeaderScale = 0.3f;
+        private const float k_ScoreScaleX = 0.45f;
+        private const float k_ScoreScaleY = 0.9f;
         private const int k_HeaderOffsetY = 40;
         private const string k_ThankYouMessage = "Thanks for playing! :)";
         private const string k_PlayerMessage = "Player ";
@@ -28,12 +30,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private readonly Sprite r_ScreenHeader;
         private readonly TextItem r_ScoreMessage;
 
-        public GameOverScreen(Game i_Game, int[] i_PlayerScores) : base(i_Game)
+        public GameOverScreen(Game i_Game) : base(i_Game)
         {
             r_Background = new Background(this);
-            r_PlayerScores = i_PlayerScores;
+            int numberOfPlayers = ((IPlayManager)i_Game.Services.GetService(typeof(IPlayManager))).NumberOfPlayers;
+            r_PlayerScores = ((IScoreManager)Game.Services.GetService(typeof(IScoreManager))).GetScores(numberOfPlayers);
             r_ScreenHeader = CreateHeaderSprite(k_HeaderAssetName, k_HeaderScale);
-            r_ScoreMessage = new TextItem(this, createScoreMessage(i_PlayerScores), NumberOfItemsOnScreen(),
+            r_ScoreMessage = new TextItem(this, createScoreMessage(r_PlayerScores), NumberOfItemsOnScreen(),
                                           Color.DarkBlue, Color.AliceBlue, true);
             TextItem exitButton = new TextItem(this, k_ExitMessage, NumberOfItemsOnScreen(), Color.PaleVioletRed, Keys.Escape);
             AddGameItem(exitButton);
@@ -47,6 +50,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             ActivationLength = TimeSpan.FromSeconds(k_ActivationTime);
             UseFadeTransition = true;
             Game.Window.ClientSizeChanged += changePosition;
+        }
+
+        public enum eEnemyType
+        {
+            Pink,
+            Blue,
+            Yellow
         }
 
         private void changePosition(object i_Sender, EventArgs i_E)
@@ -66,30 +76,28 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         protected override void LoadContent()
         {
             base.LoadContent();
-            r_ScoreMessage.Scales = new Vector2(0.45f, 0.9f);
+            r_ScoreMessage.Scales = new Vector2(k_ScoreScaleX, k_ScoreScaleY);
             changePosition();
         }
 
         private void changePosition()
         {
-            r_ScoreMessage.Position = new Vector2(GraphicsDevice.Viewport.Width / 2f - r_ScoreMessage.Width / 2,
+            r_ScoreMessage.Position = new Vector2(GraphicsDevice.Viewport.Width / 2f - r_ScoreMessage.Width / 2f,
                 GraphicsDevice.Viewport.Height / 2f - r_ScoreMessage.Height);
 
-            r_ScreenHeader.Position = new Vector2(GraphicsDevice.Viewport.Width / 2f - r_ScreenHeader.Width / 2,
+            r_ScreenHeader.Position = new Vector2(GraphicsDevice.Viewport.Width / 2f - r_ScreenHeader.Width / 2f,
                 GraphicsDevice.Viewport.Height / 2f - r_ScreenHeader.Height - r_ScoreMessage.Texture.Height - k_HeaderOffsetY);
         }
 
         private string createScoreMessage(int[] i_PlayerScores)
         {
             string scoreMessage = "";
-
             for (int i = 0; i < i_PlayerScores.Length; i++)
             {
-                scoreMessage += string.Format("{0}{1}{2}{3}{4}", k_PlayerMessage, i + 1, k_ScoreSeparatorMessage, i_PlayerScores[i], Environment.NewLine);
+                scoreMessage += string.Concat(k_PlayerMessage, i + 1, k_ScoreSeparatorMessage, i_PlayerScores[i], Environment.NewLine);
             }
 
-            scoreMessage = string.Format("{0}{1}{2}{3}", scoreMessage, getWinningPlayerMessage(), Environment.NewLine, k_ThankYouMessage);
-
+            scoreMessage = string.Concat(scoreMessage, getWinningPlayerMessage(), Environment.NewLine, k_ThankYouMessage);
             return scoreMessage;
         }
 
@@ -110,8 +118,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private string getWinningPlayerMessage()
         {
-            string winner;
-            int highestPlayerScore = r_PlayerScores[0];
+            int highestPlayerScore = r_PlayerScores.Length > 0 ? r_PlayerScores[0] : 0;
             int currentWinner = 0;
             bool itsATie = false;
             for (int i = 1; i < r_PlayerScores.Length; i++)
@@ -128,16 +135,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
                 }
             }
 
-            if (itsATie)
-            {
-                winner = k_TieMessage;
-            }
-            else
-            {
-                winner = String.Format("{0}{1}{2}", k_PlayerMessage, ++currentWinner, k_WinMessage);
-            }
-            return winner;
+            return itsATie ? k_TieMessage : string.Concat(k_PlayerMessage, currentWinner + 1, k_WinMessage);
         }
-
     }
 }

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
-using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScreens
 {
-    class ScreenSettings : MenuScreen
+    public class ScreenSettings : MenuScreen
     {
         private const string k_HeaderAssetName = @"Headers\ScreenSettings";
         private const float k_HeaderScale = 0.25f;
@@ -39,7 +35,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         {
             bool allowResizing = !Game.Window.AllowUserResizing;
             Game.Window.AllowUserResizing = allowResizing;
-            ((TextItem)sender).TextMessage = GetDefaultToggleMessage(Game.Window.AllowUserResizing);
+            ((TextItem)sender).TextMessage = GetDefaultToggleMessage(allowResizing);
         }
 
         private void fullScreen_OnClicked(object sender, EventArgs e)

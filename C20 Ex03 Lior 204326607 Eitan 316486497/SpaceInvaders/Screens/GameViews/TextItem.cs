@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
 using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items
 {
     public class TextItem : GameItem
     {
         private const string k_TextAsset = @"Screens/bubble3";
+        private const string k_FontAsset = @"Fonts/Consolas";
         private const float k_ScaleX = 0.45f;
         private const float k_ScaleY = 0.45f;
         private readonly Color r_FontColor;
@@ -97,7 +94,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         protected override void LoadContent()
         {
             base.LoadContent();
-            m_Font = Game.Content.Load<SpriteFont>(@"Fonts\Consolas");
+            m_Font = Game.Content.Load<SpriteFont>(k_FontAsset);
         }
 
         public override void Draw(GameTime i_GameTime)

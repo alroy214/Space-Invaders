@@ -385,21 +385,21 @@ namespace Infrastructure.ObjectModel
             public RasterizerState RasterizerState;
         }
 
-        DeviceStates m_SavedDeviceStates = new DeviceStates();
+        readonly DeviceStates r_SavedDeviceStates = new DeviceStates();
         protected void saveDeviceStates()
         {
-            m_SavedDeviceStates.BlendState = GraphicsDevice.BlendState;
-            m_SavedDeviceStates.SamplerState = GraphicsDevice.SamplerStates[0];
-            m_SavedDeviceStates.DepthStencilState = GraphicsDevice.DepthStencilState;
-            m_SavedDeviceStates.RasterizerState = GraphicsDevice.RasterizerState;
+            r_SavedDeviceStates.BlendState = GraphicsDevice.BlendState;
+            r_SavedDeviceStates.SamplerState = GraphicsDevice.SamplerStates[0];
+            r_SavedDeviceStates.DepthStencilState = GraphicsDevice.DepthStencilState;
+            r_SavedDeviceStates.RasterizerState = GraphicsDevice.RasterizerState;
         }
 
         private void restoreDeviceStates()
         {
-            GraphicsDevice.BlendState = m_SavedDeviceStates.BlendState;
-            GraphicsDevice.SamplerStates[0] = m_SavedDeviceStates.SamplerState;
-            GraphicsDevice.DepthStencilState = m_SavedDeviceStates.DepthStencilState;
-            GraphicsDevice.RasterizerState = m_SavedDeviceStates.RasterizerState;
+            GraphicsDevice.BlendState = r_SavedDeviceStates.BlendState;
+            GraphicsDevice.SamplerStates[0] = r_SavedDeviceStates.SamplerState;
+            GraphicsDevice.DepthStencilState = r_SavedDeviceStates.DepthStencilState;
+            GraphicsDevice.RasterizerState = r_SavedDeviceStates.RasterizerState;
         }
 
         protected bool m_SaveAndRestoreDeviceState = false;

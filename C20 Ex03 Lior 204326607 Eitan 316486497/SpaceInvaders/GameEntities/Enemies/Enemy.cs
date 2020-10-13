@@ -1,5 +1,4 @@
 ﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Animators;
@@ -23,7 +22,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const float k_AnimationDestroyTime = 1.7f;
         private const int k_NumberOfAnimationRoundsPerSecond = 5;
         private const string k_AnimationDestroyName = "EnemyDestroyAnimator";
-        private const EnemyMatrix.eDirection k_InitDirection = EnemyMatrix.eDirection.RIGHT;
+        private const EnemyMatrix.eDirection k_InitDirection = EnemyMatrix.eDirection.Right;
         private const float k_EnemyBelowMarginMultiplier = (float)1.6;
         private const float k_EnemyJumpTimeMultiplier = (float)0.95;
         private const int k_EnemyPixelHeight = 32;
@@ -35,10 +34,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const int k_MatrixTopMargin = k_ShipPixelHeight + k_ShipAbovePixelHeight + k_ShipBelowPixelHeight;
         private readonly int r_RowPosition;
         private readonly int r_ColPosition;
-        private readonly eEnemyType r_EnemyType;
+        private readonly GameOverScreen.eEnemyType r_EnemyType;
         private readonly BulletMagazine r_BulletMagazine;
         private readonly ISoundManager r_SoundManager;
         private readonly Random r_Random;
+        private readonly int r_EnemyPoints;
         private EnemyMatrix.eDirection m_CurrentDirection;
         private CompositeAnimator m_EnemyDestroyAnimator;
         private CellAnimator m_CellAnimator;
@@ -48,13 +48,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private bool m_IsMostRight;
         private bool m_IsMostLeft;
         private bool m_IsMostBottom;
-        private int r_EnemyPoints;
         private bool m_Destroyed;
 
-        public Enemy(GameScreen i_GameScreen, eEnemyType i_EnemyType, Color i_TintColor, int i_EnemyPoints, int i_RowPosition, int i_ColPosition)
+        public Enemy(GameScreen i_GameScreen, GameOverScreen.eEnemyType i_EnemyType, Color i_TintColor, int i_EnemyPoints, int i_RowPosition, int i_ColPosition)
             : base(k_EnemyCollectionAssetName, i_GameScreen)
         {
-            r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
+            r_SoundManager = (ISoundManager)i_GameScreen.Game.Services.GetService(typeof(ISoundManager));
             r_Random = new Random();
             r_EnemyType = i_EnemyType;
             TintColor = i_TintColor;
@@ -67,13 +66,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             m_IsMostRight = false;
             m_IsMostLeft = false;
             m_Destroyed = false;
-        }
-
-        public enum eEnemyType
-        {
-            PINK,
-            BLUE,
-            YELLOW
         }
 
         protected override void ScreenChanged(object i_Sender, EventArgs i_E)
@@ -119,15 +111,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             m_CellAnimator.CellTime = TimeSpan.FromSeconds(m_CurrentJumpTime);
             switch (m_CurrentDirection)
             {
-                case EnemyMatrix.eDirection.RIGHT:
+                case EnemyMatrix.eDirection.Right:
                     {
-                        m_CurrentDirection = EnemyMatrix.eDirection.LEFT;
+                        m_CurrentDirection = EnemyMatrix.eDirection.Left;
                         Position += new Vector2(-Width / 2, Height / 2);
                         break;
                     }
-                case EnemyMatrix.eDirection.LEFT:
+                case EnemyMatrix.eDirection.Left:
                     {
-                        m_CurrentDirection = EnemyMatrix.eDirection.RIGHT;
+                        m_CurrentDirection = EnemyMatrix.eDirection.Right;
                         Position += new Vector2(Width / 2, Height / 2);
                         break;
                     }
@@ -166,12 +158,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 m_NextJumpTime = m_CurrentJumpTime;
                 switch (m_CurrentDirection)
                 {
-                    case EnemyMatrix.eDirection.RIGHT:
+                    case EnemyMatrix.eDirection.Right:
                         {
                             newPositionX = Position.X + m_WidthJump;
                             break;
                         }
-                    case EnemyMatrix.eDirection.LEFT:
+                    case EnemyMatrix.eDirection.Left:
                         {
                             newPositionX = Position.X - m_WidthJump;
                             break;
@@ -190,20 +182,17 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void shootBullet()
         {
-            if (r_Random.Next(k_RandomShootValue) == 0)
+            if(r_Random.Next(k_RandomShootValue) == 0 && r_BulletMagazine.ShootBullet(Position))
             {
-                if(r_BulletMagazine.ShootBullet(Position))
-                {
-                    r_SoundManager.PlaySoundEffect(MusicUtils.k_EnemyShootSound);
-                }
+                r_SoundManager.PlaySoundEffect(MusicUtils.k_EnemyShootSound);
             }
         }
 
         private void checkBorderCollision()
         {
-            if (m_IsMostRight && m_CurrentDirection == EnemyMatrix.eDirection.RIGHT
-                                          && Position.X + m_WidthJump > Game.GraphicsDevice.Viewport.Width - Width || m_IsMostLeft
-                && m_CurrentDirection == EnemyMatrix.eDirection.LEFT && Position.X - m_WidthJump < 0)
+            if (m_IsMostRight && m_CurrentDirection == EnemyMatrix.eDirection.Right && 
+                Position.X + m_WidthJump > Game.GraphicsDevice.Viewport.Width - Width || m_IsMostLeft
+                && m_CurrentDirection == EnemyMatrix.eDirection.Left && Position.X - m_WidthJump < 0)
             {
                 TurnEnemies?.Invoke();
             }
@@ -222,7 +211,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             RotateAnimator rotateAnimator = new RotateAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime), k_NumberOfAnimationRoundsPerSecond);
             ShrinkAnimator shrinkAnimator = new ShrinkAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
-
             m_EnemyDestroyAnimator = new CompositeAnimator(k_AnimationDestroyName, TimeSpan.FromSeconds(k_AnimationDestroyTime),
                 this, rotateAnimator, shrinkAnimator);
             m_CellAnimator = new CellAnimator(TimeSpan.FromSeconds(m_CurrentJumpTime),

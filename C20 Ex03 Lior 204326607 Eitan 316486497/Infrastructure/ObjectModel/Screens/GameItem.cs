@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Infrastructure.Managers;
 using Infrastructure.ObjectModel;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct2D1.Effects;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items
 {
@@ -42,16 +38,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
 
         private const int k_PulsePerSecond = 1;
         private const float k_PulseTargetScale = 0.5f;
-        private const float k_OriginOffsetX = 3.5f;
-        private const float k_OriginOffsetY = 3.5f;
         private const int k_ScrollWheelDeltaThreshold = 120;
         private const string k_PulseAnimationName = "PulseAnimation";
+        protected readonly ISoundManager r_SoundManager;
         private readonly int r_NumberInScreen;
-        private bool m_ItemActive;
-        private PulseAnimator m_PulseAnimator;
         protected Color m_ActiveColor;
         protected bool m_TouchLocked;
-        protected ISoundManager r_SoundManager;
+        private bool m_ItemActive;
+        private PulseAnimator m_PulseAnimator;
         private bool m_ActivatedByMouse;
         private bool m_IsToggleItem;
         private bool m_RedirectsToScreen;

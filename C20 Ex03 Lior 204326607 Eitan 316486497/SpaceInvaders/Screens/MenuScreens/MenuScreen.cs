@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScreens
 {
-    class MenuScreen : NavigableScreen
+    public class MenuScreen : NavigableScreen
     {
         private const int k_ItemsOffsetY = -130;
         private const string k_ToggleOnMessage = "On";
@@ -21,7 +17,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         {
             r_Background = new Background(this);
             m_OffsetY = k_ItemsOffsetY;
-
             ActivationLength = TimeSpan.FromMilliseconds(300);
             DeactivationLength = TimeSpan.FromMilliseconds(200);
             BlendState = BlendState.NonPremultiplied;

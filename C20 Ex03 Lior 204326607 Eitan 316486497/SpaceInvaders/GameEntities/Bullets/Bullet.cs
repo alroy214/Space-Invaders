@@ -1,5 +1,6 @@
 ﻿using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
@@ -43,9 +44,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
     public class PlayerBullet : Bullet
     {
-        private readonly PlayerShip.ePlayer r_CurrentPlayer;
+        private readonly PlayerFormation.ePlayer r_CurrentPlayer;
 
-        public PlayerBullet(GameScreen i_GameScreen, PlayerShip.ePlayer i_CurrentPlayer) : base(i_GameScreen)
+        public PlayerBullet(GameScreen i_GameScreen, PlayerFormation.ePlayer i_CurrentPlayer) : base(i_GameScreen)
         {
             r_CurrentPlayer = i_CurrentPlayer;
             Velocity *= -1;

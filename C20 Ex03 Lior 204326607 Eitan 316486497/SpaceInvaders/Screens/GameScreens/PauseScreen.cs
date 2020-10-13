@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
-using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,7 +8,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
     public class PauseScreen : NavigableScreen
     {
-        private string k_continueMessage = "Click the R Key to continue playing";
+        private const string k_ContinueMessage = "Click the R Key to continue playing";
         private const string k_HeaderAsset = @"Headers\Game Paused";
         private const float k_HeaderScale = 0.35f;
         private const float k_BlackTintAlpha = 0.4f;
@@ -26,7 +23,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             IsOverlayed = true;
             BlackTintAlpha = k_BlackTintAlpha;
             SetScreenHeader(k_HeaderAsset, k_HeaderScale);
-            r_ContinueMessage = new TextItem(this, k_continueMessage, 
+            r_ContinueMessage = new TextItem(this, k_ContinueMessage, 
                 0, Color.LightGoldenrodYellow,
                 Color.Black, Keys.R, true);
             AddGameItem(r_ContinueMessage);

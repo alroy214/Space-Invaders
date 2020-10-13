@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats;
-using Infrastructure.Managers;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
@@ -18,8 +15,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private readonly Background r_Background;
         private readonly MotherShip r_MotherShip;
         private readonly EnemyMatrix r_EnemyMatrix;
-        private readonly BarrierCluster r_BarrierCluster;
         private readonly PlayerFormation r_PlayerFormation;
+        private readonly BarrierCluster r_BarrierCluster;
         private readonly ScoreHeader r_ScoreHeader;
         private readonly IPlayManager r_PlayManager;
         private readonly IScoreManager r_ScoreManager;
@@ -43,20 +40,20 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         
         public void HandleLevelWin(object sender, EventArgs e)
         {
-            r_PlayManager.IncreaseDifficultyLevel();
             Dispose(true);
+            r_PlayManager.IncreaseDifficultyLevel();
             r_SoundManager.PlaySoundEffect(MusicUtils.k_LevelWinSound);
             m_ScreensManager.SetCurrentScreen(new LevelTransitionScreen(Game));
         }
 
         public void HandleGameOver(object sender, EventArgs e)
         {
+            Dispose(true);
             r_SoundManager.PlaySoundEffect(MusicUtils.k_GameOverSound);
-            m_ScreensManager.SetCurrentScreen(new GameOverScreen(Game, r_ScoreHeader.GetPlayerScores()));
+            m_ScreensManager.SetCurrentScreen(new GameOverScreen(Game));
             r_PlayManager.PlayDifficultyLevel = PlayManager.k_DefaultDifficultyLevel;
             r_ScoreManager.ResetScores();
             r_PlayManager.ResetLives();
-            Dispose(true);
         }
 
         private void onPauseScreenChanged(object sender, StateChangedEventArgs e)

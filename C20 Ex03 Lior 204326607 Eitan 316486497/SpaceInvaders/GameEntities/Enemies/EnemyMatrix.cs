@@ -23,37 +23,26 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private int m_CurrentNumberOfMostLeftEnemies;
         private int m_CurrentNumberOfMostBottomEnemies;
         private Enemy m_MostRightEnemy;
-        private readonly GameScreen r_GameScreen;
 
         public EnemyMatrix(GameScreen i_GameScreen) : base (i_GameScreen.Game)
         {
-            int addedNumberOfCols;
-            if (i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
-            {
-                addedNumberOfCols = playerManager.GetEffectiveDifficultyLevel() - 1;
-                r_BonusPoints = addedNumberOfCols * k_LevelBonusPoints;
-            }
-            else
-            {
-                addedNumberOfCols = 0;
-                r_BonusPoints = 0;
-            }
-
+            int addedNumberOfCols = ((IPlayManager)i_GameScreen.Game.Services.GetService(typeof(IPlayManager))).NumberOfPlayers - 1;
+            r_BonusPoints = addedNumberOfCols * k_LevelBonusPoints;
             m_CurrentNumberOfEnemies = k_DefaultNumberOfRows * (k_DefaultNumberOfCols + addedNumberOfCols);
             r_EnemiesMatrix = new Enemy[k_DefaultNumberOfRows, (k_DefaultNumberOfCols + addedNumberOfCols)];
-            initEnemyMatrix(i_GameScreen);
-            markEnemiesClosestToTheBorder(eDirection.RIGHT);
-            markEnemiesClosestToTheBorder(eDirection.LEFT);
-            markEnemiesClosestToTheBorder(eDirection.BOTTOM);
-            r_GameScreen = i_GameScreen;
             i_GameScreen.Game.Window.ClientSizeChanged += sizeChanged;
+            initEnemyMatrix(i_GameScreen);
+            foreach (eDirection direction in Enum.GetValues(typeof(eDirection)))
+            {
+                markEnemiesClosestToTheBorder(direction);
+            }
         }
 
         public enum eDirection
         {
-            RIGHT,
-            LEFT,
-            BOTTOM
+            Right,
+            Left,
+            Bottom
         }
 
         public void OnAllEnemiesDestroyed(EventHandler i_EventHandler)
@@ -69,10 +58,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void sizeChanged(object sender, EventArgs e)
         {
-            if (m_MostRightEnemy.Position.X + m_MostRightEnemy.Width >= r_GameScreen.Game.GraphicsDevice.Viewport.Width)
+            if (Game.GraphicsDevice.Viewport.Width <= m_MostRightEnemy.Position.X + m_MostRightEnemy.Width)
             {
-                float moveBack = m_MostRightEnemy.Position.X + m_MostRightEnemy.Width
-                                     - r_GameScreen.Game.GraphicsDevice.Viewport.Width;
+                float moveBack = m_MostRightEnemy.Position.X + m_MostRightEnemy.Width - Game.GraphicsDevice.Viewport.Width;
                 changeEnemiesRightPosition(new Vector2(moveBack, 0));
             }
         }
@@ -81,7 +69,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             foreach(Enemy enemy in r_EnemiesMatrix)
             {
-                if (enemy.Enabled)
+                if (!enemy.Destroyed)
                 {
                     enemy.Position -= i_MoveBack;
                 }
@@ -92,25 +80,25 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             for (int row = 0; row < r_EnemiesMatrix.GetLength(0); row++)
             {
-                Enemy.eEnemyType enemyType;
+                GameOverScreen.eEnemyType enemyType;
                 Color tintColor;
                 int enemyPoints;
                 if (row == 0)
                 {
-                    enemyType = Enemy.eEnemyType.PINK;
+                    enemyType = GameOverScreen.eEnemyType.Pink;
                     tintColor = Color.LightPink;
                     enemyPoints = k_PinkEnemyPoints;
 
                 }
                 else if (row < 3)
                 {
-                    enemyType = Enemy.eEnemyType.BLUE;
+                    enemyType = GameOverScreen.eEnemyType.Blue;
                     tintColor = Color.LightBlue;
                     enemyPoints = k_BlueEnemyPoints;
                 }
                 else
                 {
-                    enemyType = Enemy.eEnemyType.YELLOW;
+                    enemyType = GameOverScreen.eEnemyType.Yellow;
                     tintColor = Color.LightYellow;
                     enemyPoints = k_YellowEnemyPoints;
                 }
@@ -136,20 +124,21 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void enemyDied(bool i_IsMostLeft, bool i_IsMostRight, bool i_IsMostBottom)
         {
-            if (i_IsMostLeft)
-            {
-                m_CurrentNumberOfMostLeftEnemies--;
-                if (m_CurrentNumberOfMostLeftEnemies == 0)
-                {
-                    markEnemiesClosestToTheBorder(eDirection.LEFT);
-                }
-            }
             if (i_IsMostRight)
             {
                 m_CurrentNumberOfMostRightEnemies--;
                 if (m_CurrentNumberOfMostRightEnemies == 0)
                 {
-                    markEnemiesClosestToTheBorder(eDirection.RIGHT);
+                    markEnemiesClosestToTheBorder(eDirection.Right);
+                }
+            }
+
+            if (i_IsMostLeft)
+            {
+                m_CurrentNumberOfMostLeftEnemies--;
+                if (m_CurrentNumberOfMostLeftEnemies == 0)
+                {
+                    markEnemiesClosestToTheBorder(eDirection.Left);
                 }
             }
 
@@ -158,7 +147,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 m_CurrentNumberOfMostBottomEnemies--;
                 if (m_CurrentNumberOfMostBottomEnemies == 0)
                 {
-                    markEnemiesClosestToTheBorder(eDirection.BOTTOM);
+                    markEnemiesClosestToTheBorder(eDirection.Bottom);
                 }
             }
 
@@ -175,29 +164,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
             switch (i_Direction)
             {
-                case eDirection.LEFT:
-                    {
-                        for (int col = 0; col < r_EnemiesMatrix.GetLength(1); col++)
-                        {
-                            for (int row = 0; row < r_EnemiesMatrix.GetLength(0); row++)
-                            {
-                                if (!r_EnemiesMatrix[row, col].Destroyed)
-                                {
-                                    m_CurrentNumberOfMostLeftEnemies++;
-                                    isClosestToTheBorder = true;
-                                    r_EnemiesMatrix[row, col].IsMostLeft = true;
-                                }
-                            }
-
-                            if (isClosestToTheBorder)
-                            {
-                                break;
-                            }
-                        }
-
-                        break;
-                    }
-                case eDirection.RIGHT:
+                case eDirection.Right:
                     {
                         for (int col = r_EnemiesMatrix.GetLength(1) - 1; col >= 0; col--)
                         {
@@ -220,7 +187,29 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
                         break;
                     }
-                case eDirection.BOTTOM:
+                case eDirection.Left:
+                    {
+                        for (int col = 0; col < r_EnemiesMatrix.GetLength(1); col++)
+                        {
+                            for (int row = 0; row < r_EnemiesMatrix.GetLength(0); row++)
+                            {
+                                if (!r_EnemiesMatrix[row, col].Destroyed)
+                                {
+                                    m_CurrentNumberOfMostLeftEnemies++;
+                                    isClosestToTheBorder = true;
+                                    r_EnemiesMatrix[row, col].IsMostLeft = true;
+                                }
+                            }
+
+                            if (isClosestToTheBorder)
+                            {
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
+                case eDirection.Bottom:
                     {
                         for (int row = r_EnemiesMatrix.GetLength(0) - 1; row >= 0; row--)
                         {

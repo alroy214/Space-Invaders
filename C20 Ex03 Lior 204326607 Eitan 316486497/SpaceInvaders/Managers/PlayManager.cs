@@ -1,5 +1,5 @@
 ﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 using Infrastructure.ObjectModel;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
@@ -12,13 +12,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         public const int k_DefaultDifficultyLevel = 1;
         public const int k_DefaultNumberOfLives = 3;
         private const int k_LevelModulo = 4;
-        private readonly int[] m_CurrentLives;
+        private readonly int[] r_CurrentLives;
         private int m_CurrentNumberOfPlayers;
         private int m_PlayDifficultyLevel;
 
         public PlayManager(Game i_Game) : base(i_Game)
         {
-            m_CurrentLives = new int[Enum.GetValues(typeof(PlayerShip.ePlayer)).Length];
+            r_CurrentLives = new int[Enum.GetValues(typeof(PlayerFormation.ePlayer)).Length];
             m_CurrentNumberOfPlayers = k_DefaultNumberOfPlayers;
             m_PlayDifficultyLevel = k_DefaultDifficultyLevel;
             ResetLives();
@@ -31,20 +31,20 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
         public void ResetLives()
         {
-            for(int i = 0; i < m_CurrentLives.Length; i++)
+            for(int i = 0; i < r_CurrentLives.Length; i++)
             {
-                m_CurrentLives[i] = k_DefaultNumberOfLives;
+                r_CurrentLives[i] = k_DefaultNumberOfLives;
             }
         }
 
-        public void LifeLost(PlayerShip.ePlayer i_Player)
+        public void LifeLost(PlayerFormation.ePlayer i_Player)
         {
-            m_CurrentLives[(int)i_Player] = Math.Max(0, m_CurrentLives[(int)i_Player] - 1);
+            r_CurrentLives[(int)i_Player] = Math.Max(0, r_CurrentLives[(int)i_Player] - 1);
         }
 
-        public int GetNumberOfLives(PlayerShip.ePlayer i_Player)
+        public int GetNumberOfLives(PlayerFormation.ePlayer i_Player)
         {
-            return m_CurrentLives[(int)i_Player];
+            return r_CurrentLives[(int)i_Player];
         }
 
         public void IncreaseDifficultyLevel()

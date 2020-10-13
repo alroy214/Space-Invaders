@@ -35,11 +35,6 @@ namespace Infrastructure.ObjectModel.Screens
             set { m_CurrentState = value; }
         }
 
-        public StateChangedEventArgs()
-        {
-
-        }
-
         public StateChangedEventArgs(eScreenState i_PrevState, eScreenState i_CurrState)
         {
             m_PrevState = i_PrevState;
@@ -96,10 +91,7 @@ namespace Infrastructure.ObjectModel.Screens
                     break;
             }
 
-            if (StateChanged != null)
-            {
-                StateChanged(this, args);
-            }
+            StateChanged?.Invoke(this, args);
         }
 
         //PROPS:
@@ -154,11 +146,11 @@ namespace Infrastructure.ObjectModel.Screens
         }
 
         private IInputManager m_InputManager;
-        private IInputManager m_DummyInputManager = new DummyInputManager();
+        private readonly IInputManager r_DummyInputManager = new DummyInputManager();
 
         public IInputManager InputManager
         {
-            get { return this.HasFocus ? m_InputManager : m_DummyInputManager; }
+            get { return this.HasFocus ? m_InputManager : r_DummyInputManager; }
         }
 
         public override void Initialize()
@@ -166,7 +158,7 @@ namespace Infrastructure.ObjectModel.Screens
             m_InputManager = Game.Services.GetService(typeof(IInputManager)) as IInputManager;
             if (m_InputManager == null)
             {
-                m_InputManager = m_DummyInputManager;
+                m_InputManager = r_DummyInputManager;
             }
 
             base.Initialize();

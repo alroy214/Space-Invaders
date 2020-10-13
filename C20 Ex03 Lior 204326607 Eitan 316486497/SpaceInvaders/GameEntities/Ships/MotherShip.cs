@@ -16,15 +16,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private const int k_MotherShipVelocity = 95;
         private const float k_AnimationBlinkTime = 0.2f;
         private const float k_AnimationDestroyTime = 3.0f;
-        private const string k_AnimationDestroyName = "MotherShipDestroyAnimator";
         private readonly ISoundManager r_SoundManager;
         private readonly Random r_Random;
         private float m_NextAppearanceInSeconds;
-        private bool m_IsInDestroyedState;
+        private bool m_InDestroyedState;
 
         public MotherShip(GameScreen i_GameScreen) : base(k_AssetName, i_GameScreen)
         {
-            r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
+            r_SoundManager = (ISoundManager)i_GameScreen.Game.Services.GetService(typeof(ISoundManager));
             m_TintColor = Color.Red;
             r_Random = new Random();
         }
@@ -50,12 +49,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
                 Visible = true;
             }
 
-            if (Game.GraphicsDevice.Viewport.Width <= m_Position.X)
+            if(Game.GraphicsDevice.Viewport.Width <= m_Position.X && !Animations.Enabled)
             {
-                if(!m_IsInDestroyedState)
-                {
-                    BringToInitPosition();
-                }
+                BringToInitPosition();
             }
 
             base.Update(i_GameTime);
@@ -63,28 +59,20 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         public void BringToInitPosition()
         {
-            Animations.Enabled = false;
-            m_IsInDestroyedState = false;
-            Visible = false;
+            m_NextAppearanceInSeconds = r_Random.Next(k_MaxSecondsToAppearance);
             m_Position = new Vector2(0, Texture.Height);
+            Animations.Enabled = false;
+            m_InDestroyedState = false;
             m_Velocity.X = 0;
-            m_NextAppearanceInSeconds = generateRandomTimeToNextAppearance();
-        }
-
-        private float generateRandomTimeToNextAppearance()
-        {
-            return r_Random.Next(k_MaxSecondsToAppearance);
+            Visible = false;
         }
 
         public override void Collided(ICollidable i_Collidable)
         {
-            if (i_Collidable is PlayerBullet)
+            if (i_Collidable is PlayerBullet && !Animations.Enabled)
             {
-                if (!Animations.Enabled)
-                {
-                    r_SoundManager.PlaySoundEffect(MusicUtils.k_MotherShipKillSound);
-                    Animations.Restart();
-                }
+                r_SoundManager.PlaySoundEffect(MusicUtils.k_MotherShipKillSound);
+                Animations.Restart();
             }
         }
 
@@ -125,11 +113,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             get
             {
-                return m_IsInDestroyedState;
+                return m_InDestroyedState;
             }
             set
             {
-                m_IsInDestroyedState = value;
+                m_InDestroyedState = value;
             }
         }
     }

@@ -39,7 +39,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             base.InitBounds();
             Opacity = k_Opacity;
             Scales = new Vector2(k_ScaleX, k_ScaleY);
-            Position = new Vector2(Game.Window.ClientBounds.Width - (Width * r_NumberInCluster * k_LeftMarginMultiplier),
+            Position = new Vector2(Game.Window.ClientBounds.Width -
+                (Width * r_NumberInCluster * k_LeftMarginMultiplier),
                 k_InitTopMargin + r_NumberOfPlayer * (k_LifeTopMargin + Height));
         }
 

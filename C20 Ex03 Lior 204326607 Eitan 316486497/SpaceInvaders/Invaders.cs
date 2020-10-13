@@ -1,20 +1,10 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders;
-using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
-using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats;
-using Infrastructure.Managers;
-using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Keys = Microsoft.Xna.Framework.Input.Keys;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497
 {

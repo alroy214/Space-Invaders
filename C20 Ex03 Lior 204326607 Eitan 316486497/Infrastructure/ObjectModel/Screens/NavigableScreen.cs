@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
 using Infrastructure.ObjectModel;
 using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
@@ -198,7 +196,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
                 }
             }
         }
-
         private void checkIfActiveItemChanged()
         {
             if (r_GameItems.Count != 0 && m_CurrentActiveItem != m_PreviousActiveItem)

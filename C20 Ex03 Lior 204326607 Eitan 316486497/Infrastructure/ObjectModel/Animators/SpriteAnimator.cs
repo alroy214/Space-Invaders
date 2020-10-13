@@ -12,7 +12,7 @@ namespace Infrastructure.ObjectModel.Animators
         private bool m_IsFinished = false;
         private bool m_Enabled = false;
         private bool m_Initialized = false;
-        private string m_Name;
+        private readonly string r_Name;
         protected bool m_ResetAfterFinish = true;
         protected internal Sprite m_OriginalSpriteInfo;
 
@@ -26,17 +26,14 @@ namespace Infrastructure.ObjectModel.Animators
                 this.m_IsFinished = true;
             }
 
-            if (Finished != null)
-            {
-                Finished(this, EventArgs.Empty);
-            }
+            Finished?.Invoke(this, EventArgs.Empty);
 
             this.Enabled = false;
         }
 
         protected SpriteAnimator(string i_Name, TimeSpan i_AnimationLength)
         {
-            this.m_Name = i_Name;
+            this.r_Name = i_Name;
             this.m_AnimationLength = i_AnimationLength;
         }
 
@@ -56,7 +53,7 @@ namespace Infrastructure.ObjectModel.Animators
         {
             get
             {
-                return this.m_Name;
+                return this.r_Name;
             }
         }
 

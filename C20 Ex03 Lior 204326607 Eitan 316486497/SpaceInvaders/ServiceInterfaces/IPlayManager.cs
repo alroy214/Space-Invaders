@@ -1,6 +1,4 @@
-﻿//*** Guy Ronen © 2008-2011 ***//
-using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
+﻿using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 
 namespace Infrastructure.ServiceInterfaces
 {
@@ -14,9 +12,9 @@ namespace Infrastructure.ServiceInterfaces
 
         void ResetLives();
 
-        void LifeLost(PlayerShip.ePlayer i_Player);
+        void LifeLost(PlayerFormation.ePlayer i_Player);
 
-        int GetNumberOfLives(PlayerShip.ePlayer i_Player);
+        int GetNumberOfLives(PlayerFormation.ePlayer i_Player);
 
         int ToggleNumberOfPlayers();
 

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders
 {
-    class MusicUtils
+    public static class MusicUtils
     {
         public const Keys k_MusicMuteKey = Keys.M;
         public const string k_SoundEffectRoot = @"C:/temp/XNA_Assets/Ex03/Sounds/";

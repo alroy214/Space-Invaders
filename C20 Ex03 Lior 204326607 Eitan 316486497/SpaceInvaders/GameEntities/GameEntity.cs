@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public abstract class GameEntity : Sprite
-    {
+    { 
         protected GameEntity(string i_AssetName, GameScreen i_GameScreen)
             : base(i_AssetName, i_GameScreen)
         {
@@ -31,7 +31,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             bool outOfBounds = false;
             float topY = TopLeftPosition.Y;
             float topX = TopLeftPosition.X;
-
             if(topY < 0 || Game.Window.ClientBounds.Height < topY + Height || topX < 0
                || Game.Window.ClientBounds.Width < topX + Width)
             {
@@ -64,7 +63,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             int xSource = Math.Min(Bounds.X + Bounds.Width, i_SourceSprite.Bounds.X + i_SourceSprite.Bounds.Width);
             int yDest = Math.Max(Bounds.Y, i_SourceSprite.Bounds.Y);
             int ySource = Math.Min(Bounds.Y + Bounds.Height, i_SourceSprite.Bounds.Y + i_SourceSprite.Bounds.Height);
-
             for (int y = yDest; y < ySource; ++y)
             {
                 for (int x = xDest; x < xSource; ++x)

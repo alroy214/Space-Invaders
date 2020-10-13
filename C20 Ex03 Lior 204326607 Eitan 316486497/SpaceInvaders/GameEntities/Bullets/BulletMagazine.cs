@@ -1,14 +1,15 @@
 ﻿using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
-    public class BulletMagazine
+    public class BulletMagazine : GameComponent
     {
         protected readonly Bullet[] r_Bullets;
 
-        protected BulletMagazine(int i_MaxCapacity)
+        protected BulletMagazine(GameScreen i_GameScreen, int i_MaxCapacity) : base(i_GameScreen.Game)
         {
             r_Bullets = new Bullet[i_MaxCapacity];
         }
@@ -42,13 +43,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
     }
     public class PlayerBulletMagazine : BulletMagazine
     {
-        public PlayerBulletMagazine(GameScreen i_GameScreen, int i_MaxCapacity, PlayerShip.ePlayer i_Player)
-            : base(i_MaxCapacity)
+        public PlayerBulletMagazine(GameScreen i_GameScreen, int i_MaxCapacity, PlayerFormation.ePlayer i_Player) : base(i_GameScreen, i_MaxCapacity)
         {
             initBullets(i_GameScreen, i_Player);
         }
 
-        private void initBullets(GameScreen i_GameScreen, PlayerShip.ePlayer i_Player)
+        private void initBullets(GameScreen i_GameScreen, PlayerFormation.ePlayer i_Player)
         {
             for (int i = 0; i < r_Bullets.Length; i++)
             {
@@ -59,8 +59,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
     public class EnemyBulletMagazine : BulletMagazine
     {
-        public EnemyBulletMagazine(GameScreen i_GameScreen, int i_MaxCapacity)
-            : base(i_MaxCapacity)
+        public EnemyBulletMagazine(GameScreen i_GameScreen, int i_MaxCapacity) : base(i_GameScreen, i_MaxCapacity)
         {
             initBullets(i_GameScreen);
         }

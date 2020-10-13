@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
-using Infrastructure.ObjectModel.Screens;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScreens
 {
-    class MainMenu : MenuScreen
+    public class MainMenu : MenuScreen
     {
         private const string k_HeaderAssetName = @"Headers\Main Menu";
         private const float k_HeaderScale = 0.3f;
@@ -39,7 +36,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         private string getPlayerWrittenNumber(int i_IndexOfPlayer) //This was a hard one to write and debug (but it was worth it)
         {
             string playerNumberWritten;
-            FieldInfo fieldInfo = typeof(PlayerShip.ePlayer).GetFields()?[i_IndexOfPlayer];
+            FieldInfo fieldInfo = typeof(PlayerFormation.ePlayer).GetFields()?[i_IndexOfPlayer];
             DescriptionAttribute[] descriptionAttributes = 
                 fieldInfo?.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
             if (descriptionAttributes?.Length != 0)

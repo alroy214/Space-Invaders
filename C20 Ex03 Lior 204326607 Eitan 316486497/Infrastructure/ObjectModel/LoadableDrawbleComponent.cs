@@ -1,5 +1,4 @@
 //*** Guy Ronen © 2008-2011 ***//
-
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -21,10 +20,7 @@ namespace Infrastructure.ObjectModel
         public event PositionChangedEventHandler PositionChanged;
         protected virtual void OnPositionChanged()
         {
-            if (PositionChanged != null)
-            {
-                PositionChanged(this);
-            }
+            PositionChanged?.Invoke(this);
         }
 
         public string AssetName
@@ -55,11 +51,7 @@ namespace Infrastructure.ObjectModel
 
             if (this is ICollidable)
             {
-                ICollisionsManager collisionMgr =
-                    this.Game.Services.GetService(typeof(ICollisionsManager))
-                        as ICollisionsManager;
-
-                if (collisionMgr != null)
+                if (this.Game.Services.GetService(typeof(ICollisionsManager)) is ICollisionsManager collisionMgr)
                 {
                     collisionMgr.AddObjectToMonitor(this as ICollidable);
                 }

@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
-using Infrastructure.Managers;
-using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScreens
 {
-    class SoundSettings : MenuScreen
+    public class SoundSettings : MenuScreen
     {
         private const string k_HeaderAssetName = @"Headers\Sound Settings";
         private const float k_HeaderScale = 0.25f;
@@ -19,7 +14,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         private const string k_SoundEffectsMessage = "Sound Effects Volume: ";
         private const string k_DoneMessage = "Done";
         private const int k_SoundsVolumeChange = 10;
-        private readonly TextItem r_musicToggleTextItem;
+        private readonly TextItem r_MusicToggleTextItem;
         private readonly ISoundManager r_SoundManager;
 
         public SoundSettings(Game i_Game) : base(i_Game)
@@ -27,7 +22,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
             SetScreenHeader(k_HeaderAssetName, k_HeaderScale);
             r_SoundManager = (ISoundManager)i_Game.Services.GetService(typeof(ISoundManager));
             r_SoundManager.OnSoundToggled += onMusicMuteKeyPressed;
-            r_musicToggleTextItem = AddOptionItem(k_ToggleSoundMessage, r_SoundManager.SoundToggle, 
+            r_MusicToggleTextItem = AddOptionItem(k_ToggleSoundMessage, r_SoundManager.SoundToggle, 
                 Color.MediumSeaGreen, soundToggle_OnClicked);
             AddOptionItem(k_BackgroundMusicMessage + r_SoundManager.GetBackgroundMusicVolumePercentage(),
                 Color.CornflowerBlue, backgroundMusicMessage_OnClicked, true);
@@ -38,7 +33,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
 
         private void onMusicMuteKeyPressed(object sender, EventArgs e)
         {
-            r_musicToggleTextItem.TextMessage = GetDefaultToggleMessage(r_SoundManager.SoundToggle);
+            r_MusicToggleTextItem.TextMessage = GetDefaultToggleMessage(r_SoundManager.SoundToggle);
         }
 
         private void soundToggle_OnClicked(object sender, EventArgs e)

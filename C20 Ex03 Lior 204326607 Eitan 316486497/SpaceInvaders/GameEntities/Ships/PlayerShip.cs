@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders;
-using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
+using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
@@ -26,7 +25,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private const int k_NumberOfBullets = 2;
         private const int k_MarginBottom = 30;
         private readonly BulletMagazine r_BulletMagazine;
-        private readonly ePlayer r_CurrentPlayer;
+        private readonly PlayerFormation.ePlayer r_CurrentPlayer;
         private readonly LifeCluster r_LifeCluster;
         private readonly ISoundManager r_SoundManager;
         private readonly IPlayManager r_PlayManager;
@@ -38,12 +37,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private Keys m_CurrentLeftKey;
         private Keys m_CurrentShootKey;
 
-        public PlayerShip(string i_AssetName, GameScreen i_GameScreen, ePlayer i_Player, int i_NumberInFormation) : base(i_AssetName, i_GameScreen)
+        public PlayerShip(string i_AssetName, GameScreen i_GameScreen, PlayerFormation.ePlayer i_Player, int i_NumberInFormation) : base(i_AssetName, i_GameScreen)
         {
-            r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
-            r_PlayManager = i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) as IPlayManager;
+            r_SoundManager = (ISoundManager)i_GameScreen.Game.Services.GetService(typeof(ISoundManager));
+            r_PlayManager = (IPlayManager)i_GameScreen.Game.Services.GetService(typeof(IPlayManager));
             r_BulletMagazine = new PlayerBulletMagazine(i_GameScreen, k_NumberOfBullets, i_Player);
-            int numberOfLives = r_PlayManager?.GetNumberOfLives(i_Player) ?? PlayManager.k_DefaultNumberOfLives;
+            int numberOfLives = r_PlayManager.GetNumberOfLives(i_Player);
             r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int)i_Player, numberOfLives);
             r_NumberInFormation = i_NumberInFormation;
             r_CurrentPlayer = i_Player;
@@ -55,13 +54,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
                 Game.GraphicsDevice.Viewport.Width - Width), getStartingPosition().Y);
         }
 
-        public enum ePlayer
-        {
-            [Description("One")]
-            Player1 = 0,
-            [Description("Two")]
-            Player2 = 1
-        }
 
         public void OnShipDestroyed(EventHandler i_EventHandler)
         {
@@ -71,7 +63,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         public override void Update(GameTime i_GameTime)
         {
             keyboardMovement();
-            if (r_CurrentPlayer == ePlayer.Player1)
+            if (r_CurrentPlayer == PlayerFormation.ePlayer.Player1)
             {
                 mouseMovement();
             }
@@ -82,8 +74,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         private void keyboardMovement()
         {
-            float positionX;
-
             if (GameScreen.InputManager.KeyHeld(m_CurrentLeftKey))
             {
                 m_Velocity.X = k_Velocity * -1;
@@ -97,8 +87,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
                 m_Velocity.X = 0;
             }
 
-            positionX = MathHelper.Clamp(Position.X, 0, GraphicsDevice.Viewport.Width - Width);
-            Position = new Vector2(positionX, Position.Y);
+            Position = new Vector2(MathHelper.Clamp(Position.X,
+                0, GraphicsDevice.Viewport.Width - Width), Position.Y);
         }
 
         private void mouseMovement()
@@ -112,7 +102,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             if (r_LifeCluster.LivesRemaining != 0)
             {
                 if (!m_KeyboardPressLock && GameScreen.InputManager.KeyPressed(m_CurrentShootKey) ||
-                   r_CurrentPlayer == ePlayer.Player1 && !m_MouseClickLock && GameScreen.InputManager.MouseState.LeftButton == ButtonState.Pressed)
+                   r_CurrentPlayer == PlayerFormation.ePlayer.Player1 && !m_MouseClickLock &&
+                   GameScreen.InputManager.MouseState.LeftButton == ButtonState.Pressed)
                 {
                     createBullet();
                 }
@@ -124,7 +115,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
 
         private void createBullet()
         {
-            if(r_BulletMagazine.ShootBullet(new Vector2(m_Position.X + Width / 2, m_Position.Y - Height / 2)))
+            if (r_BulletMagazine.ShootBullet(new Vector2(m_Position.X + Width / 2, m_Position.Y - Height / 2)))
             {
                 r_SoundManager.PlaySoundEffect(MusicUtils.k_PlayerShipShootSound);
             }
@@ -182,16 +173,19 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         {
             CompositeAnimator nonFetalHitAnimator = new CompositeAnimator(this, k_NonFetalHitAnimatorName);
             BlinkAnimator blinkAnimator = new BlinkAnimator(k_NonFetalHitBlinkerAnimatorName, 
-                TimeSpan.FromSeconds(k_NonFatalBlinkerTime), TimeSpan.FromSeconds(k_NonFatalHitAnimationTime));
+                TimeSpan.FromSeconds(k_NonFatalBlinkerTime),
+                TimeSpan.FromSeconds(k_NonFatalHitAnimationTime));
             nonFetalHitAnimator.Add(blinkAnimator);
             Animations = nonFetalHitAnimator;
         }
 
         private void initFatalHitAnimation()
         {
-            RotateAnimator rotateAnimator = new RotateAnimator(TimeSpan.FromSeconds(k_FatalHitAnimationTime), k_NumberOfRotationRoundsPerSecond);
+            RotateAnimator rotateAnimator = new RotateAnimator(TimeSpan.FromSeconds(k_FatalHitAnimationTime),
+                k_NumberOfRotationRoundsPerSecond);
             FadeAnimator fadeAnimator = new FadeAnimator(TimeSpan.FromSeconds(k_FatalHitAnimationTime));
-            m_FetalHitAnimator = new CompositeAnimator(k_FetalHitAnimatorName, TimeSpan.FromSeconds(k_FatalHitAnimationTime), 
+            m_FetalHitAnimator = new CompositeAnimator(k_FetalHitAnimatorName, 
+                TimeSpan.FromSeconds(k_FatalHitAnimationTime), 
                 this, fadeAnimator, rotateAnimator);
             m_FetalHitAnimator.Finished += fatalHitAnimation_Finished;
         }
@@ -207,13 +201,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             shipShattered();
             ShipDestroyed?.Invoke(this, EventArgs.Empty);
         }
+
         private void shipShattered()
         {
             Enabled = false;
             Visible = false;
         }
 
-        public ePlayer CurrentPlayer
+        public PlayerFormation.ePlayer CurrentPlayer
         {
             get
             {

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 {
@@ -23,16 +20,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private readonly TextItem r_LevelButton;
         private float m_TimeCounter;
 
-        public LevelTransitionScreen(Game i_Game)
-            : base(i_Game)
+        public LevelTransitionScreen(Game i_Game) : base(i_Game)
         {
             r_Background = new Background(this);
-            int currentDifficultyLevel = PlayManager.k_DefaultDifficultyLevel;
-            if (i_Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
-            {
-                currentDifficultyLevel = playerManager.PlayDifficultyLevel;
-            }
-
+            int currentDifficultyLevel = ((IPlayManager)i_Game.Services.GetService(typeof(IPlayManager))).PlayDifficultyLevel;
             m_TimeCounter = k_TransitionSeconds;
             r_LevelButton = new TextItem(this, k_LevelMessageText + currentDifficultyLevel,
                 Color.White, Color.Black, true);
@@ -63,7 +54,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         public override void Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
-
             m_TimeCounter -= (float) i_GameTime.ElapsedGameTime.TotalSeconds;
             if (m_TimeCounter <= 0)
             {
@@ -71,7 +61,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
             }
             else
             {
-                r_StartButton.TextMessage = (float)Math.Ceiling(m_TimeCounter) + (m_TimeCounter > 1 ? k_SecondsMessageText : k_SecondMessageText);
+                r_StartButton.TextMessage = Math.Ceiling(m_TimeCounter) 
+                    + (m_TimeCounter > 1 ? k_SecondsMessageText : k_SecondMessageText);
             }
         }
     }
