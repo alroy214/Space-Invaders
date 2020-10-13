@@ -12,7 +12,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
     {
         private const string k_AssetName = @"Sprites\MotherShip_32x120";
         private const int k_MotherShipPointsValue = 600;
-        private const int k_MaxSecondsToAppearance = 5;
+        private const int k_MaxSecondsToAppearance = 15;
         private const int k_MotherShipVelocity = 95;
         private const float k_AnimationBlinkTime = 0.2f;
         private const float k_AnimationDestroyTime = 3.0f;
