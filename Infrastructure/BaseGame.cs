@@ -36,6 +36,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure
             {
                 Exit();
             }
+
             r_Graphics.GraphicsDevice.Clear(Color.Black);
             base.Update(i_GameTime);
         }

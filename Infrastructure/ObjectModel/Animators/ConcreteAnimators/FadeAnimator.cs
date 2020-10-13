@@ -25,6 +25,7 @@ namespace Infrastructure.ObjectModel.Animators.ConcreteAnimators
             float currentOpacity = (float) i_GameTime.ElapsedGameTime.TotalSeconds * (float) this.m_OriginalSpriteInfo.Opacity / (float) this.AnimationLength.TotalSeconds;
             float minOpacity = 0;
             float maxOpacity = this.BoundSprite.Opacity;
+
             this.BoundSprite.Opacity -= MathHelper.Clamp(currentOpacity, minOpacity, maxOpacity);
         }
     }

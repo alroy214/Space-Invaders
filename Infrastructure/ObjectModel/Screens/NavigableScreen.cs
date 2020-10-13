@@ -53,7 +53,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         private void sizeChange(object i_Sender, EventArgs i_E)
         {
-            if(r_GameItems != null && m_CurrentActiveItem < r_GameItems.Count && m_CurrentActiveItem >= 0)
+            if (r_GameItems != null && m_CurrentActiveItem < r_GameItems.Count && m_CurrentActiveItem >= 0)
             {
                 r_GameItems[m_CurrentActiveItem].ItemActive = false;
                 initializePositions();
@@ -96,6 +96,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         protected Sprite CreateHeaderSprite(string i_HeaderAsset, float i_Scale)
         {
             Sprite sprite = new Sprite(i_HeaderAsset, this) { Scales = new Vector2(i_Scale) };
+
             return sprite;
         }
 
@@ -118,7 +119,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         protected override void UpdateTransition(GameTime i_GameTime)
         {
             base.UpdateTransition(i_GameTime);
-            foreach(GameItem item in r_GameItems)
+            foreach (GameItem item in r_GameItems)
             {
                 item.Opacity = TransitionPosition;
             }
@@ -149,7 +150,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
                     m_CurrentActiveItem = item.NumberInScreen;
                 }
 
-                if(item.ItemActive)
+                if (item.ItemActive)
                 {
                     foundAnActiveItem = true;
                 }
@@ -164,6 +165,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         private void checkKeyPressedWithNoItemsSelected()
         {
             m_LastInputWasByAKeyboard = true;
+
             if (m_CurrentActiveItem == k_NoItemSelectedIndex)
             {
                 m_CurrentActiveItem = m_PreviousActiveItem;
@@ -211,7 +213,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
                 }
             }
 
-            if(m_CurrentActiveItem != k_NoItemSelectedIndex)
+            if (m_CurrentActiveItem != k_NoItemSelectedIndex)
             {
                 m_PreviousActiveItem = m_CurrentActiveItem;
             }
@@ -284,7 +286,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         protected override void Dispose(bool i_Disposing)
         {
-            if(i_Disposing)
+            if (i_Disposing)
             {
                 DisposeItems();
             }
@@ -294,7 +296,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         protected void DisposeItems()
         {
-            foreach(GameItem item in r_GameItems)
+            foreach (GameItem item in r_GameItems)
             {
                 item.Dispose();
             }
@@ -304,6 +306,5 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         {
             r_GameItems.Add(i_Item);
         }
-
     }
 }

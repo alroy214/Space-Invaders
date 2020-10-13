@@ -4,6 +4,7 @@ using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
+
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 {
     public class Bullet : GameEntity, ICollidable2D

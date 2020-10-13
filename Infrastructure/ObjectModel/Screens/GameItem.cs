@@ -33,7 +33,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
     public class GameItem : Sprite
     {
         private event EventHandler<EventArgs> ActiveStateChanged;
-
         private event EventHandler OnClicked;
 
         private const int k_PulsePerSecond = 1;
@@ -70,10 +69,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         public override void Initialize()
         {
             base.Initialize();
-
             ActiveStateChanged += stateChanged;
-
-
             m_PulseAnimator = new PulseAnimator(k_PulseAnimationName, TimeSpan.Zero, k_PulseTargetScale, k_PulsePerSecond);
             Animations.Add(m_PulseAnimator);
             Animations.Enabled = true;
@@ -88,7 +84,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             {
                 onItemClicked();
             }
-            else if(GameScreen.InputManager.KeyReleased(m_KeyRedirection))
+            else if (GameScreen.InputManager.KeyReleased(m_KeyRedirection))
             {
                 onItemClicked();
             }
@@ -97,7 +93,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
 
             if (m_ItemActive)
             {
-                if(m_IsToggleItem)
+                if (m_IsToggleItem)
                 {
                     int scrollWheelItemDelta = GameScreen.InputManager.ScrollWheelDelta / k_ScrollWheelDeltaThreshold; 
 
@@ -110,7 +106,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
                         onItemClicked(new ItemValueChangeEventArgs(eValueChange.Decrease));
                     }
                 }
-                else if(GameScreen.InputManager.KeyPressed(Keys.Enter) && m_RedirectsToScreen)
+                else if (GameScreen.InputManager.KeyPressed(Keys.Enter) && m_RedirectsToScreen)
                 {
                     onItemClicked();
                 }
@@ -122,12 +118,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         public bool CheckMouseActivation()
         {
             bool itemChangedToActive = false;
-            if(!m_TouchLocked)
+
+            if (!m_TouchLocked)
             {
-                if(MouseHovering())
+                if (MouseHovering())
                 {
                     m_ActivatedByMouse = true;
-                    if(!m_ItemActive && !m_CannotBeSelectedByMouse)
+                    if (!m_ItemActive && !m_CannotBeSelectedByMouse)
                     {
                         ItemActive = true;
                         itemChangedToActive = true;
@@ -166,14 +163,14 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
 
         private void stateChanged(object sender, EventArgs e)
         {
-            if(m_ItemActive)
+            if (m_ItemActive)
             {
                 activateItem();
                 r_SoundManager.PlayHoverSound();
             }
             else
             {
-                if(m_PulseAnimator.Enabled)
+                if (m_PulseAnimator.Enabled)
                 {
                     m_PulseAnimator.Pause();
                     m_PulseAnimator.Reset();

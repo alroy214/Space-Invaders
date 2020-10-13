@@ -42,6 +42,5 @@ namespace Infrastructure.ObjectModel.Animators.ConcreteAnimators
                 m_ShrinkLength = value;
             }
         }
-
     }
 }
