@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure;
 using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
-using Infrastructure.Managers;
-using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 

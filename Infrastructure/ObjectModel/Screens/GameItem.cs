@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Infrastructure.Managers;
 using Infrastructure.ObjectModel;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct2D1.Effects;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items
 {
