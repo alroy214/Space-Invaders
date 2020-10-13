@@ -90,8 +90,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public override void Initialize()
         {
             base.Initialize();
-            EnemyWentBelowBorder += ((PlayScreen)GameScreen).HandleGameOver;
             m_WidthJump = Width / 2;
+        }
+
+        public void AddOnEnemyWentBelowBorder(EventHandler i_EventHandler)
+        {
+            EnemyWentBelowBorder += i_EventHandler;
         }
 
         protected override void InitSourceRectangle()

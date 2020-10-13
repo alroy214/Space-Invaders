@@ -7,12 +7,12 @@ using Microsoft.Xna.Framework;
 
 namespace C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders
 {
-    public class LifeCluster
+    public class LifeCluster : GameComponent
     {
         private readonly Life[] r_Lives;
         private int m_CurrentPlayerLives;
 
-        public LifeCluster(string i_AssetName, GameScreen i_GameScreen, int i_CurrentPlayer, int i_PlayerLives)
+        public LifeCluster(string i_AssetName, GameScreen i_GameScreen, int i_CurrentPlayer, int i_PlayerLives) : base(i_GameScreen.Game)
         {
             m_CurrentPlayerLives = i_PlayerLives;
             r_Lives = new Life[i_PlayerLives + 1];
