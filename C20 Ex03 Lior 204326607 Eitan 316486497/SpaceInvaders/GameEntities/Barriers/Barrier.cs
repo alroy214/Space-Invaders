@@ -35,6 +35,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             if (i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
             {
                 int currentDifficultyLevel = playerManager.GetEffectiveDifficultyLevel();
+
                 if (currentDifficultyLevel == k_BarrierVelocityImmobileLevel)
                 {
                     leveledVelocity = 0;
@@ -44,6 +45,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                     leveledVelocity = k_BarrierVelocity * (float) Math.Pow(k_BarrierVelocityLevelMultiplier, currentDifficultyLevel - k_BarrierVelocityThresholdLevel);
                 }
             }
+
             Velocity = new Vector2(leveledVelocity, 0);
         }
 
@@ -54,11 +56,11 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         protected override void InitBounds()
         {
+            Color[] colorData;
+
             base.InitBounds();
-
             setPosition();
-
-            Color[] colorData = new Color[Texture.Height * Texture.Width];
+            colorData = new Color[Texture.Height * Texture.Width];
             Texture.GetData(colorData);
             Texture = new Texture2D(Game.GraphicsDevice, (int)Width, (int)Height);
             Texture.SetData(colorData);
@@ -130,6 +132,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             float rightHitX = intersectRectangle.Right;
             float topHitY = intersectRectangle.Top;
             float bottomHitY = intersectRectangle.Bottom;
+
             Texture.GetData(colorData);
             i_Enemy.Texture.GetData(colliededColorData);
 
@@ -143,9 +146,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
                     if (colorData[colorIndex].A != 0 &&
                          colliededColorData[colorEnemyIndex].A != 0)
-                        {
+                    {
                             colorData[colorIndex] = Color.Transparent;
-                        }
+                    }
                 }
             }
 
@@ -176,6 +179,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 for (int x = (int) leftHitX; x < rightHitX; x++)
                 {
                     int colorIndex = Math.Clamp(x + (y * Texture.Width), 0, Texture.Width * Texture.Height - 1);
+
                     colorData[colorIndex] = Color.Transparent;
                 }
             }
