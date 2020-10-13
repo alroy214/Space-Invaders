@@ -1,7 +1,5 @@
 ﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders;
-using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Animators;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
 using Infrastructure.ObjectModel.Screens;
@@ -84,6 +82,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             float xPosition = r_ColPosition * k_EnemyPixelHeight * k_EnemyBelowMarginMultiplier;
             float yPosition = r_RowPosition * k_EnemyPixelHeight * k_EnemyBelowMarginMultiplier + k_MatrixTopMargin;
+
             return new Vector2(xPosition, yPosition);
         }
 
@@ -192,7 +191,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             if (r_Random.Next(k_RandomShootValue) == 0)
             {
-                if(r_BulletMagazine.ShootBullet(Position))
+                if (r_BulletMagazine.ShootBullet(Position))
                 {
                     r_SoundManager.PlaySoundEffect(MusicUtils.k_EnemyShootSound);
                 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens;
 using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
@@ -79,7 +78,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void changeEnemiesRightPosition(Vector2 i_MoveBack)
         {
-            foreach(Enemy enemy in r_EnemiesMatrix)
+            foreach (Enemy enemy in r_EnemiesMatrix)
             {
                 if (enemy.Enabled)
                 {
@@ -95,6 +94,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 Enemy.eEnemyType enemyType;
                 Color tintColor;
                 int enemyPoints;
+
                 if (row == 0)
                 {
                     enemyType = Enemy.eEnemyType.PINK;
