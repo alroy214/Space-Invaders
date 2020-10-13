@@ -33,7 +33,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const int k_MatrixTopMargin = k_ShipPixelHeight + k_ShipAbovePixelHeight + k_ShipBelowPixelHeight;
         private readonly int r_RowPosition;
         private readonly int r_ColPosition;
-        private readonly GameOverScreen.eEnemyType r_EnemyType;
+        private readonly EnemyMatrix.eEnemyType r_EnemyType;
         private readonly BulletMagazine r_BulletMagazine;
         private readonly ISoundManager r_SoundManager;
         private readonly Random r_Random;
@@ -49,7 +49,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private bool m_IsMostBottom;
         private bool m_Destroyed;
 
-        public Enemy(GameScreen i_GameScreen, GameOverScreen.eEnemyType i_EnemyType, Color i_TintColor, int i_EnemyPoints, int i_RowPosition, int i_ColPosition)
+        public Enemy(GameScreen i_GameScreen, EnemyMatrix.eEnemyType i_EnemyType, Color i_TintColor, int i_EnemyPoints, int i_RowPosition, int i_ColPosition)
             : base(k_EnemyCollectionAssetName, i_GameScreen)
         {
             r_SoundManager = (ISoundManager)i_GameScreen.Game.Services.GetService(typeof(ISoundManager));

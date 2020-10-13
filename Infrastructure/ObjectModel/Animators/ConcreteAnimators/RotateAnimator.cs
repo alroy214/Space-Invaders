@@ -3,7 +3,6 @@ using System;
 
 namespace Infrastructure.ObjectModel.Animators.ConcreteAnimators
 {
-
     public class RotateAnimator : SpriteAnimator
     {
         private readonly float r_SpinPerSecond;

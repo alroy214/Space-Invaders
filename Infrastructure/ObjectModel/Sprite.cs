@@ -386,7 +386,7 @@ namespace Infrastructure.ObjectModel
         }
 
         readonly DeviceStates r_SavedDeviceStates = new DeviceStates();
-        protected void saveDeviceStates()
+        protected void SaveDeviceStates()
         {
             r_SavedDeviceStates.BlendState = GraphicsDevice.BlendState;
             r_SavedDeviceStates.SamplerState = GraphicsDevice.SamplerStates[0];
@@ -415,7 +415,7 @@ namespace Infrastructure.ObjectModel
             {
                 if (SaveAndRestoreDeviceState)
                 {
-                    saveDeviceStates();
+                    SaveDeviceStates();
                 }
 
                 m_SpriteBatch.Begin(

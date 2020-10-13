@@ -37,6 +37,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             }
         }
 
+        public enum eEnemyType
+        {
+            Pink,
+            Blue,
+            Yellow
+        }
+
         public enum eDirection
         {
             Right,
@@ -79,26 +86,26 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             for (int row = 0; row < r_EnemiesMatrix.GetLength(0); row++)
             {
-                GameOverScreen.eEnemyType enemyType;
+                eEnemyType enemyType;
                 Color tintColor;
                 int enemyPoints;
 
                 if (row == 0)
                 {
-                    enemyType = GameOverScreen.eEnemyType.Pink;
+                    enemyType = eEnemyType.Pink;
                     tintColor = Color.LightPink;
                     enemyPoints = k_PinkEnemyPoints;
 
                 }
                 else if (row < 3)
                 {
-                    enemyType = GameOverScreen.eEnemyType.Blue;
+                    enemyType = eEnemyType.Blue;
                     tintColor = Color.LightBlue;
                     enemyPoints = k_BlueEnemyPoints;
                 }
                 else
                 {
-                    enemyType = GameOverScreen.eEnemyType.Yellow;
+                    enemyType = eEnemyType.Yellow;
                     tintColor = Color.LightYellow;
                     enemyPoints = k_YellowEnemyPoints;
                 }
