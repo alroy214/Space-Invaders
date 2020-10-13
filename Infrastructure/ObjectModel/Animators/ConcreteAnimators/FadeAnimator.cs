@@ -17,16 +17,16 @@ namespace Infrastructure.ObjectModel.Animators.ConcreteAnimators
 
         protected override void RevertToOriginal()
         {
-            this.BoundSprite.Opacity = this.m_OriginalSpriteInfo.Opacity;
+            BoundSprite.Opacity = m_OriginalSpriteInfo.Opacity;
         }
 
         protected override void DoFrame(GameTime i_GameTime)
         {
-            float currentOpacity = (float) i_GameTime.ElapsedGameTime.TotalSeconds * (float) this.m_OriginalSpriteInfo.Opacity / (float) this.AnimationLength.TotalSeconds;
+            float currentOpacity = (float) i_GameTime.ElapsedGameTime.TotalSeconds * (float) m_OriginalSpriteInfo.Opacity / (float) AnimationLength.TotalSeconds;
             float minOpacity = 0;
-            float maxOpacity = this.BoundSprite.Opacity;
+            float maxOpacity = BoundSprite.Opacity;
 
-            this.BoundSprite.Opacity -= MathHelper.Clamp(currentOpacity, minOpacity, maxOpacity);
+            BoundSprite.Opacity -= MathHelper.Clamp(currentOpacity, minOpacity, maxOpacity);
         }
     }
 }

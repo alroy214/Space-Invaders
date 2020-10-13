@@ -97,19 +97,9 @@ namespace Infrastructure.Managers
             r_SoundsEffects.Add(i_SoundName, i_SoundEffect.CreateInstance());
         }
 
-        public void RemoveSoundEffect(string i_SoundName)
-        {
-            r_SoundsEffects.Remove(i_SoundName);
-        }
-
-        public SoundEffectInstance GetSoundEffect(string i_Name)
-        {
-            return r_SoundsEffects.ContainsKey(i_Name) ? r_SoundsEffects[i_Name] : null;
-        }
-
         public int GetBackgroundMusicVolumePercentage()
         {
-            if(m_CurrentBackgroundMusic == null)
+            if (m_CurrentBackgroundMusic == null)
             {
                 return 0;
             }

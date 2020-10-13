@@ -15,7 +15,7 @@ namespace Infrastructure.ObjectModel.Screens
 
     public class ItemValueChangeEventArgs : EventArgs
     {
-        protected eValueChange r_ValueChange;
+        protected readonly eValueChange r_ValueChange;
 
         public ItemValueChangeEventArgs(eValueChange i_ValueChange)
         {
@@ -40,27 +40,26 @@ namespace Infrastructure.ObjectModel.Screens
         private readonly int r_NumberInScreen;
         protected Color m_ActiveColor;
         protected bool m_TouchLocked;
-        private bool m_ItemActive;
         private PulseAnimator m_PulseAnimator;
-        private bool m_ActivatedByMouse;
-        private bool m_IsToggleItem;
+        private bool m_CannotBeSelectedByMouse;
         private bool m_RedirectsToScreen;
-        public bool m_CannotBeSelectedByMouse;
+        private bool m_ActivatedByMouse;
         private bool m_IsItemPressed;
+        private bool m_IsToggleItem;
+        private bool m_ItemActive;
         private Keys m_KeyRedirection;
 
-        public GameItem(string i_AssetName, GameScreen i_GameScreen, int i_ItemNumber)
-            : base(i_AssetName, i_GameScreen)
+        public GameItem(string i_AssetName, GameScreen i_GameScreen, int i_ItemNumber) : base(i_AssetName, i_GameScreen)
         {
             r_SoundManager = m_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
             r_NumberInScreen = i_ItemNumber;
-            m_ItemActive = false;
-            m_TouchLocked = false;
-            m_IsToggleItem = false;
+            m_CannotBeSelectedByMouse = false;
             m_ActivatedByMouse = false;
             m_IsItemPressed = false;
             m_IsItemPressed = false;
-            m_CannotBeSelectedByMouse = false;
+            m_IsToggleItem = false;
+            m_TouchLocked = false;
+            m_ItemActive = false;
         }
 
         public override void Initialize()
@@ -77,11 +76,8 @@ namespace Infrastructure.ObjectModel.Screens
 
         public override void Update(GameTime i_GameTime)
         {
-            if (ItemActive && m_IsItemPressed && GameScreen.InputManager.ButtonIsUp(eInputButtons.Left) && MouseHovering())
-            {
-                onItemClicked();
-            }
-            else if (GameScreen.InputManager.KeyReleased(m_KeyRedirection))
+            if (ItemActive && m_IsItemPressed && GameScreen.InputManager.ButtonIsUp(eInputButtons.Left) && MouseHovering() || 
+                    GameScreen.InputManager.KeyReleased(m_KeyRedirection))
             {
                 onItemClicked();
             }
@@ -94,11 +90,11 @@ namespace Infrastructure.ObjectModel.Screens
                 {
                     int scrollWheelItemDelta = GameScreen.InputManager.ScrollWheelDelta / k_ScrollWheelDeltaThreshold; 
 
-                    if(GameScreen.InputManager.KeyPressed(Keys.PageUp) || scrollWheelItemDelta == 1)
+                    if (GameScreen.InputManager.KeyPressed(Keys.PageUp) || scrollWheelItemDelta == 1)
                     {
                         onItemClicked(new ItemValueChangeEventArgs(eValueChange.Increase));
                     }
-                    else if(GameScreen.InputManager.KeyPressed(Keys.PageDown) || scrollWheelItemDelta == -1)
+                    else if (GameScreen.InputManager.KeyPressed(Keys.PageDown) || scrollWheelItemDelta == -1)
                     {
                         onItemClicked(new ItemValueChangeEventArgs(eValueChange.Decrease));
                     }
@@ -264,6 +260,18 @@ namespace Infrastructure.ObjectModel.Screens
             get
             {
                 return r_NumberInScreen;
+            }
+        }
+
+        public bool CannotBeSelectedByMouse
+        {
+            get
+            {
+                return m_CannotBeSelectedByMouse;
+            }
+            set
+            {
+                m_CannotBeSelectedByMouse = value;
             }
         }
     }

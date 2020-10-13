@@ -7,9 +7,9 @@ namespace Infrastructure.ObjectModel.Screens
 {
     public class NavigableScreen : GameScreen
     {
-        private const int k_DefaultItemHeightMargin = 25;
         private const Keys k_DefaultNavigateUpKey = Keys.Up;
         private const Keys k_DefaultNavigateDownKey = Keys.Down;
+        private const int k_DefaultItemHeightMargin = 25;
         private const bool k_MouseEnabledByDefault = true;
         private const bool k_KeyboardEnabledByDefault = true;
         private const int k_NoItemSelectedIndex = -1;
@@ -169,7 +169,7 @@ namespace Infrastructure.ObjectModel.Screens
             }
             else
             {
-                r_GameItems[m_CurrentActiveItem].m_CannotBeSelectedByMouse = true;
+                r_GameItems[m_CurrentActiveItem].CannotBeSelectedByMouse = true;
             }
         }
 
@@ -181,11 +181,11 @@ namespace Infrastructure.ObjectModel.Screens
 
                 m_CurrentActiveItem = (m_CurrentActiveItem + 1) % r_GameItems.Count;
             }
-            else if(InputManager.KeyPressed(m_NavigateUpKey))
+            else if (InputManager.KeyPressed(m_NavigateUpKey))
             {
                 checkKeyPressedWithNoItemsSelected();
 
-                if(m_CurrentActiveItem == 0)
+                if (m_CurrentActiveItem == 0)
                 {
                     m_CurrentActiveItem = r_GameItems.Count - 1;
                 }
@@ -216,6 +216,28 @@ namespace Infrastructure.ObjectModel.Screens
             }
         }
 
+        protected override void Dispose(bool i_Disposing)
+        {
+            if (i_Disposing)
+            {
+                DisposeItems();
+            }
+
+            base.Dispose(i_Disposing);
+        }
+
+        protected void DisposeItems()
+        {
+            foreach (GameItem item in r_GameItems)
+            {
+                item.Dispose();
+            }
+        }
+
+        public void AddGameItem(GameItem i_Item)
+        {
+            r_GameItems.Add(i_Item);
+        }
         protected int NumberOfItemsOnScreen()
         {
             return r_GameItems.Count;
@@ -279,29 +301,6 @@ namespace Infrastructure.ObjectModel.Screens
             {
                 m_ItemHeightMargin = value;
             }
-        }
-
-        protected override void Dispose(bool i_Disposing)
-        {
-            if (i_Disposing)
-            {
-                DisposeItems();
-            }
-
-            base.Dispose(i_Disposing);
-        }
-
-        protected void DisposeItems()
-        {
-            foreach (GameItem item in r_GameItems)
-            {
-                item.Dispose();
-            }
-        }
-
-        public void AddGameItem(GameItem i_Item)
-        {
-            r_GameItems.Add(i_Item);
         }
     }
 }

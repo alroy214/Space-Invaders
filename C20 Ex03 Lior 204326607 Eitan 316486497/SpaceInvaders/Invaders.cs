@@ -44,10 +44,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         {
             m_SpriteBatch = new SpriteBatch(GraphicsDevice);
             MusicUtils.LoadSoundEffects(r_SoundManager, Content);
-            /*DEBUG*/
-            r_SoundManager.ChangeBackgroundMusicVolumeLevel(-90);
-            r_SoundManager.ChangeSoundEffectsVolumeLevel(-90);
-            /*END OF DEBUG*/
             base.LoadContent();
         }
 

@@ -25,7 +25,7 @@ namespace Infrastructure.ObjectModel.Animators.ConcreteAnimators
 
         protected override void DoFrame(GameTime i_GameTime)
         {
-            TimeSpan currentSize = this.m_ShrinkLength;
+            TimeSpan currentSize = m_ShrinkLength;
 
             currentSize -= i_GameTime.ElapsedGameTime;
             BoundSprite.Scales *= new Vector2((float)currentSize.TotalSeconds / (float) m_ShrinkLength.TotalSeconds);

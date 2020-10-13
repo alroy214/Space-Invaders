@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Managers;
+using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
@@ -20,7 +21,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders
         public const string k_MenuMoveSound = "MenuMove";
         public const string k_BackgroundMusicSound = "BGMusic";
 
-        public static void LoadSoundEffects(SoundManager i_SoundManager, ContentManager i_Content)
+        public static void LoadSoundEffects(ISoundManager i_SoundManager, ContentManager i_Content)
         {
             i_SoundManager.AddSoundEffect(i_Content.Load<SoundEffect>($"{k_SoundEffectRoot}{k_PlayerShipShootSound}"), k_PlayerShipShootSound);
             i_SoundManager.AddSoundEffect(i_Content.Load<SoundEffect>($"{k_SoundEffectRoot}{k_EnemyShootSound}"), k_EnemyShootSound);
