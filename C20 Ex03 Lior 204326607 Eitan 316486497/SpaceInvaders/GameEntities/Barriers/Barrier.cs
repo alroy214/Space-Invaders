@@ -26,10 +26,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public Barrier(GameScreen i_GameScreen, int i_NumberInCluster, int i_TotalNumberInCluster)
             : base(k_AssetName, i_GameScreen)
         {
+            float leveledVelocity;
+
             r_SoundManager = i_GameScreen.Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
             r_NumberInCluster = i_NumberInCluster;
             r_TotalNumberInCluster = i_TotalNumberInCluster;
-            float leveledVelocity = k_BarrierVelocity;
+            leveledVelocity = k_BarrierVelocity;
             if (i_GameScreen.Game.Services.GetService(typeof(IPlayManager)) is IPlayManager playerManager)
             {
                 int currentDifficultyLevel = playerManager.GetEffectiveDifficultyLevel();

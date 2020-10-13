@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers;
+﻿using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers;
 using Infrastructure.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -39,6 +36,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure
             {
                 Exit();
             }
+
             r_Graphics.GraphicsDevice.Clear(Color.Black);
             base.Update(i_GameTime);
         }

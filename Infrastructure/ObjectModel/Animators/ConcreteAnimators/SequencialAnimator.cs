@@ -17,13 +17,14 @@ namespace Infrastructure.ObjectModel.Animators.ConcreteAnimators
         protected override void DoFrame(GameTime i_GameTime)
         {
             bool allFinished = true;
+
             foreach (SpriteAnimator animation in m_AnimationsList)
             {
                 if (!animation.IsFinished)
                 {
                     animation.Update(i_GameTime);
                     allFinished = false;
-                    break; // we are not going to call all our animations until this one is done
+                    break;
                 }
             }
 

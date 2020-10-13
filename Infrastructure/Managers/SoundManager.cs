@@ -1,10 +1,8 @@
 ﻿using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Infrastructure.ObjectModel;
 using System.Linq;
 
@@ -132,7 +130,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
         private float changeVolumeLevel(float i_CurrentVolume, float i_VolumeChange)
         {
             i_CurrentVolume = i_CurrentVolume * 100 + i_VolumeChange;;
-
             if (i_CurrentVolume > k_MaxSoundsVolumeLevel)
             {
                 i_CurrentVolume = k_MinSoundsVolumeLevel;

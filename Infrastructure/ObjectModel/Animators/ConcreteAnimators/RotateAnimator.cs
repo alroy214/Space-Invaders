@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Infrastructure.ObjectModel.Animators.ConcreteAnimators
 {
@@ -10,8 +7,6 @@ namespace Infrastructure.ObjectModel.Animators.ConcreteAnimators
     public class RotateAnimator : SpriteAnimator
     {
         private readonly float r_SpinPerSecond;
-
-        // CTORs
 
         public RotateAnimator(string i_Name, TimeSpan i_AnimationLength, float i_SpinsPerSecond)
             : base(i_Name, i_AnimationLength)
@@ -36,7 +31,5 @@ namespace Infrastructure.ObjectModel.Animators.ConcreteAnimators
             BoundSprite.AngularVelocity = m_OriginalSpriteInfo.AngularVelocity;
             BoundSprite.Rotation = m_OriginalSpriteInfo.Rotation;
         }
-
-
     }
 }
