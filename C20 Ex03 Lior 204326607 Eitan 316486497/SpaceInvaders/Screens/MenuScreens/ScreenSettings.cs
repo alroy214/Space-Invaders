@@ -1,5 +1,5 @@
 ﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
+using C20_Ex03_Lior_204326607_Eitan_316486497.GameViews;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScreens
@@ -34,6 +34,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         private void windowResizing_OnClicked(object sender, EventArgs e)
         {
             bool allowResizing = !Game.Window.AllowUserResizing;
+
             Game.Window.AllowUserResizing = allowResizing;
             ((TextItem)sender).TextMessage = GetDefaultToggleMessage(allowResizing);
         }

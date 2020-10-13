@@ -17,6 +17,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats
             PlayerFormation.ePlayer[] players = (PlayerFormation.ePlayer[]) Enum.GetValues(typeof(PlayerFormation.ePlayer));
             int numberOfPlayers = Math.Min(((IPlayManager)i_GameScreen.Game.Services.GetService(typeof(IPlayManager))).NumberOfPlayers, players.Length);
             IScoreManager scoreManager = i_GameScreen.Game.Services.GetService(typeof(IScoreManager)) as IScoreManager;
+
             r_ScoreBoards = new ScoreBoard[numberOfPlayers];
             for (int i = 0; i < numberOfPlayers; i++)
             {
@@ -29,8 +30,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats
 
         private static ScoreBoard createScoreBoard(GameScreen i_GameScreen, PlayerFormation.ePlayer i_Player)
         {
-            Color tintColor = Color.Purple;
             string playerString = "";
+            Color tintColor = Color.Purple;
+
             switch (i_Player)
             {
                 case PlayerFormation.ePlayer.Player1:
@@ -53,8 +55,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Stats
 
             return new ScoreBoard(i_GameScreen, i_Player)
                        {
-                           TintColor = tintColor,
-                           PlayerString = playerString
+                           PlayerString = playerString,
+                           TintColor = tintColor
                        };
         }
     }

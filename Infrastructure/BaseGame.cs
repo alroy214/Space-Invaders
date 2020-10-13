@@ -1,9 +1,8 @@
-﻿using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers;
-using Infrastructure.Managers;
+﻿using Infrastructure.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure
+namespace Infrastructure
 {
     public class BaseGame : Game
     {

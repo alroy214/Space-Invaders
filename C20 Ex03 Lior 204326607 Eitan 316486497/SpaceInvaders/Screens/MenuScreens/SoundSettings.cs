@@ -1,5 +1,6 @@
 ﻿using System;
-using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
+using C20_Ex03_Lior_204326607_Eitan_316486497.GameViews;
+using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 

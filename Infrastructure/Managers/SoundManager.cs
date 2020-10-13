@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Infrastructure.ObjectModel;
 using System.Linq;
 
-namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers
+namespace Infrastructure.Managers
 {
     public class SoundManager : GameService, ISoundManager
     {

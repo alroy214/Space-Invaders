@@ -1,6 +1,7 @@
 ﻿using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
-using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
+using C20_Ex03_Lior_204326607_Eitan_316486497.GameViews;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -30,7 +31,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
             if (Math.Abs(TransitionPosition - 1) > 0)
             {
                 r_Background.Opacity = TransitionPosition;
-                if(m_ScreenHeader != null)
+                if (m_ScreenHeader != null)
                 {
                     m_ScreenHeader.Opacity = TransitionPosition;
                 }

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
-using Infrastructure.ObjectModel;
-using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
+namespace Infrastructure.ObjectModel.Screens
 {
     public class NavigableScreen : GameScreen
     {

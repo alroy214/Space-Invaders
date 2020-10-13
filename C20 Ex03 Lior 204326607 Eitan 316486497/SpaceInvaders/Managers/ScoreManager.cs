@@ -23,7 +23,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
         public void ResetScores()
         {
-            for(int i = 0; i < r_PlayerScores.Length; i++)
+            for (int i = 0; i < r_PlayerScores.Length; i++)
             {
                 r_PlayerScores[i] = 0;
             }
@@ -43,6 +43,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         public void UpdateScore(int i_Points, PlayerFormation.ePlayer i_Player)
         {
             int newScore = Math.Max(0, r_PlayerScores[(int)i_Player] + i_Points);
+
             r_PlayerScores[(int)i_Player] = newScore;
             ScoreChanged?.Invoke(newScore, i_Player);
         }
@@ -55,7 +56,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         public int[] GetScores(int i_CurrentNumberOfPlayers)
         {
             int[] scores = new int[i_CurrentNumberOfPlayers];
-            for(int i = 0; i < i_CurrentNumberOfPlayers; i++)
+
+            for (int i = 0; i < i_CurrentNumberOfPlayers; i++)
             {
                 scores[i] = r_PlayerScores[i];
             }

@@ -1,5 +1,4 @@
-﻿using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
-using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
+﻿using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 
@@ -41,6 +40,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             }
         }
     }
+
     public class PlayerBulletMagazine : BulletMagazine
     {
         public PlayerBulletMagazine(GameScreen i_GameScreen, int i_MaxCapacity, PlayerFormation.ePlayer i_Player) : base(i_GameScreen, i_MaxCapacity)

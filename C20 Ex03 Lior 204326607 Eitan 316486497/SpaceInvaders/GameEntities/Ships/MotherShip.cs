@@ -49,7 +49,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
                 Visible = true;
             }
 
-            if(Game.GraphicsDevice.Viewport.Width <= m_Position.X && !Animations.Enabled)
+            if (Game.GraphicsDevice.Viewport.Width <= m_Position.X && !Animations.Enabled)
             {
                 BringToInitPosition();
             }
@@ -81,6 +81,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             ShrinkAnimator shrinkAnimator = new ShrinkAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
             BlinkAnimator blinkAnimator = new BlinkAnimator(TimeSpan.FromSeconds(k_AnimationBlinkTime), TimeSpan.FromSeconds(k_AnimationDestroyTime));
             FadeAnimator fadeAnimator = new FadeAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
+
             Animations.Add(shrinkAnimator);
             Animations.Add(blinkAnimator);
             Animations.Add(fadeAnimator);

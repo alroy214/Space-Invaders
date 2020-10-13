@@ -31,8 +31,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             bool outOfBounds = false;
             float topY = TopLeftPosition.Y;
             float topX = TopLeftPosition.X;
-            if(topY < 0 || Game.Window.ClientBounds.Height < topY + Height || topX < 0
-               || Game.Window.ClientBounds.Width < topX + Width)
+
+            if (topY < 0 || Game.Window.ClientBounds.Height < topY + Height ||
+                topX < 0 || Game.Window.ClientBounds.Width < topX + Width)
             {
                 outOfBounds = true;
             }
@@ -57,12 +58,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             bool pixelsCollided = false;
             Color[] destDestColor = new Color[Texture.Width * Texture.Height];
             Color[] sourceDataColor = new Color[i_SourceSprite.Texture.Width * i_SourceSprite.Texture.Height];
-            Texture.GetData(destDestColor);
-            i_SourceSprite.Texture.GetData(sourceDataColor);
             int xDest = Math.Max(Bounds.X, i_SourceSprite.Bounds.X);
             int xSource = Math.Min(Bounds.X + Bounds.Width, i_SourceSprite.Bounds.X + i_SourceSprite.Bounds.Width);
             int yDest = Math.Max(Bounds.Y, i_SourceSprite.Bounds.Y);
             int ySource = Math.Min(Bounds.Y + Bounds.Height, i_SourceSprite.Bounds.Y + i_SourceSprite.Bounds.Height);
+
+            Texture.GetData(destDestColor);
+            i_SourceSprite.Texture.GetData(sourceDataColor);
             for (int y = yDest; y < ySource; ++y)
             {
                 for (int x = xDest; x < xSource; ++x)

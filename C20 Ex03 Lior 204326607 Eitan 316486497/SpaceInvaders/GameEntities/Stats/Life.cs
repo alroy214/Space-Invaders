@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
-using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships;
-using Infrastructure.ObjectModel;
+﻿using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
 using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,6 +39,5 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
                 (Width * r_NumberInCluster * k_LeftMarginMultiplier),
                 k_InitTopMargin + r_NumberOfPlayer * (k_LifeTopMargin + Height));
         }
-
     }
 }

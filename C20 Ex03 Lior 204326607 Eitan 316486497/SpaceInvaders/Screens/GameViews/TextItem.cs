@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items
+namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameViews
 {
     public class TextItem : GameItem
     {
@@ -43,12 +43,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             m_TouchLocked = i_TouchLock;
             m_TextPosition = Vector2.Zero;
             m_PrefixMessage = i_PrefixMessage;
-            if(i_KeyRedirection != Keys.None)
+            if (i_KeyRedirection != Keys.None)
             {
                 KeyRedirection = i_KeyRedirection;
             }
 
-            if(m_TouchLocked)
+            if (m_TouchLocked)
             {
                 TintColor = i_ActiveColor;
             }
@@ -59,6 +59,37 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
         private void windowChanged(object i_Sender, EventArgs i_E)
         {
             m_TextPosition = Vector2.Zero;
+        }
+
+        protected override void InitBounds()
+        {
+            base.InitBounds();
+            m_Position = new Vector2(- Width / 2,  - Height / 2);
+        }
+
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+            m_Font = Game.Content.Load<SpriteFont>(k_FontAsset);
+        }
+
+        public override void Draw(GameTime i_GameTime)
+        {
+            if (m_TextPosition == Vector2.Zero)
+            {
+                Vector2 measuredText = m_Font.MeasureString(ToString());
+                bool isMultiLine = ToString().Split(Environment.NewLine).Length != 1;
+                m_TextPosition = new Vector2(m_Position.X + Width / 2 - measuredText.X / 2,
+                    m_Position.Y + Height / 2 - measuredText.Y / 2 - (isMultiLine ? m_Font.LineSpacing : 0));
+            }
+
+            base.Draw(i_GameTime);
+            m_SpriteBatch.DrawString(m_Font, ToString(), m_TextPosition, r_FontColor);
+        }
+
+        public override string ToString()
+        {
+            return m_PrefixMessage + m_TextMessage;
         }
 
         public string TextMessage
@@ -85,35 +116,5 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
             }
         }
 
-        protected override void InitBounds()
-        {
-            base.InitBounds();
-            m_Position = new Vector2( - Width / 2,  - Height / 2);
-        }
-
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-            m_Font = Game.Content.Load<SpriteFont>(k_FontAsset);
-        }
-
-        public override void Draw(GameTime i_GameTime)
-        {
-            if (m_TextPosition == Vector2.Zero)
-            {
-                Vector2 measuredText = m_Font.MeasureString(ToString());
-                bool isMultiLine = ToString().Split(Environment.NewLine).Length != 1;
-                m_TextPosition = new Vector2(
-                    m_Position.X + Width / 2 - measuredText.X / 2,
-                    m_Position.Y + Height / 2 - measuredText.Y / 2 - (isMultiLine ? m_Font.LineSpacing : 0));
-            }
-            base.Draw(i_GameTime);
-            m_SpriteBatch.DrawString(m_Font, ToString(), m_TextPosition, r_FontColor);
-        }
-
-        public override string ToString()
-        {
-            return m_PrefixMessage + m_TextMessage;
-        }
     }
 }

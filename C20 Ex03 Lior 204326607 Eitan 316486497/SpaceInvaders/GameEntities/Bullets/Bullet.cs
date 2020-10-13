@@ -83,12 +83,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         public override void Collided(ICollidable i_Collidable)
         {
-            if (i_Collidable is PlayerBullet)
+            if (i_Collidable is PlayerBullet && new Random().Next(k_ProbabilityToShatter) == 0)
             {
-                if (new Random().Next(k_ProbabilityToShatter) == 0)
-                {
-                    Visible = false;
-                }
+                Visible = false;
             }
 
             if (i_Collidable is PlayerShip playerShip && m_ScoreManager != null)

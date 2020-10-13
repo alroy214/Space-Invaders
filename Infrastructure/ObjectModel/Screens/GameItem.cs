@@ -1,12 +1,10 @@
 ﻿using System;
-using Infrastructure.ObjectModel;
 using Infrastructure.ObjectModel.Animators.ConcreteAnimators;
-using Infrastructure.ObjectModel.Screens;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items
+namespace Infrastructure.ObjectModel.Screens
 {
     public enum eValueChange
     {
@@ -34,7 +32,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Scr
     {
         private event EventHandler<EventArgs> ActiveStateChanged;
         private event EventHandler OnClicked;
-
         private const int k_PulsePerSecond = 1;
         private const float k_PulseTargetScale = 0.5f;
         private const int k_ScrollWheelDeltaThreshold = 120;

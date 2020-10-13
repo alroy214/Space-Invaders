@@ -28,7 +28,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         private const int k_ShipPixelHeight = 32;
         private const int k_ShipAbovePixelHeight = 32;
         private const int k_ShipBelowPixelHeight = 30;
-        private const int k_JumpDownMargin = 48;
+        private const int k_JumpDownMargin = 56;
         private const float k_InitJumpTime = 0.5f;
         private const int k_MatrixTopMargin = k_ShipPixelHeight + k_ShipAbovePixelHeight + k_ShipBelowPixelHeight;
         private readonly int r_RowPosition;
@@ -182,7 +182,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         private void shootBullet()
         {
-            if(r_Random.Next(k_RandomShootValue) == 0 && r_BulletMagazine.ShootBullet(Position))
+            if (r_Random.Next(k_RandomShootValue) == 0 && r_BulletMagazine.ShootBullet(Position))
             {
                 r_SoundManager.PlaySoundEffect(MusicUtils.k_EnemyShootSound);
             }
@@ -211,6 +211,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         {
             RotateAnimator rotateAnimator = new RotateAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime), k_NumberOfAnimationRoundsPerSecond);
             ShrinkAnimator shrinkAnimator = new ShrinkAnimator(TimeSpan.FromSeconds(k_AnimationDestroyTime));
+
             m_EnemyDestroyAnimator = new CompositeAnimator(k_AnimationDestroyName, TimeSpan.FromSeconds(k_AnimationDestroyTime),
                 this, rotateAnimator, shrinkAnimator);
             m_CellAnimator = new CellAnimator(TimeSpan.FromSeconds(m_CurrentJumpTime),
@@ -245,7 +246,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             set
             {
                 m_Destroyed = value;
-                if(m_Destroyed)
+                if (m_Destroyed)
                 {
                     EnemyDied?.Invoke(m_IsMostLeft, m_IsMostRight, m_IsMostBottom);
                 }

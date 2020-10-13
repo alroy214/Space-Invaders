@@ -8,7 +8,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
     public class EnemyMatrix : GameComponent
     {
         private event EventHandler AllEnemiesDestroyed;
-        private event EventHandler EnemyCausedGameOver;
         private const int k_DefaultNumberOfRows = 5;
         private const int k_DefaultNumberOfCols = 9;
         private const int k_PinkEnemyPoints = 300;
@@ -26,6 +25,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
         public EnemyMatrix(GameScreen i_GameScreen) : base (i_GameScreen.Game)
         {
             int addedNumberOfCols = ((IPlayManager)i_GameScreen.Game.Services.GetService(typeof(IPlayManager))).NumberOfPlayers - 1;
+
             r_BonusPoints = addedNumberOfCols * k_LevelBonusPoints;
             m_CurrentNumberOfEnemies = k_DefaultNumberOfRows * (k_DefaultNumberOfCols + addedNumberOfCols);
             r_EnemiesMatrix = new Enemy[k_DefaultNumberOfRows, (k_DefaultNumberOfCols + addedNumberOfCols)];
@@ -56,10 +56,15 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
             AllEnemiesDestroyed += i_EventHandler;
         }
 
-
         public void OnEnemyCausedGameOver(EventHandler i_EventHandler)
         {
-            EnemyCausedGameOver += i_EventHandler;
+            if (r_EnemiesMatrix != null)
+            {
+                foreach (Enemy enemy in r_EnemiesMatrix)
+                {
+                    enemy.AddOnEnemyWentBelowBorder(i_EventHandler);
+                }
+            }
         }
 
         private void sizeChanged(object sender, EventArgs e)
@@ -114,7 +119,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
                 for (int col = 0; col < r_EnemiesMatrix.GetLength(1); col++)
                 {
                     r_EnemiesMatrix[row, col] = new Enemy(i_GameScreen, enemyType, tintColor, enemyPoints, row, col);
-                    r_EnemiesMatrix[row, col].AddOnEnemyWentBelowBorder(EnemyCausedGameOver);
                     r_EnemiesMatrix[row, col].AddActionToTurnEnemies(changeDirection);
                     r_EnemiesMatrix[row, col].AddActionToEnemyDied(enemyDied);
                 }

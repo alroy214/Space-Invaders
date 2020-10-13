@@ -1,5 +1,4 @@
-﻿using System;
-using Infrastructure.ObjectModel.Screens;
+﻿using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 
 namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
@@ -16,17 +15,21 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities
 
         protected override void LoadContent()
         {
-            base.LoadContent();
             Vector4 backGroundTint = Vector4.One;
+
+            base.LoadContent();
             backGroundTint.W = k_BackgroundTintAlpha;
             TintColor = new Color(backGroundTint);
         }
 
         protected override void InitBounds()
         {
+            float scaleX;
+            float scaleY;
+
             base.InitBounds();
-            float scaleX = Game.GraphicsDevice.Viewport.Width / WidthBeforeScale;
-            float scaleY = Game.GraphicsDevice.Viewport.Height / HeightBeforeScale;
+            scaleX = Game.GraphicsDevice.Viewport.Width / WidthBeforeScale;
+            scaleY = Game.GraphicsDevice.Viewport.Height / HeightBeforeScale;
             Scales = new Vector2(scaleX, scaleY);
             DrawOrder = int.MinValue;
         }

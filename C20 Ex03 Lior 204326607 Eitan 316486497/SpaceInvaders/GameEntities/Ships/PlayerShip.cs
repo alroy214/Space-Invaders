@@ -24,8 +24,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
         private const float k_Velocity = 140f;
         private const int k_NumberOfBullets = 2;
         private const int k_MarginBottom = 30;
-        private readonly BulletMagazine r_BulletMagazine;
         private readonly PlayerFormation.ePlayer r_CurrentPlayer;
+        private readonly BulletMagazine r_BulletMagazine;
         private readonly LifeCluster r_LifeCluster;
         private readonly ISoundManager r_SoundManager;
         private readonly IPlayManager r_PlayManager;
@@ -42,8 +42,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             r_SoundManager = (ISoundManager)i_GameScreen.Game.Services.GetService(typeof(ISoundManager));
             r_PlayManager = (IPlayManager)i_GameScreen.Game.Services.GetService(typeof(IPlayManager));
             r_BulletMagazine = new PlayerBulletMagazine(i_GameScreen, k_NumberOfBullets, i_Player);
-            int numberOfLives = r_PlayManager.GetNumberOfLives(i_Player);
-            r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int)i_Player, numberOfLives);
+            r_LifeCluster = new LifeCluster(AssetName, i_GameScreen, (int)i_Player, r_PlayManager.GetNumberOfLives(i_Player));
             r_NumberInFormation = i_NumberInFormation;
             r_CurrentPlayer = i_Player;
         }
@@ -53,7 +52,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             Position = new Vector2(Math.Clamp(Position.X, getStartingPosition().X, 
                 Game.GraphicsDevice.Viewport.Width - Width), getStartingPosition().Y);
         }
-
 
         public void OnShipDestroyed(EventHandler i_EventHandler)
         {
@@ -184,6 +182,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities.Ships
             RotateAnimator rotateAnimator = new RotateAnimator(TimeSpan.FromSeconds(k_FatalHitAnimationTime),
                 k_NumberOfRotationRoundsPerSecond);
             FadeAnimator fadeAnimator = new FadeAnimator(TimeSpan.FromSeconds(k_FatalHitAnimationTime));
+
             m_FetalHitAnimator = new CompositeAnimator(k_FetalHitAnimatorName, 
                 TimeSpan.FromSeconds(k_FatalHitAnimationTime), 
                 this, fadeAnimator, rotateAnimator);

@@ -1,4 +1,4 @@
-﻿using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Managers;
+﻿using Infrastructure.Managers;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;

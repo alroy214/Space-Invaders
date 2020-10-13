@@ -1,7 +1,8 @@
 ﻿using System;
 using C20_Ex03_Lior_204326607_Eitan_316486497.GameEntities;
-using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
+using C20_Ex03_Lior_204326607_Eitan_316486497.GameViews;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScreens;
+using Infrastructure.ObjectModel.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,15 +22,19 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         public WelcomeScreen(Game i_Game) : base(i_Game)
         {
+            TextItem startButton;
+            TextItem exitButton;
+            TextItem menuButton;
+
             r_Background = new Background(this);
             SetScreenHeader(k_HeaderAssetName, k_HeaderScale);
-            TextItem startButton = new TextItem(this, k_StartMessage, NumberOfItemsOnScreen(), Color.LightSeaGreen, Keys.Enter);
+            startButton = new TextItem(this, k_StartMessage, NumberOfItemsOnScreen(), Color.LightSeaGreen, Keys.Enter);
             startButton.AddToOnClick(startButton_OnClicked);
             AddGameItem(startButton);
-            TextItem exitButton = new TextItem(this, k_ExitMessage, NumberOfItemsOnScreen(), Color.PaleVioletRed, Keys.Escape);
+            exitButton = new TextItem(this, k_ExitMessage, NumberOfItemsOnScreen(), Color.PaleVioletRed, Keys.Escape);
             AddGameItem(exitButton);
             exitButton.AddToOnClick(exitButton_OnClicked);
-            TextItem menuButton = new TextItem(this, k_MenuMessage, NumberOfItemsOnScreen(), Color.DodgerBlue, Keys.M);
+            menuButton = new TextItem(this, k_MenuMessage, NumberOfItemsOnScreen(), Color.DodgerBlue, Keys.M);
             menuButton.AddToOnClick(menuButton_OnClicked);
             AddGameItem(menuButton);
             ActivationLength = TimeSpan.FromMilliseconds(k_ActivationTimeSeconds);
@@ -41,7 +46,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         public override void Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
-
             if (Math.Abs(TransitionPosition - 1) > 0)
             {
                 r_Background.Opacity = TransitionPosition;

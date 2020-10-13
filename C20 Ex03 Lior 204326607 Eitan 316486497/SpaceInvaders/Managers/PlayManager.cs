@@ -8,6 +8,8 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 {
     public class PlayManager : GameService, IPlayManager
     {
+        public const int k_PlayerStartingNumber = 1;
+        public const int k_DifficultyStartingNumber = 1;
         public const int k_DefaultNumberOfPlayers = 2;
         public const int k_DefaultDifficultyLevel = 1;
         public const int k_DefaultNumberOfLives = 3;
@@ -31,7 +33,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
         public void ResetLives()
         {
-            for(int i = 0; i < r_CurrentLives.Length; i++)
+            for (int i = 0; i < r_CurrentLives.Length; i++)
             {
                 r_CurrentLives[i] = k_DefaultNumberOfLives;
             }
@@ -54,13 +56,13 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
 
         public int ToggleNumberOfPlayers()
         {
-            if (m_CurrentNumberOfPlayers == 1)
+            if (m_CurrentNumberOfPlayers == Enum.GetValues(typeof(PlayerFormation.ePlayer)).Length)
             {
-                m_CurrentNumberOfPlayers++;
+                m_CurrentNumberOfPlayers = k_PlayerStartingNumber;
             }
             else
             {
-                m_CurrentNumberOfPlayers--;
+                m_CurrentNumberOfPlayers++;
             }
 
             return m_CurrentNumberOfPlayers;
@@ -69,10 +71,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
         public int GetEffectiveDifficultyLevel()
         {
             int modulo = m_PlayDifficultyLevel % k_LevelModulo;
+
             if (modulo == 0)
             {
                 modulo = k_LevelModulo;
             }
+
             return modulo;
         }
 
@@ -96,7 +100,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497
             }
             set
             {
-                m_PlayDifficultyLevel = value <= 0 ? 1 : value;
+                m_PlayDifficultyLevel = value < k_DifficultyStartingNumber ? k_DifficultyStartingNumber : value;
             }
         }
     }

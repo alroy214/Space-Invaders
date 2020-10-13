@@ -10,6 +10,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
 {
     public class PlayerFormation : GameComponent
     {
+        private event EventHandler AllShipDestroyed;
         private const string k_AssetName1 = @"Sprites\Ship01_32x32";
         private const string k_PlayerOneDescription = "One";
         private const Keys k_RightKeyPlayer1 = Keys.O;
@@ -20,7 +21,6 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
         private const Keys k_RightKeyPlayer2 = Keys.E;
         private const Keys k_LeftKeyPlayer2 = Keys.W;
         private const Keys k_ShootKeyPlayer2 = Keys.D3;
-        private event EventHandler AllShipDestroyed;
         private readonly PlayerShip[] r_PlayerShips;
         private int m_CurrentLivingPlayers;
 
@@ -28,10 +28,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
         {
             ePlayer[] players = (ePlayer[]) Enum.GetValues(typeof(ePlayer));
             IPlayManager playManager = (IPlayManager)i_GameScreen.Game.Services.GetService(typeof(IPlayManager));
-            m_CurrentLivingPlayers = Math.Min(playManager.NumberOfPlayers, players.Length);
-            r_PlayerShips = new PlayerShip[m_CurrentLivingPlayers];
             int numberInFormation = 0;
 
+            m_CurrentLivingPlayers = Math.Min(playManager.NumberOfPlayers, players.Length);
+            r_PlayerShips = new PlayerShip[m_CurrentLivingPlayers];
             for (int i = 0; i < r_PlayerShips.Length; i++)
             {
                 if (playManager.GetNumberOfLives(players[i]) == 0)
@@ -60,6 +60,7 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
             Keys currentLeftKey = Keys.None;
             Keys currentRightKey = Keys.None;
             string assetName = "";
+
             switch (i_Player)
             {
                 case ePlayer.Player1:
@@ -99,13 +100,10 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Shi
 
         public void HandleShipDestroyed(object sender, EventArgs e)
         {
-            if (m_CurrentLivingPlayers == 1)
+            m_CurrentLivingPlayers--;
+            if (m_CurrentLivingPlayers == 0)
             {
                 AllShipDestroyed?.Invoke(this, EventArgs.Empty);
-            }
-            else
-            {
-                m_CurrentLivingPlayers--;
             }
         }
     }

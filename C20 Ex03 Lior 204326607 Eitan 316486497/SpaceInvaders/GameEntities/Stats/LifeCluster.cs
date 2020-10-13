@@ -6,13 +6,14 @@ namespace C20_Ex02_Lior_204326607_Eitan_316486497.SpaceInvaders
 {
     public class LifeCluster : GameComponent
     {
+        private const int k_StartingLife = 1;
         private readonly Life[] r_Lives;
         private int m_CurrentPlayerLives;
 
         public LifeCluster(string i_AssetName, GameScreen i_GameScreen, int i_CurrentPlayer, int i_PlayerLives) : base(i_GameScreen.Game)
         {
             m_CurrentPlayerLives = i_PlayerLives;
-            r_Lives = new Life[i_PlayerLives + 1];
+            r_Lives = new Life[i_PlayerLives + k_StartingLife];
             initLives(i_AssetName, i_GameScreen, i_CurrentPlayer);
         }
 

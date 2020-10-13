@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using C20_Ex03_Lior_204326607_Eitan_316486497.Infrastructure.ObjectModel.Screens.Items;
+using C20_Ex03_Lior_204326607_Eitan_316486497.GameViews;
 using C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.GameEntities.Ships;
 using Infrastructure.ServiceInterfaces;
 using Microsoft.Xna.Framework;
@@ -13,12 +13,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
     {
         private const string k_HeaderAssetName = @"Headers\Main Menu";
         private const float k_HeaderScale = 0.3f;
-        private readonly IPlayManager r_PlayManager;
         private const string k_ScreenSettingsMessage = "Screen Settings";
         private const string k_NumberOfPlayersMessage = "Player: ";
         private const string k_SoundSettingsMessage = "Sound Settings";
         private const string k_PlayGameMessage = "Play Game";
         private const string k_QuitGameMessage = "Quit Game";
+        private readonly IPlayManager r_PlayManager;
 
 
         public MainMenu(Game i_Game) : base(i_Game)
@@ -37,8 +37,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens.MenuScre
         {
             string playerNumberWritten;
             FieldInfo fieldInfo = typeof(PlayerFormation.ePlayer).GetFields()?[i_IndexOfPlayer];
-            DescriptionAttribute[] descriptionAttributes = 
-                fieldInfo?.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+            DescriptionAttribute[] descriptionAttributes = fieldInfo?.
+                GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+
             if (descriptionAttributes?.Length != 0)
             {
                 playerNumberWritten = descriptionAttributes?.First().Description;

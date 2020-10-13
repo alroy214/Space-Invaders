@@ -24,9 +24,9 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
 
         public PlayScreen(Game i_Game) : base(i_Game)
         {
-            r_PlayManager = i_Game.Services.GetService(typeof(IPlayManager)) as IPlayManager;
-            r_ScoreManager = i_Game.Services.GetService(typeof(IScoreManager)) as IScoreManager;
-            r_SoundManager = i_Game.Services.GetService(typeof(ISoundManager)) as ISoundManager;
+            r_PlayManager = (IPlayManager)i_Game.Services.GetService(typeof(IPlayManager));
+            r_ScoreManager = (IScoreManager)i_Game.Services.GetService(typeof(IScoreManager));
+            r_SoundManager = (ISoundManager)i_Game.Services.GetService(typeof(ISoundManager));
             r_Background = new Background(this);
             r_MotherShip = new MotherShip(this);
             r_EnemyMatrix = new EnemyMatrix(this);
@@ -67,11 +67,12 @@ namespace C20_Ex03_Lior_204326607_Eitan_316486497.SpaceInvaders.Screens
         public override void Update(GameTime i_GameTime)
         {
             base.Update(i_GameTime);
-
             if (InputManager.KeyPressed(Keys.P))
             {
+                PauseScreen pauseScreen;
+
                 Enabled = false;
-                PauseScreen pauseScreen = new PauseScreen(Game);
+                pauseScreen = new PauseScreen(Game);
                 pauseScreen.StateChanged += onPauseScreenChanged;
                 ScreensManager.SetCurrentScreen(pauseScreen);
             }
